@@ -1,0 +1,39 @@
+.bg-gradient {
+    background-color: #332d6d !important;
+
+    .login {
+        padding-top: 3rem!important;
+    padding-bottom: 3rem!important;
+    }
+
+    .login-box {
+        border-radius: 0.3rem!important;
+        background-color: #fff !important;
+        padding: 3rem!important;
+        margin-right: auto!important;
+    margin-left: auto!important;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+
+    }
+
+    .font-bold {
+        --bs-text-opacity: 1;
+    color: rgba(var(--bs-black-rgb),var(--bs-text-opacity))!important;
+    font-weight: 700!important;
+    margin-bottom: 0.5rem!important;
+
+    }
+
+    .my-form {
+        padding-top: 1.5rem!important;
+        text-align: left!important;
+
+        .form-group {
+            margin-bottom: 1rem!important;
+
+            label {
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+}

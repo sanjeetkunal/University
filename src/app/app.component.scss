@@ -1,0 +1,288 @@
+body {
+    margin-top: -15px;
+}
+
+/* =============== Mixins ================ */
+
+/* Box Shadow */
+@mixin boxShadow($horizontal: 1px, $vertical: 2px, $blur: 2px, $color: #333) {
+    -webkit-box-shadow: $horizontal $vertical $blur $color;
+    -moz-box-shadow: $horizontal $vertical $blur $color;
+    box-shadow: $horizontal $vertical $blur $color;
+  }
+  
+  /* Box Sizing */
+  @mixin boxSizing($type: border-box) {
+    -webkit-box-sizing: $type; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: $type; /* Firefox, other Gecko */
+    box-sizing: $type; /* Opera/IE 8+ */
+  }
+  
+  /* CSS transitions */
+  @mixin transition($element: all, $length: 0.2s, $type: ease-in-out) {
+    -webkit-transition: $element $length $type;
+    -moz-transition: $element $length $type;
+    transition: $element $length $type;
+  }
+  /* Two color gradient with even color distribution */
+  @mixin gradient($color1, $color2) {
+    background: $color1; /* Old browsers */
+    background: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0%, $color1),
+      color-stop(100%, $color2)
+    ); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(
+      top,
+      $color1 0%,
+      $color2 100%
+    ); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(
+      top,
+      $color1 0%,
+      $color2 100%
+    ); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, $color1 0%, $color2 100%); /* IE10+ */
+    background: linear-gradient(to bottom, $color1 0%, $color2 100%); /* W3C */
+    -pie-background: linear-gradient($color1 100%, $color2 100%);
+  }
+  
+  /* ============== Menu Styles ============== */
+  #main-nav {
+    @include gradient(#f2f2f2, #f2f2f2);
+    display: block;
+    width: 100%;
+    height: 60px;
+    line-height: 40px;
+    position: relative;
+    /* top: -15px; */
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    ul {
+      li {
+        float: left;
+        display: block;
+        margin-left: 10px;
+        position: relative;
+        padding: 0 10px;
+        z-index: 10;
+        .fa-caret-down {
+          color: #f60;
+        }
+        &:hover {
+          color: #333;
+          background: #e3e3e3;
+        }
+        a {
+          color: #000;
+          text-decoration: none;
+          display: block;
+          &:hover {
+            color: #333;
+          }
+        }
+        &:nth-child(n + 4) {
+          display: none;
+        }
+        &:nth-child(10) {
+          @media all and (min-width: 1195px) {
+            display: block;
+          }
+        }
+        &:nth-child(9) {
+          @media all and (min-width: 1090px) {
+            display: block;
+          }
+        }
+        &:nth-child(8) {
+          @media all and (min-width: 985px) {
+            display: block;
+          }
+        }
+        &:nth-child(7) {
+          @media all and (min-width: 880px) {
+            display: block;
+          }
+        }
+        &:nth-child(6) {
+          @media all and (min-width: 775px) {
+            display: block;
+          }
+        }
+        &:nth-child(5) {
+          @media all and (min-width: 670px) {
+            display: block;
+          }
+        }
+        &:nth-child(4) {
+          @media all and (min-width: 565px) {
+            display: block;
+          }
+        }
+        &#logo {
+          h1 {
+            font-family: arial;
+            font-size: 36px;
+          }
+        }
+        &.menu-right {
+          float: right;
+          margin-right: 10px;
+          padding: 0 20px;
+          color: #fff;
+          &:hover {
+            color: #333;
+          }
+          ul {
+            left: inherit;
+            right: 0;
+            li {
+              color: #333;
+              padding: 5px 10px;
+            }
+          }
+        }
+        &.more {
+          display: none;
+          position: relative;
+          @media all and (max-width: 1195px) {
+            display: block;
+          }
+          ul {
+            li {
+              display: none;
+              float: none;
+              &:nth-child(6) {
+                @media all and (max-width: 1195px) {
+                  display: block;
+                }
+              }
+              &:nth-child(5) {
+                @media all and (max-width: 1090px) {
+                  display: block;
+                }
+              }
+              &:nth-child(4) {
+                @media all and (max-width: 985px) {
+                  display: block;
+                }
+              }
+              &:nth-child(3) {
+                @media all and (max-width: 880px) {
+                  display: block;
+                }
+              }
+              &:nth-child(2) {
+                @media all and (max-width: 775px) {
+                  display: block;
+                }
+              }
+            }
+          }
+        }
+        ul {
+          @include boxSizing;
+          @include boxShadow;
+          @include transition;
+          background: #e3e3e3;
+          padding: 0;
+          position: absolute;
+          top: 80px;
+          left: 0px;
+          visibility: hidden;
+          z-index: -1;
+          opacity: 0;
+          li {
+            float: none;
+            white-space: nowrap;
+            margin-left: 0 !important;
+            line-height: 30px;
+            padding: 0;
+            a {
+              color: #333;
+              padding: 5px 15px;
+              &:hover {
+                background: #666;
+                color: #fff;
+              }
+            }
+          }
+        }
+        &:hover > ul {
+          display: block;
+          top: 59px;
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+      & > li:hover {
+        background: #e3e3e3;
+        > a {
+          color: #333;
+        }
+      }
+    }
+  }
+  
+  /*  ========== Menu Instructions ========== */
+  .instructions {
+    @include boxSizing;
+    background: #e3e3e3;
+    color: #333;
+    margin: 5% auto 0 auto;
+    max-width: 80%;
+    padding: 20px;
+    h1.title {
+      display: block;
+      padding: 10px 0;
+      font-weight: bold;
+      font-size: 28px;
+    }
+    p {
+      padding: 10px 0;
+    }
+    .strong {
+      font-weight: bold;
+    }
+    .message {
+      @include boxSizing;
+      display: block;
+      background: #999;
+      padding: 10px;
+    }
+  }
+  
+
+
+
+  .footer {
+    padding-top: 3rem!important;
+    padding-bottom: 3rem!important;
+    background: #f5f8ff;
+
+    .py-3 {
+        padding-top: 1rem!important;
+    padding-bottom: 1rem!important;
+    }
+
+    .main-head {
+        color: #000000 !important;
+        font-weight: 700!important;
+        margin-bottom: 1rem!important;
+        font-size: 1rem;
+    }
+
+    
+  }
+
+  ul.head{
+    padding-left: 0px;
+  list-style: none;
+}
