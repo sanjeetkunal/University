@@ -1,25 +1,25 @@
-
-      
-      <div class="bg-gradient">
-        <div class="container login">
-          <div class="login-box col-md-4">
-            <h3 class="fw-bold" style="text-align: center;">Log in to <span class="text-danger">SKD University</span></h3>
-            <p style="text-align: center;">Connect With the best Professionals</p>
-      <form action="#" class="my-form">
+<div *ngIf="loading==false" class="bg-gradient">
+  <div class="container login">
+    <div class="login-box col-md-4">
+      <h3 class="fw-bold" style="text-align: center;">Log in to <span class="text-danger">SKD University</span></h3>
+      <p style="text-align: center;">Connect With the best Professionals</p>
+      <form class="my-form" #formData="ngForm" (ngSubmit)="loginUser(formData)">
         <div class="form-group">
           <label for="userName">Email</label>
-          <input type="text" class="form-control" id="userName" placeholder="demo@example.com">
+          <input type="text" class="form-control" name="email" placeholder="demo@example.com" ngModel>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="text" class="form-control" id="password" placeholder="Password">
+          <input type="password" class="form-control" name="password" placeholder="Password" ngModel>
         </div>
         <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <input name="checkbox" type="checkbox" class="form-check-input" id="remember-me" ngModel>
           <label class="form-check-label" for="exampleCheck1">Remember me</label>
         </div>
-        <button type="submit" class="btn btn-primary btn-block submit-btn" style="width:100%;">Login</button>
+        <button  type="submit" class="btn btn-primary btn-block submit-btn" style="width:100%;">Login</button>
       </form>
     </div>
-    </div>
-    </div>
+  </div>
+</div>
+
+<div *ngIf="loading==true" class="spin">Loading...</div>

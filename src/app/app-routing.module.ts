@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { QuizComponent } from './Pages/quiz/quiz.component';
 import { QuizfinishComponent } from './Pages/quizfinish/quizfinish.component';
 import { UserAgrementComponent } from './Pages/user-agrement/user-agrement.component';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   {
@@ -13,12 +14,15 @@ const routes: Routes = [
   },
 
   {
-path:'user-agrement',
-component: UserAgrementComponent,
+  path:'user-agrement',
+  canActivate: [AuthGuard],
+  component: UserAgrementComponent,
 
   },
   {
+    
     path:'quiz',
+    canActivate: [AuthGuard],
     component: QuizComponent,
     
   },
