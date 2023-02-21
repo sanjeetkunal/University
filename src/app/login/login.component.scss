@@ -35,5 +35,15 @@
                 margin-bottom: 0.5rem;
             }
         }
+
+        button {
+            background: #f39113;
+            border:1px solid #f39113;
+        }
+
+        button:hover {
+            background:#332d6b;
+            border:1px solid #332d6b;
+        }
     }
 }
