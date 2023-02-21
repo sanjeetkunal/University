@@ -1,35 +1,35 @@
 .bg-gradient {
-    background-color: #332d6d !important;
+    background-color: #eceffc !important;
 
     .login {
-        padding-top: 3rem!important;
-    padding-bottom: 3rem!important;
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
     }
 
-    .login-box {
-        border-radius: 0.3rem!important;
+    .question-box {
+        border-radius: 0.3rem !important;
         background-color: #fff !important;
-        padding: 3rem!important;
-        margin-right: auto!important;
-    margin-left: auto!important;
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+        padding: 3rem !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .75) !important;
 
     }
 
     .font-bold {
         --bs-text-opacity: 1;
-    color: rgba(var(--bs-black-rgb),var(--bs-text-opacity))!important;
-    font-weight: 700!important;
-    margin-bottom: 0.5rem!important;
+        color: rgba(var(--bs-black-rgb), var(--bs-text-opacity)) !important;
+        font-weight: 700 !important;
+        margin-bottom: 0.5rem !important;
 
     }
 
     .my-form {
-        padding-top: 1.5rem!important;
-        text-align: left!important;
+        padding-top: 1.5rem !important;
+        text-align: left !important;
 
         .form-group {
-            margin-bottom: 1rem!important;
+            margin-bottom: 1rem !important;
 
             label {
                 margin-bottom: 0.5rem;
@@ -42,22 +42,22 @@
     }
 }
 
-.question-radio-group{
+.question-radio-group {
     display: flex;
     flex-direction: column;
     margin: 15px 0;
     align-items: flex-start;
-   background-color: red;
-  
+    background-color: red;
 
-      
- 
+
+
+
 }
 
 .example-radio-button {
-    color:black !important;
+    color: black !important;
     margin: 5px;
-  }
+}
 
 
 .quiz-btn {
@@ -67,11 +67,11 @@
     button {
         border-radius: 0px;
         margin-left: 10px;
-        margin-top:10px;
+        margin-top: 10px;
     }
 
     span {
         color: #fff;
-        
+
     }
 }
