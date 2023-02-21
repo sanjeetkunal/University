@@ -1,0 +1,23 @@
+
+p{
+
+    text-align: justify;
+    a{
+        float: right;
+    }
+}
+.agree-btn {
+    background: orange;
+    text-align: center;
+    width: 115px;
+    padding: 8px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.agree-btn:hover {
+    background: #322c6c;
+    color:#fff;
+}
