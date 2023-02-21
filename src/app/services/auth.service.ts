@@ -18,11 +18,16 @@ export class AuthService {
   isLoggedIn:boolean=false;
   authenticatationState = new BehaviorSubject(false);
   userAgreementState = new BehaviorSubject(false);
+  userid:any;
   userData:any;
   authLoading:boolean=false;
 
   isAuthenticated(){
     return this.authenticatationState.value;
+  }
+
+  isaccepted(){
+    return this.userAgreementState.value;
   }
 
 
@@ -74,6 +79,8 @@ export class AuthService {
           localStorage.setItem('token',token);
           this.authenticatationState.next(true);
           this.isLoggedIn=true;
+          this.userid=serverResoponse.userID;
+          localStorage.setItem('USERID',this.userid);
           this.toastr.success("successfully logged in",'Success');
           this.router.navigate(['/user-agrement']);
           
@@ -87,6 +94,8 @@ export class AuthService {
   logout(){
     console.log("user logged out");
     this.authenticatationState.next(false);
+    this.userAgreementState.next(false);
+    localStorage.removeItem('accepted-agreement');
     localStorage.removeItem('token');
     this.userData={};
     this.toastr.success("Logged out",'Success');

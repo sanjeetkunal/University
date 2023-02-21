@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     if(localStorage.getItem('token')){
       this.auth.authenticatationState.next(true);
+      this.router.navigateByUrl('/user-agrement')
     }
   }
 

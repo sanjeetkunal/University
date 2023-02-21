@@ -20,6 +20,8 @@ import { MatMenuModule } from '@angular/material/menu'
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatRadioModule} from '@angular/material/radio';
+
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
     FormsModule,
     ToastrModule.forRoot(), 
-    HttpClientModule
+    HttpClientModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

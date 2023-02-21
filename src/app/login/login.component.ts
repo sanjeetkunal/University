@@ -22,7 +22,8 @@ export class LoginComponent {
   async loginUser(logindata: any) {
     const { email, password } = logindata.value;
     if (email == "" || password == "") {
-      alert("Please Fill Requierd Fields")
+      this.toastr.error("Please Fill All Requird fields");
+
     } else {
       this.loading = true;
       this.auth.loginService(logindata.value)
