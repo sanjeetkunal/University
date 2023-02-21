@@ -7,22 +7,27 @@
          <form action="#" class="my-form">
             <div class="form-group">
                <h3>Q{{selectedQuestion?.sequenceno}}. {{selectedQuestion?.question}}</h3>
-               <ul>
+               <!-- <ul>
                   <li><label><input type="radio"> A. {{selectedQuestion?.optionA}}</label></li>
                   <li><label><input type="radio"> B. {{selectedQuestion?.optionB}}</label></li>
                   <li><label><input type="radio"> C. {{selectedQuestion?.optionC}}</label></li>
                   <li><label><input type="radio"> D. {{selectedQuestion?.optionD}}</label></li>
-               </ul>
+               </ul> -->
+               <mat-radio-group aria-labelledby="question-radio-group-label" class="question-radio-group" (change)="singleQuesRes($event)">
+                  <mat-radio-button class="example-radio-button" value="A">A. {{selectedQuestion?.optionA}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="B">B. {{selectedQuestion?.optionB}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="C">C. {{selectedQuestion?.optionC}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="D">D. {{selectedQuestion?.optionD}}</mat-radio-button>
+               </mat-radio-group>
             </div>
             <div class="form-group">
                <h3>Q{{selectedQuestion?.sequenceno}}. {{selectedQuestion?.hiquestion}}</h3>
-               <ul>
-                  <li><label><input type="radio"> A. {{selectedQuestion?.optionA}}</label></li>
-                  <li><label><input type="radio"> B.{{selectedQuestion?.optionB}}</label></li>
-                  <li><label><input type="radio"> C. {{selectedQuestion?.optionC}}</label></li>
-                  <li><label><input type="radio"> D. {{selectedQuestion?.optionD}}</label></li>
-
-               </ul>
+               <mat-radio-group aria-labelledby="question-radio-group-label" class="question-radio-group" (change)="singleQuesRes($event)">
+                  <mat-radio-button class="example-radio-button" value="A">A. {{selectedQuestion?.hioptionA}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="B">B. {{selectedQuestion?.hioptionB}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="C">C. {{selectedQuestion?.hioptionC}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="D">D. {{selectedQuestion?.hioptionD}}</mat-radio-button>
+               </mat-radio-group>
             </div>
 
 
@@ -30,11 +35,11 @@
 
       </div>
       <div class="quiz-btn col-md-6">
-         <button class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
+         <button *ngIf="questionCounter!=0"  class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
             (click)="prevQues()">Previous</button>
-         <button class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
+         <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
             (click)="nextQues()">Next</button>
-         <button class="btn btn-primary btn-block submit-btn" routerLink="/quizfinish" style="float: right;">Finish
+         <button *ngIf="questionCounter==totalQuestions.length-1" (click)="nextQues()" class="btn btn-primary btn-block submit-btn" routerLink="/quizfinish" style="float: right;">Finish
             Test</button>
       </div>
    </div>

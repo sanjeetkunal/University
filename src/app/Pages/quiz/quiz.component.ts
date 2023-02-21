@@ -22,6 +22,7 @@ export class QuizComponent implements OnInit {
   totalQuestions = [];
   selectedQuestion: any;
   questionCounter = 0;
+  res_array:any=[];
 
 
   ngOnInit(): void {
@@ -63,13 +64,28 @@ export class QuizComponent implements OnInit {
 
 
   nextQues() {
+    // console.log("-----------prev--------",this.totalQuestions[this.questionCounter])
+    //submitting the question
+    console.log(this.selectedQuestion);
+    let userid = localStorage.getItem('USERID');
+    this.selectedQuestion.userID=userid;
+    let token = localStorage.getItem('token');
+    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+    let url=`http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
+    this.http.post(url,this.selectedQuestion,{headers:reqHeader}).subscribe(res=>{
+      console.log(res);
+    })
+
+
     if (this.questionCounter < this.totalQuestions.length - 1) {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("next questtion", this.selectedQuestion)
     } else {
       this.toastr.error("No further Questions");
+      this.router.navigateByUrl('/quizfinish');
     }
+    // console.log("-----------after--------",this.totalQuestions[this.questionCounter])
 
 
   }
@@ -86,8 +102,20 @@ export class QuizComponent implements OnInit {
 
   }
 
+  singleQuesRes(e:any){
+    console.log(e.value);
+    this.selectedQuestion.selected="1";
+    this.selectedQuestion.selectedoptions=e.value;
+    console.log(this.selectedQuestion);
+
+    
+    this.res_array.push(this.selectedQuestion);
+    console.log(this.res_array);
+  }
+
   radioChange(e: any) {
     console.log(e);
+
   }
 
 }
