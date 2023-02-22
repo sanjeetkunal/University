@@ -77,7 +77,8 @@ export class QuizComponent implements OnInit {
       console.log(res);
     })
 
-
+    this.EnglishLanguage=false;
+    this.HindiLanguage=false;
     if (this.questionCounter < this.totalQuestions.length - 1) {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
@@ -117,7 +118,20 @@ export class QuizComponent implements OnInit {
 
   radioChange(e: any) {
     console.log(e);
-
   }
 
+  EnglishLanguage:boolean=false;
+  HindiLanguage:boolean=false;
+  onLanguageClicked(language:string){
+    if(language=="hindi"){
+      if(!this.HindiLanguage){
+        this.EnglishLanguage=true;
+      }
+    }
+    else{
+      if(!this.EnglishLanguage){
+        this.HindiLanguage=true;
+      }
+    }
+  }
 }
