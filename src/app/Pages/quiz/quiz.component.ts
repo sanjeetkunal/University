@@ -23,6 +23,7 @@ export class QuizComponent implements OnInit {
   selectedQuestion: any;
   questionCounter = 0;
   res_array:any=[];
+  answerSelect:any;
 
 
   ngOnInit(): void {
@@ -81,6 +82,7 @@ export class QuizComponent implements OnInit {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("next questtion", this.selectedQuestion)
+
     } else {
       this.toastr.error("No further Questions");
       this.router.navigateByUrl('/quizfinish');
