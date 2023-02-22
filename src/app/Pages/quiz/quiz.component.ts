@@ -24,6 +24,7 @@ export class QuizComponent implements OnInit {
   questionCounter = 0;
   res_array:any=[];
   answerSelect:any;
+  buttonChecked=null;
 
 
   ngOnInit(): void {
@@ -76,13 +77,13 @@ export class QuizComponent implements OnInit {
     this.http.post(url,this.selectedQuestion,{headers:reqHeader}).subscribe(res=>{
       console.log(res);
     })
-
     this.EnglishLanguage=false;
     this.HindiLanguage=false;
     if (this.questionCounter < this.totalQuestions.length - 1) {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("next questtion", this.selectedQuestion)
+      this.buttonChecked=null;
 
     } else {
       this.toastr.error("No further Questions");
@@ -112,6 +113,17 @@ export class QuizComponent implements OnInit {
     console.log(this.selectedQuestion);
 
     
+    this.res_array.push(this.selectedQuestion);
+    console.log(this.res_array);
+
+  }
+
+  singleQuesResNew(e:any){
+    this.selectedQuestion.selected="1";
+    this.selectedQuestion.selectedoptions=e.target.value;
+    console.log(e.target.name,e.target.value);
+    console.log(this.selectedQuestion);
+
     this.res_array.push(this.selectedQuestion);
     console.log(this.res_array);
   }
