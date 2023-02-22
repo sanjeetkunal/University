@@ -13,20 +13,20 @@
                   <li><label><input type="radio"> C. {{selectedQuestion?.optionC}}</label></li>
                   <li><label><input type="radio"> D. {{selectedQuestion?.optionD}}</label></li>
                </ul> -->
-               <mat-radio-group aria-labelledby="question-radio-group-label" class="question-radio-group" (change)="singleQuesRes($event)">
-                  <mat-radio-button class="example-radio-button" value="A">A. {{selectedQuestion?.optionA}}</mat-radio-button>
-                  <mat-radio-button class="example-radio-button" value="B">B. {{selectedQuestion?.optionB}}</mat-radio-button>
-                  <mat-radio-button class="example-radio-button" value="C">C. {{selectedQuestion?.optionC}}</mat-radio-button>
-                  <mat-radio-button class="example-radio-button" value="D">D. {{selectedQuestion?.optionD}}</mat-radio-button>
+               <mat-radio-group aria-labelledby="question-radio-group-label" class="question-radio-group" (change)="singleQuesRes($event)" disabled="{{EnglishLanguage}}">
+                  <mat-radio-button class="example-radio-button" value="A" (click)="onLanguageClicked('english')">A. {{selectedQuestion?.optionA}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="B" (click)="onLanguageClicked('english')">B. {{selectedQuestion?.optionB}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="C" (click)="onLanguageClicked('english')">C. {{selectedQuestion?.optionC}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="D" (click)="onLanguageClicked('english')">D. {{selectedQuestion?.optionD}}</mat-radio-button>
                </mat-radio-group>
             </div>
             <div class="form-group">
                <h3>Q{{selectedQuestion?.sequenceno}}. {{selectedQuestion?.hiquestion}}</h3>
-               <mat-radio-group aria-labelledby="question-radio-group-label" class="question-radio-group" (change)="singleQuesRes($event)">
-                  <mat-radio-button class="example-radio-button" value="A">A. {{selectedQuestion?.hioptionA}}</mat-radio-button>
-                  <mat-radio-button class="example-radio-button" value="B">B. {{selectedQuestion?.hioptionB}}</mat-radio-button>
-                  <mat-radio-button class="example-radio-button" value="C">C. {{selectedQuestion?.hioptionC}}</mat-radio-button>
-                  <mat-radio-button class="example-radio-button" value="D">D. {{selectedQuestion?.hioptionD}}</mat-radio-button>
+               <mat-radio-group aria-labelledby="question-radio-group-label" class="question-radio-group" (change)="singleQuesRes($event)" disabled="{{HindiLanguage}}">
+                  <mat-radio-button class="example-radio-button" value="A" (click)="onLanguageClicked('hindi')">A. {{selectedQuestion?.hioptionA}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="B" (click)="onLanguageClicked('hindi')">B. {{selectedQuestion?.hioptionB}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="C" (click)="onLanguageClicked('hindi')">C. {{selectedQuestion?.hioptionC}}</mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="D" (click)="onLanguageClicked('hindi')">D. {{selectedQuestion?.hioptionD}}</mat-radio-button>
                </mat-radio-group>
             </div>
 
