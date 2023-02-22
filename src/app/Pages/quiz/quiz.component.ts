@@ -120,7 +120,7 @@ export class QuizComponent implements OnInit {
 
   singleQuesResNew(e:any){
     this.selectedQuestion.selected="1";
-    this.selectedQuestion.selectedoptions=e.target.value;
+    this.selectedQuestion.selectedoptions=e.target.name;
     console.log(e.target.name,e.target.value);
     console.log(this.selectedQuestion);
 

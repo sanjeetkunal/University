@@ -11,28 +11,28 @@
 
                 <div class="form-check">
                <input type="radio" class="form-check-input" 
-               [(ngModel)]="buttonChecked" (click)="singleQuesResNew($event)" name="{{selectedQuestion?.sequenceno}}"
+               [(ngModel)]="buttonChecked" (click)="singleQuesResNew($event)" name="A"
                value="A"> 
                <label class="form-check-label"> {{selectedQuestion?.optionA}}</label>
                </div>
 
                <div class="form-check">
                <input type="radio" class="form-check-input"
-               [(ngModel)]="buttonChecked" (click)="singleQuesResNew($event)" name="{{selectedQuestion?.sequenceno}}" 
+               [(ngModel)]="buttonChecked" (click)="singleQuesResNew($event)" name="B" 
                value="B"> 
                <label class="form-check-label"> {{selectedQuestion?.optionB}}</label>
                </div>
 
                <div class="form-check">
                <input type="radio" class="form-check-input"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="{{selectedQuestion?.sequenceno}}" 
+               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="C" 
                value="C"> 
                <label class="form-check-label"> {{selectedQuestion?.optionC}}</label>
                </div>
                
                <div class="form-check">
                <input type="radio" class="form-check-input"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="{{selectedQuestion?.sequenceno}}"
+               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="D"
                value="D"> 
                <label class="form-check-label"> {{selectedQuestion?.optionD}}</label>
                   </div>
@@ -45,29 +45,29 @@
                <h3>Q{{selectedQuestion?.sequenceno}}. {{selectedQuestion?.hiquestion}}</h3>
                  <div class="form-check">
                <input type="radio" class="form-check-input" 
-               [(ngModel)]="buttonChecked" (click)="singleQuesResNew($event)" name="{{selectedQuestion?.sequenceno}}"
-               value="A"> 
+               [(ngModel)]="buttonChecked" (click)="singleQuesResNew($event)" name="A"
+               value="{{selectedQuestion?.hioptionA}}"> 
                <label class="form-check-label"> {{selectedQuestion?.hioptionA}}</label>
                </div>
 
                <div class="form-check">
                <input type="radio" class="form-check-input"
-               [(ngModel)]="buttonChecked" (click)="singleQuesResNew($event)" name="{{selectedQuestion?.sequenceno}}" 
-               value="B"> 
+               [(ngModel)]="buttonChecked" (click)="singleQuesResNew($event)" name="B" 
+               value="{{selectedQuestion?.hioptionB}}"> 
                <label class="form-check-label"> {{selectedQuestion?.hioptionB}}</label>
                </div>
 
                <div class="form-check">
                <input type="radio" class="form-check-input"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="{{selectedQuestion?.sequenceno}}" 
-               value="C"> 
+               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="C" 
+               value="{{selectedQuestion?.hioptionC}}"> 
                <label class="form-check-label"> {{selectedQuestion?.hioptionC}}</label>
                </div>
                
                <div class="form-check">
                <input type="radio" class="form-check-input"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="{{selectedQuestion?.sequenceno}}"
-               value="D"> 
+               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="D"
+               value="{{selectedQuestion?.hioptionD}}"> 
                <label class="form-check-label"> {{selectedQuestion?.hioptionD}}</label>
                   </div>
 
