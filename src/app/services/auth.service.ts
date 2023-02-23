@@ -99,8 +99,7 @@ export class AuthService {
     localStorage.removeItem('token');
     this.userData={};
     this.toastr.success("Logged out",'Success');
-    this.router.navigate(['/login']);
-    window.location.reload();
+    this.router.navigate(['/']);
   }
 
 

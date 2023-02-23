@@ -25,7 +25,7 @@ export class QuizComponent implements OnInit {
   res_array:any=[];
   answerSelect:any;
   full_response = new Set();
-  buttonChecked=null;
+  buttonChecked:any;
   final_res_server:any={};
 
 
@@ -82,6 +82,8 @@ export class QuizComponent implements OnInit {
     let url=`http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
     this.http.post(url,this.selectedQuestion,{headers:reqHeader}).subscribe(res=>{
       console.log(res);
+      let server_res:any = res;
+      this.toastr.success(server_res.message);
     })
     this.EnglishLanguage=false;
     this.HindiLanguage=false;
@@ -90,6 +92,7 @@ export class QuizComponent implements OnInit {
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("next questtion", this.selectedQuestion)
       this.buttonChecked=null;
+      // this.buttonChecked=true;
 
     } else {
       this.toastr.error("No further Questions");
@@ -160,6 +163,8 @@ export class QuizComponent implements OnInit {
     let url=`http://103.44.53.3:8080/api/v1/auth/saveUserTest`;
     this.http.post(url,this.final_res_server,{headers:reqHeader}).subscribe(res=>{
       console.log(res);
+      let server_res:any = res;
+      this.toastr.success(server_res.message);
     })
     //this.router.navigateByUrl('/quizfinish');
   }
@@ -181,5 +186,13 @@ export class QuizComponent implements OnInit {
         this.HindiLanguage=true;
       }
     }
+  }
+
+  isCheckedQuestion(option:any,realOtion:any){
+    console.log(option,realOtion);
+    // if(option === realOtion){
+    //   return "selected"
+    // }
+    // return "unselected"
   }
 }
