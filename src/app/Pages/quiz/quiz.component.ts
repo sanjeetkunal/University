@@ -5,6 +5,7 @@ import { Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
+
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
@@ -22,9 +23,9 @@ export class QuizComponent implements OnInit {
   totalQuestions = [];
   selectedQuestion: any;
   questionCounter = 0;
-  res_array:any=[];
-  answerSelect:any;
-  buttonChecked=null;
+  res_array: any = [];
+  answerSelect: any;
+  buttonChecked = null;
 
 
   ngOnInit(): void {
@@ -34,6 +35,7 @@ export class QuizComponent implements OnInit {
     }
 
     this.loadQuestions();
+    this.timer();
   }
 
   temp_res: any;
@@ -64,29 +66,54 @@ export class QuizComponent implements OnInit {
     })
   }
 
+  stopTimer: any;
+  time = 0;
+  dt = new Date(new Date().setTime(0));
+  ctime = this.dt.getTime();
+  seconds = Math.floor((this.ctime % (1000 * 60)) / 1000);
+  minute = Math.floor((this.ctime % (1000 * 60 * 60)) / (1000 * 60));
+  formated_sec: any = "59";
+  formated_min: any = "30";
+
+
+  timer() {
+    this.stopTimer = setInterval(() => {
+      this.time++;
+      if (this.seconds < 59) {
+        this.seconds++;
+        
+      }
+      else {
+        this.seconds = 0;
+        this.minute++;
+      }
+      this.formated_sec = this.seconds < 10 ? `0${this.seconds}` : `${this.seconds}`;
+      this.formated_min = this.minute < 10 ? `0${this.minute}` : `${this.minute}`;
+    },1000)
+  }
 
   nextQues() {
     // console.log("-----------prev--------",this.totalQuestions[this.questionCounter])
     //submitting the question
     console.log(this.selectedQuestion);
     let userid = localStorage.getItem('USERID');
-    this.selectedQuestion.userID=userid;
+    this.selectedQuestion.userID = userid;
     let token = localStorage.getItem('token');
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-    let url=`http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
-    this.http.post(url,this.selectedQuestion,{headers:reqHeader}).subscribe(res=>{
+    let url = `http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
+    this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
       console.log(res);
     })
-    this.EnglishLanguage=false;
-    this.HindiLanguage=false;
+    this.EnglishLanguage = false;
+    this.HindiLanguage = false;
     if (this.questionCounter < this.totalQuestions.length - 1) {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("next questtion", this.selectedQuestion)
-      this.buttonChecked=null;
+      this.buttonChecked = null;
 
     } else {
-      this.toastr.error("No further Questions");
+      //this.toastr.error("No further Questions");
       this.router.navigateByUrl('/quizfinish');
     }
     // console.log("-----------after--------",this.totalQuestions[this.questionCounter])
@@ -106,22 +133,22 @@ export class QuizComponent implements OnInit {
 
   }
 
-  singleQuesRes(e:any){
+  singleQuesRes(e: any) {
     console.log(e.value);
-    this.selectedQuestion.selected="1";
-    this.selectedQuestion.selectedoptions=e.value;
+    this.selectedQuestion.selected = "1";
+    this.selectedQuestion.selectedoptions = e.value;
     console.log(this.selectedQuestion);
 
-    
+
     this.res_array.push(this.selectedQuestion);
     console.log(this.res_array);
 
   }
 
-  singleQuesResNew(e:any){
-    this.selectedQuestion.selected="1";
-    this.selectedQuestion.selectedoptions=e.target.name;
-    console.log(e.target.name,e.target.value);
+  singleQuesResNew(e: any) {
+    this.selectedQuestion.selected = "1";
+    this.selectedQuestion.selectedoptions = e.target.name;
+    console.log(e.target.name, e.target.value);
     console.log(this.selectedQuestion);
 
     this.res_array.push(this.selectedQuestion);
@@ -132,17 +159,17 @@ export class QuizComponent implements OnInit {
     console.log(e);
   }
 
-  EnglishLanguage:boolean=false;
-  HindiLanguage:boolean=false;
-  onLanguageClicked(language:string){
-    if(language=="hindi"){
-      if(!this.HindiLanguage){
-        this.EnglishLanguage=true;
+  EnglishLanguage: boolean = false;
+  HindiLanguage: boolean = false;
+  onLanguageClicked(language: string) {
+    if (language == "hindi") {
+      if (!this.HindiLanguage) {
+        this.EnglishLanguage = true;
       }
     }
-    else{
-      if(!this.EnglishLanguage){
-        this.HindiLanguage=true;
+    else {
+      if (!this.EnglishLanguage) {
+        this.HindiLanguage = true;
       }
     }
   }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-quizfinish',
   templateUrl: './quizfinish.component.html',
@@ -8,3 +9,5 @@ import { Component } from '@angular/core';
 export class QuizfinishComponent {
 
 }
+
+
