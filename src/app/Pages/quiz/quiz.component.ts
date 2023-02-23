@@ -5,6 +5,7 @@ import { Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
+
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
@@ -35,7 +36,7 @@ export class QuizComponent implements OnInit {
       this.router.navigateByUrl('/user-agrement')
       this.toastr.error("Please Accept User Terms Agreement");
     }
-
+   
     this.loadQuestions();
 
   }
@@ -61,6 +62,7 @@ export class QuizComponent implements OnInit {
       this.temp_res = res;
       this.totalQuestions = this.temp_res.userquestionSet;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
+      this.timer();
       // console.log("first selected question", this.selectedQuestion);
       let minute = this.temp_res.remainingMinutes;
       let second = this.temp_res.remainingSeconds;
@@ -78,23 +80,48 @@ export class QuizComponent implements OnInit {
     })
   }
 
+  stopTimer: any;
+  time = 0;
+  dt = new Date(new Date().setTime(0));
+  ctime = this.dt.getTime();
+  seconds = Math.floor((this.ctime % (1000 * 60)) / 1000);
+  minute = Math.floor((this.ctime % (1000 * 60 * 60)) / (1000 * 60));
+  formated_sec: any = "59";
+  formated_min: any = "30";
+
+
+  timer() {
+    this.stopTimer = setInterval(() => {
+      this.time++;
+      if (this.seconds < 59) {
+        this.seconds++;
+        
+      }
+      else {
+        this.seconds = 0;
+        this.minute++;
+      }
+      this.formated_sec = this.seconds < 10 ? `0${this.seconds}` : `${this.seconds}`;
+      this.formated_min = this.minute < 10 ? `0${this.minute}` : `${this.minute}`;
+    },1000)
+  }
 
   nextQues() {
     // console.log("-----------prev--------",this.totalQuestions[this.questionCounter])
     //submitting the question
     console.log(this.selectedQuestion);
     let userid = localStorage.getItem('USERID');
-    this.selectedQuestion.userID=userid;
+    this.selectedQuestion.userID = userid;
     let token = localStorage.getItem('token');
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-    let url=`http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
-    this.http.post(url,this.selectedQuestion,{headers:reqHeader}).subscribe(res=>{
+    let url = `http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
+    this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
       console.log(res);
       let server_res:any = res;
       //this.toastr.success(server_res.message);
     })
-    this.EnglishLanguage=false;
-    this.HindiLanguage=false;
+    this.EnglishLanguage = false;
+    this.HindiLanguage = false;
     if (this.questionCounter < this.totalQuestions.length - 1) {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
@@ -103,7 +130,7 @@ export class QuizComponent implements OnInit {
       // this.buttonChecked=true;
 
     } else {
-      this.toastr.error("No further Questions");
+      //this.toastr.error("No further Questions");
       this.router.navigateByUrl('/quizfinish');
       this.submitFullResponse();
     }
@@ -124,7 +151,7 @@ export class QuizComponent implements OnInit {
 
   }
 
-  singleQuesRes(e:any){
+  singleQuesRes(e: any) {
     console.log(e.value);
     this.selectedQuestion.selected=true;
     this.selectedQuestion.selectedoptions=e.value;
@@ -181,17 +208,17 @@ export class QuizComponent implements OnInit {
     console.log(e);
   }
 
-  EnglishLanguage:boolean=false;
-  HindiLanguage:boolean=false;
-  onLanguageClicked(language:string){
-    if(language=="hindi"){
-      if(!this.HindiLanguage){
-        this.EnglishLanguage=true;
+  EnglishLanguage: boolean = false;
+  HindiLanguage: boolean = false;
+  onLanguageClicked(language: string) {
+    if (language == "hindi") {
+      if (!this.HindiLanguage) {
+        this.EnglishLanguage = true;
       }
     }
-    else{
-      if(!this.EnglishLanguage){
-        this.HindiLanguage=true;
+    else {
+      if (!this.EnglishLanguage) {
+        this.HindiLanguage = true;
       }
     }
   }

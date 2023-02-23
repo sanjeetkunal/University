@@ -21,7 +21,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatRadioModule} from '@angular/material/radio';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatCardModule} from '@angular/material/card'
 
 
 @NgModule({
@@ -44,6 +45,8 @@ import {MatRadioModule} from '@angular/material/radio';
     ToastrModule.forRoot(), 
     HttpClientModule,
     MatRadioModule,
+    MatCardModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

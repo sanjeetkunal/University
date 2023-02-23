@@ -1,8 +1,24 @@
 <div class="bg-gradient">
    <div class="container login">
       <div class="quiz-btn col-md-6" style="text-align: right;">
-         <span style="color:black">Remaining Time : 30 Min</span>
+         <span style="color:black">Remaining Time : {{formated_min}}Min : {{formated_sec}}Sec</span>
       </div>
+      <!-- <div class="col-sm-2" style="position: absolute;right: 45px;">
+         <mat-card>
+            <mat-card-header>
+               <mat-card-title>
+                  Progress
+               </mat-card-title>
+            </mat-card-header>
+            <mat-card-subtitle>
+               Quiz will automatically submitted where time reaches to 00
+            </mat-card-subtitle>
+           <mat-card-content>
+            <mat-spinner mode="determinate" color="accent" style="margin:auto;" [value]="78"></mat-spinner>
+           </mat-card-content>
+         </mat-card>
+      </div> -->
+     
       <div class="question-box col-md-6">
          <form action="#" class="my-form">
             <div class="form-group">
@@ -86,6 +102,8 @@
          </form>
 
       </div>
+
+      
       <div class="quiz-btn col-md-6">
          <button *ngIf="questionCounter!=0"  class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
             (click)="prevQues()">Previous</button>

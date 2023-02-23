@@ -16,7 +16,9 @@
           <input name="checkbox" type="checkbox" class="form-check-input" id="remember-me" ngModel>
           <label class="form-check-label" for="exampleCheck1">Remember me</label>
         </div>
-        <button  type="submit" class="btn btn-primary btn-block submit-btn" style="width:100%;">Login</button>
+        <button  type="submit" class="btn btn-primary btn-block submit-btn" style="width:100%;">Login
+          <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+        </button>
       </form>
     </div>
   </div>
