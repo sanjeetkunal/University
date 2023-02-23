@@ -27,6 +27,7 @@ export class QuizComponent implements OnInit {
   full_response = new Set();
   buttonChecked:any;
   final_res_server:any={};
+  endTestIn:any;
 
 
   ngOnInit(): void {
@@ -36,10 +37,7 @@ export class QuizComponent implements OnInit {
     }
 
     this.loadQuestions();
-    setTimeout(()=>{
-      console.log("this will console out after 5 seconds");
-      //this.submitFullResponse();
-    },20000)
+
   }
 
   temp_res: any;
@@ -64,6 +62,16 @@ export class QuizComponent implements OnInit {
       this.totalQuestions = this.temp_res.userquestionSet;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("first selected question", this.selectedQuestion);
+      let minute = this.temp_res.remainingMinutes;
+      let second = this.temp_res.remainingSeconds;
+      let totalSeconds = ((minute * 60)+second)*1000;
+      console.log("Test will end in",totalSeconds);
+      setTimeout(()=>{
+        console.log("Test will end in",totalSeconds);
+        this.submitFullResponse();
+      },totalSeconds);
+
+
     }, err => {
       console.log(err);
       this.toastr.error(err.message);
@@ -83,7 +91,7 @@ export class QuizComponent implements OnInit {
     this.http.post(url,this.selectedQuestion,{headers:reqHeader}).subscribe(res=>{
       console.log(res);
       let server_res:any = res;
-      this.toastr.success(server_res.message);
+      //this.toastr.success(server_res.message);
     })
     this.EnglishLanguage=false;
     this.HindiLanguage=false;
