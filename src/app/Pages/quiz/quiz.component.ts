@@ -185,7 +185,7 @@ export class QuizComponent implements OnInit {
     };
     this.final_res_server.candidateTest = this.res_array;
     this.final_res_server.userID = userid;
-    this.final_res_server.minutes=20;
+    this.final_res_server.minutes=1;
     this.final_res_server.seconds=10;
 
     
@@ -201,7 +201,7 @@ export class QuizComponent implements OnInit {
       let server_res:any = res;
       this.toastr.success(server_res.message);
     })
-    //this.router.navigateByUrl('/quizfinish');
+    this.router.navigateByUrl('/quizfinish');
   }
 
   radioChange(e: any) {
