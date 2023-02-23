@@ -23,9 +23,11 @@ export class QuizComponent implements OnInit {
   totalQuestions = [];
   selectedQuestion: any;
   questionCounter = 0;
-  res_array: any = [];
-  answerSelect: any;
-  buttonChecked = null;
+  res_array:any=[];
+  answerSelect:any;
+  full_response = new Set();
+  buttonChecked:any;
+  final_res_server:any={};
 
 
   ngOnInit(): void {
@@ -33,9 +35,12 @@ export class QuizComponent implements OnInit {
       this.router.navigateByUrl('/user-agrement')
       this.toastr.error("Please Accept User Terms Agreement");
     }
-
+   
     this.loadQuestions();
-    this.timer();
+    setTimeout(()=>{
+      console.log("this will console out after 5 seconds");
+      //this.submitFullResponse();
+    },20000)
   }
 
   temp_res: any;
@@ -59,6 +64,7 @@ export class QuizComponent implements OnInit {
       this.temp_res = res;
       this.totalQuestions = this.temp_res.userquestionSet;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
+      this.timer();
       // console.log("first selected question", this.selectedQuestion);
     }, err => {
       console.log(err);
@@ -103,6 +109,8 @@ export class QuizComponent implements OnInit {
     let url = `http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
     this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
       console.log(res);
+      let server_res:any = res;
+      this.toastr.success(server_res.message);
     })
     this.EnglishLanguage = false;
     this.HindiLanguage = false;
@@ -110,11 +118,13 @@ export class QuizComponent implements OnInit {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("next questtion", this.selectedQuestion)
-      this.buttonChecked = null;
+      this.buttonChecked=null;
+      // this.buttonChecked=true;
 
     } else {
       //this.toastr.error("No further Questions");
       this.router.navigateByUrl('/quizfinish');
+      this.submitFullResponse();
     }
     // console.log("-----------after--------",this.totalQuestions[this.questionCounter])
 
@@ -135,24 +145,55 @@ export class QuizComponent implements OnInit {
 
   singleQuesRes(e: any) {
     console.log(e.value);
-    this.selectedQuestion.selected = "1";
-    this.selectedQuestion.selectedoptions = e.value;
+    this.selectedQuestion.selected=true;
+    this.selectedQuestion.selectedoptions=e.value;
     console.log(this.selectedQuestion);
 
-
-    this.res_array.push(this.selectedQuestion);
-    console.log(this.res_array);
+    
+    this.full_response.add(this.selectedQuestion);
+    console.log(this.full_response);
 
   }
 
-  singleQuesResNew(e: any) {
-    this.selectedQuestion.selected = "1";
-    this.selectedQuestion.selectedoptions = e.target.name;
-    console.log(e.target.name, e.target.value);
+  singleQuesResNew(e:any){
+    // let questionSaved = localStorage
+    this.selectedQuestion.selected=true;
+    this.selectedQuestion.selectedoptions=e.target.name;
+    console.log(e.target.name,e.target.value);
     console.log(this.selectedQuestion);
 
-    this.res_array.push(this.selectedQuestion);
-    console.log(this.res_array);
+    this.full_response.add(this.selectedQuestion);
+    console.log(this.full_response);
+
+  }
+
+  submitFullResponse(){
+    let userid = localStorage.getItem('USERID');
+
+    //converting set data to array
+    for(let answer of this.full_response){
+      console.log(answer);
+      this.res_array.push(answer);
+    };
+    this.final_res_server.candidateTest = this.res_array;
+    this.final_res_server.userID = userid;
+    this.final_res_server.minutes=20;
+    this.final_res_server.seconds=10;
+
+    
+    console.log("final request sent to server",this.final_res_server);
+
+
+    this.selectedQuestion.userID=userid;
+    let token = localStorage.getItem('token');
+    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+    let url=`http://103.44.53.3:8080/api/v1/auth/saveUserTest`;
+    this.http.post(url,this.final_res_server,{headers:reqHeader}).subscribe(res=>{
+      console.log(res);
+      let server_res:any = res;
+      this.toastr.success(server_res.message);
+    })
+    //this.router.navigateByUrl('/quizfinish');
   }
 
   radioChange(e: any) {
@@ -172,5 +213,13 @@ export class QuizComponent implements OnInit {
         this.HindiLanguage = true;
       }
     }
+  }
+
+  isCheckedQuestion(option:any,realOtion:any){
+    console.log(option,realOtion);
+    // if(option === realOtion){
+    //   return "selected"
+    // }
+    // return "unselected"
   }
 }
