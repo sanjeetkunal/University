@@ -19,9 +19,12 @@ export class UserAgrementComponent implements OnInit{
     private router:Router) { }
 
 ngOnInit(){
-  if(localStorage.getItem('accepted-agreement')){
+  if(localStorage.getItem('accepted-agreement') ){
     this.auth.userAgreementState.next(true);
-    this.router.navigate(['/quiz']);
+    if(this.auth.isAuthenticated()){
+      this.router.navigate(['/quiz']);
+    }
+   
   }
   console.log(this.auth.userAgreementState.value);
 

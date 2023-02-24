@@ -60,6 +60,8 @@ export class QuizComponent implements OnInit {
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       console.log(res);
       this.temp_res = res;
+      this.auth.username=this.temp_res.candidateName;
+      this.auth.subjectname = this.temp_res.subject;
       this.totalQuestions = this.temp_res.userquestionSet;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       this.timer();
@@ -77,6 +79,7 @@ export class QuizComponent implements OnInit {
     }, err => {
       console.log(err);
       this.toastr.error(err.message);
+     
     })
   }
 
@@ -185,8 +188,8 @@ export class QuizComponent implements OnInit {
     };
     this.final_res_server.candidateTest = this.res_array;
     this.final_res_server.userID = userid;
-    this.final_res_server.minutes=1;
-    this.final_res_server.seconds=10;
+    this.final_res_server.minutes=90;
+    this.final_res_server.seconds=0;
 
     
     console.log("final request sent to server",this.final_res_server);
@@ -200,6 +203,7 @@ export class QuizComponent implements OnInit {
       console.log(res);
       let server_res:any = res;
       this.toastr.success(server_res.message);
+      this.auth.logout();
     })
     this.router.navigateByUrl('/quizfinish');
   }

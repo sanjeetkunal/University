@@ -20,8 +20,8 @@ export class LoginComponent {
   loading:boolean=false;
 
   async loginUser(logindata: any) {
-    const { email, password } = logindata.value;
-    if (email == "" || password == "") {
+    const { mobile, password } = logindata.value;
+    if (mobile == "" || password == "") {
       this.toastr.error("Please Fill All Requird fields");
 
     } else {
