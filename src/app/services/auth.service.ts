@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
 
+
   constructor(
     private http:HttpClient,
     private toastr: ToastrService,
@@ -75,6 +76,7 @@ export class AuthService {
         let serverResoponse:any = res;
         if(serverResoponse.message === "Bad credentials"){
           this.toastr.error('Error',serverResoponse.message);
+          
         }else{
           console.log("loggged in")
           let token = serverResoponse.token;
@@ -84,6 +86,7 @@ export class AuthService {
           this.userid=serverResoponse.userID;
           this.username = serverResoponse.candidateName;
           this.subjectname=serverResoponse.subject;
+        
           console.log(this.username,this.subjectname);
           localStorage.setItem('USERID',this.userid);
           this.toastr.success("successfully logged in",'Success');
@@ -93,6 +96,7 @@ export class AuthService {
       },err=>{
         console.log(err);
         this.toastr.error(err.error.msg,'Server Error');
+       
       })
   }
 

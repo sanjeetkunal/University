@@ -73,16 +73,19 @@ export class QuizComponent implements OnInit {
       this.subjectname = this.temp_res.subject;
       this.totalQuestions = this.temp_res.userquestionSet;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
-      this.timer();
+
+      this.timer = (parseInt(this.temp_res.remainingMinutes)*60)+parseInt(this.temp_res.remainingSeconds);//second
+      this.startTimer();
       // console.log("first selected question", this.selectedQuestion);
-      let minute = this.temp_res.remainingMinutes;
-      let second = this.temp_res.remainingSeconds;
-      let totalSeconds = ((minute * 60)+second)*1000;
-      console.log("Test will end in",totalSeconds);
-      setTimeout(()=>{
-        console.log("Test will end in",totalSeconds);
-        this.submitFullResponse();
-      },totalSeconds);
+      // let minute = this.temp_res.remainingMinutes;
+      // let second = this.temp_res.remainingSeconds;
+      // let totalSeconds = ((minute * 60)+second)*1000;
+      // console.log("Test will end in",totalSeconds);
+
+      // setTimeout(()=>{
+      //   console.log("Test will end in",totalSeconds);
+      //   this.submitFullResponse();
+      // },totalSeconds);
 
 
     }, err => {
@@ -92,30 +95,51 @@ export class QuizComponent implements OnInit {
     })
   }
 
-  stopTimer: any;
-  time = 0;
-  dt = new Date(new Date().setTime(0));
-  ctime = this.dt.getTime();
-  seconds = Math.floor((this.ctime % (1000 * 60)) / 1000);
-  minute = Math.floor((this.ctime % (1000 * 60 * 60)) / (1000 * 60));
-  formated_sec: any = "59";
-  formated_min: any = "30";
+  // stopTimer: any;
+  // time = 0;
+  // dt = new Date(new Date().setTime(0));
+  // ctime = this.dt.getTime();
+  // seconds = Math.floor((this.ctime % (1000 * 60)) / 1000);
+  // minute = Math.floor((this.ctime % (1000 * 60 * 60)) / (1000 * 60));
+  // formated_sec: any = "59";
+  // formated_min: any = "30";
 
 
-  timer() {
-    this.stopTimer = setInterval(() => {
-      this.time++;
-      if (this.seconds < 59) {
-        this.seconds++;
+  // timer() {
+  //   this.stopTimer = setInterval(() => {
+  //     this.time++;
+  //     if (this.seconds < 59) {
+  //       this.seconds++;
         
+  //     }
+  //     else {
+  //       this.seconds = 0;
+  //       this.minute++;
+  //     }
+  //     this.formated_sec = this.seconds < 10 ? `0${this.seconds}` : `${this.seconds}`;
+  //     this.formated_min = this.minute < 10 ? `0${this.minute}` : `${this.minute}`;
+  //   },1000)
+  // }
+
+  timer: any;
+  startTimer() {
+    let t: any = window.setInterval(() => {
+      if (this.timer <= 0) {
+        this.submitFullResponse();
+        clearInterval(t);
       }
-      else {
-        this.seconds = 0;
-        this.minute++;
+      else{
+        this.timer--;
       }
-      this.formated_sec = this.seconds < 10 ? `0${this.seconds}` : `${this.seconds}`;
-      this.formated_min = this.minute < 10 ? `0${this.minute}` : `${this.minute}`;
-    },1000)
+    }, 1000);
+  }
+
+  minutes:any;
+  seconds:any;
+  getFormatedTimer(){
+    this.minutes=Math.floor(this.timer/60);
+    this.seconds=this.timer-parseInt(this.minutes)*60;
+    return `${this.minutes} Min : ${this.seconds} Sec`;
   }
 
   nextQues() {
@@ -197,8 +221,8 @@ export class QuizComponent implements OnInit {
     };
     this.final_res_server.candidateTest = this.res_array;
     this.final_res_server.userID = userid;
-    this.final_res_server.minutes=90;
-    this.final_res_server.seconds=0;
+    this.final_res_server.minutes=this.minutes;
+    this.final_res_server.seconds=this.seconds;
 
     
     console.log("final request sent to server",this.final_res_server);
@@ -245,6 +269,7 @@ export class QuizComponent implements OnInit {
   }
 
   logout(){
+    this.submitFullResponse();
     this.auth.logout();
   }
 }

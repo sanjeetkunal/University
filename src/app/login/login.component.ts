@@ -18,14 +18,15 @@ export class LoginComponent {
     private router:Router) { }
 
   loading:boolean=false;
+  SubmitButtonText:string="Login";
 
   async loginUser(logindata: any) {
     const { mobile, password } = logindata.value;
     if (mobile == "" || password == "") {
       this.toastr.error("Please Fill All Requird fields");
-
+      this.SubmitButtonText="Login";
     } else {
-      this.loading = true;
+      this.SubmitButtonText=`Please Wait...`;
       this.auth.loginService(logindata.value)
       console.log(logindata.value);
       this.loading = false;

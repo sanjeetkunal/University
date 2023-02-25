@@ -36,12 +36,10 @@
           <label class="form-check-label" for="exampleCheck1">Remember me</label>
         </div> -->
         <br>
-        <button  type="submit" class="btn btn-primary btn-block submit-btn" style="width:100%;">Login
-          <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+        <button  type="submit" class="btn btn-primary btn-block submit-btn" style="width:100%;">
+          {{this.SubmitButtonText}}
         </button>
       </form>
     </div>
   </div>
 </div>
-
-<div *ngIf="loading==true" class="spin">Loading...</div>
