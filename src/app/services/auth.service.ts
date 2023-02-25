@@ -15,7 +15,7 @@ export class AuthService {
     private router:Router
   ) { }
 
-  isLoggedIn:boolean=false;
+  isLoggedIn=false;
   authenticatationState = new BehaviorSubject(false);
   userAgreementState = new BehaviorSubject(false);
   userid:any;
@@ -103,9 +103,11 @@ export class AuthService {
     localStorage.removeItem('accepted-agreement');
     localStorage.removeItem('token');
     this.isLoggedIn=false;
+    this.username=null;
+    this.subjectname=null;
     this.userData={};
     this.toastr.success("Logged out",'Success');
-    this.router.navigate(['/quizfinish']);
+    this.router.navigate(['/']);
   }
 
 

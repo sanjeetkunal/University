@@ -19,15 +19,19 @@ export class AppComponent implements OnInit {
   userloggedin:boolean=false;
   username:any;
   subjectname:any;
+
+
   ngOnInit(){
     if(localStorage.getItem('token')){
       this.auth.authenticatationState.next(true);
-      this.userloggedin  = this.auth.isLoggedIn;
-      this.router.navigateByUrl('/user-agrement');
+      console.log()
       setTimeout(()=>{
+        this.userloggedin  = this.auth.isLoggedIn;
         this.username = this.auth.username;
         this.subjectname = this.auth.subjectname;
       },2000)
+      this.router.navigateByUrl('/user-agrement');
+
 
     }
   }
