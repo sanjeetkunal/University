@@ -8,6 +8,7 @@
        <span class="navbar-toggler-icon"></span>
      </button>
      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<<<<<<< HEAD
        <ul class="navbar-nav ms-auto" *ngIf="userloggedin===true">
          <li class="nav-item">
            <a class="nav-link" aria-current="page" href="javascript:void(0)"><i class="fa fa-user"></i>Welcome : {{username}} <br> Subject: {{subjectname}}</a>
@@ -17,6 +18,16 @@
           <!-- <button class = "btn btn-primary" (click)="logout()">Logout</button> -->
           <a class="nav-link btn-logout" (click)="logout()">Logout</a>
          </li>
+=======
+       <ul class="navbar-nav ms-auto" >
+        <div *ngIf="userloggedin">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Welcome : {{username}}  Subject: {{subjectname}}</a>
+            <button class = "btn btn-primary" (click)="logout()">Logout</button>
+          </li>
+        </div>
+
+>>>>>>> f99b673b43cd637cf86e208bb72047740c024dcc
        </ul>
      </div>
    </div>
