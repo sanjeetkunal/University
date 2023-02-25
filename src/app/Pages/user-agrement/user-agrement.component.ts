@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,TemplateRef } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,7 +17,9 @@ export class UserAgrementComponent implements OnInit{
     private http:HttpClient,
     private toastr: ToastrService,
     private auth:AuthService,
-    private router:Router) { }
+    private router:Router,
+    public dialog: MatDialog
+    ) { }
 
     userloggedin:boolean=false;
     username:any;
@@ -58,6 +61,14 @@ logout(){
   this.userloggedin=false;
 }
 
+openDialogWithRef(ref: TemplateRef<any>) {
+  this.dialog.open(ref);
+}
+
+
 
 
 }
+
+
+  
