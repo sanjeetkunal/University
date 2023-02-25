@@ -18,9 +18,21 @@ export class UserAgrementComponent implements OnInit{
     private auth:AuthService,
     private router:Router) { }
 
+    userloggedin:boolean=false;
+    username:any;
+    subjectname:any;
+
 ngOnInit(){
+
+    this.username = this.auth.username;
+    this.subjectname = this.auth.subjectname;
+    console.log(this.username,this.subjectname);
+    console.log(this.auth.username,this.auth.subjectname);
+
+
   if(localStorage.getItem('accepted-agreement') ){
     this.auth.userAgreementState.next(true);
+   
     if(this.auth.isAuthenticated()){
       this.router.navigate(['/quiz']);
     }
@@ -40,6 +52,12 @@ notAgree(){
   this.auth.userAgreementState.next(false);
   this.toastr.error("Please Agree with terms and condition");
 }
+
+logout(){
+  this.auth.logout();
+  this.userloggedin=false;
+}
+
 
 
 }

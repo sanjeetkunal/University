@@ -29,9 +29,17 @@ export class QuizComponent implements OnInit {
   buttonChecked:any;
   final_res_server:any={};
   endTestIn:any;
+  username:any;
+  subjectname:any;
+  
 
 
   ngOnInit(): void {
+    this.username = this.auth.username;
+    this.subjectname = this.auth.subjectname;
+    console.log(this.username,this.subjectname);
+    console.log(this.auth.username,this.auth.subjectname);
+
     if (!this.auth.userAgreementState.value) {
       this.router.navigateByUrl('/user-agrement')
       this.toastr.error("Please Accept User Terms Agreement");
@@ -61,8 +69,8 @@ export class QuizComponent implements OnInit {
       console.log(res);
       this.temp_res = res;
 
-      this.auth.username=this.temp_res.candidateName;
-      this.auth.subjectname = this.temp_res.subject;
+      this.username=this.temp_res.candidateName;
+      this.subjectname = this.temp_res.subject;
       this.totalQuestions = this.temp_res.userquestionSet;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       this.timer();

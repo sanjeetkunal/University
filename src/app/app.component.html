@@ -1,37 +1,5 @@
-<div (contextmenu)="onRightClick()">
-<nav class="navbar navbar-expand-lg static-top" style="color: #d6d7ee; background-color: #d6d7ee;">
-   <div class="container"  style="color: #d6d7ee;background-color: #d6d7ee;">
-     <a class="navbar-brand" href="javascript:void(0)">
-       <img src="./assets/Images/skd-logo.png" alt="..." height="36">
-     </a>
-     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-     </button>
-     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-<<<<<<< HEAD
-       <ul class="navbar-nav ms-auto" *ngIf="userloggedin===true">
-         <li class="nav-item">
-           <a class="nav-link" aria-current="page" href="javascript:void(0)"><i class="fa fa-user"></i>Welcome : {{username}} <br> Subject: {{subjectname}}</a>
-          
-         </li>
-         <li class="nav-item">
-          <!-- <button class = "btn btn-primary" (click)="logout()">Logout</button> -->
-          <a class="nav-link btn-logout" (click)="logout()">Logout</a>
-         </li>
-=======
-       <ul class="navbar-nav ms-auto" >
-        <div *ngIf="userloggedin">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Welcome : {{username}}  Subject: {{subjectname}}</a>
-            <button class = "btn btn-primary" (click)="logout()">Logout</button>
-          </li>
-        </div>
 
->>>>>>> f99b673b43cd637cf86e208bb72047740c024dcc
-       </ul>
-     </div>
-   </div>
- </nav>
+
 <section>
 <router-outlet>
 
@@ -40,7 +8,7 @@
 
 
 
-
+<div (contextmenu)="onRightClick()">
 <div class="py-4 bg-white footer-copyright" style="background: linear-gradient(to bottom, #d6d7ee 0%, #d6d7ee 100%);padding-top: 1rem !important;padding-bottom: 1rem !important;">
   <div class="container">
      <div class="row align-items-center">

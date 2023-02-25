@@ -1,9 +1,28 @@
+<nav class="navbar navbar-expand-lg static-top" style="color: #d6d7ee; background-color: #d6d7ee;">
+   <div class="container"  style="color: #d6d7ee;background-color: #d6d7ee;">
+     <a class="navbar-brand" href="javascript:void(0)">
+       <img src="./assets/Images/skd-logo.png" alt="..." height="36">
+     </a>
+     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+     </button>
+     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+       <ul class="navbar-nav ms-auto" >
+        <div>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Welcome : {{username}}  Subject: {{subjectname}}</a>
+            <button class = "btn btn-primary" (click)="logout()">Logout</button>
+          </li>
+        </div>
+
+       </ul>
+     </div>
+   </div>
+ </nav>
+
 <div class="bg-gradient">
    <div class="container login">
-      <div>
-         <h3>Welcome : {{temp_res?.candidateName}} Subject : {{temp_res?.subject}}</h3>
-         <button class="btn btn-dark" (click)="logout()">Logout</button>
-      </div>
+
       <div class="quiz-btn col-md-6" style="text-align: right;">
          <span style="color:black">Remaining Time : {{formated_min}}Min : {{formated_sec}}Sec</span>
       </div>
