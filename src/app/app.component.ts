@@ -36,4 +36,8 @@ export class AppComponent implements OnInit {
     this.auth.logout();
     this.userloggedin=false;
   }
+
+  onRightClick() {
+    return false;
+  }
 }
