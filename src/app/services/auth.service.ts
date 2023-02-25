@@ -84,7 +84,7 @@ export class AuthService {
           this.userid=serverResoponse.userID;
           this.username = serverResoponse.candidateName;
           this.subjectname=serverResoponse.subject;
-          console.log(this.userData);
+          console.log(this.username,this.subjectname);
           localStorage.setItem('USERID',this.userid);
           this.toastr.success("successfully logged in",'Success');
           this.router.navigate(['/user-agrement']);
@@ -102,9 +102,10 @@ export class AuthService {
     this.userAgreementState.next(false);
     localStorage.removeItem('accepted-agreement');
     localStorage.removeItem('token');
+    this.isLoggedIn=false;
     this.userData={};
     this.toastr.success("Logged out",'Success');
-    //this.router.navigate(['/']);
+    this.router.navigate(['/quizfinish']);
   }
 
 

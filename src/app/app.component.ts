@@ -22,12 +22,12 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     if(localStorage.getItem('token')){
       this.auth.authenticatationState.next(true);
-      this.userloggedin = true;
+      this.userloggedin  = this.auth.isLoggedIn;
       this.router.navigateByUrl('/user-agrement');
       setTimeout(()=>{
         this.username = this.auth.username;
         this.subjectname = this.auth.subjectname;
-      },3000)
+      },2000)
 
     }
   }
