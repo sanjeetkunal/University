@@ -27,9 +27,11 @@ export class LoginComponent {
       this.SubmitButtonText="Login";
     } else {
       this.SubmitButtonText=`Please Wait...`;
-      this.auth.loginService(logindata.value)
+      this.loading = true;
+      this.auth.loginService(logindata.value);
+      //this.SubmitButtonText="Login";
       console.log(logindata.value);
-      this.loading = false;
+     
     }
   }
 
