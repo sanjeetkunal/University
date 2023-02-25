@@ -146,9 +146,9 @@ export class QuizComponent implements OnInit {
     // console.log("-----------prev--------",this.totalQuestions[this.questionCounter])
     //submitting the question
     console.log(this.selectedQuestion);
-    if(this.selectedQuestion.selected){
-      console.log("question already selected")
-    }else{
+    if(!this.selectedQuestion.selected){
+
+      //if question is already not selected
       let userid = localStorage.getItem('USERID');
       this.selectedQuestion.userID = userid;
       let token = localStorage.getItem('token');
