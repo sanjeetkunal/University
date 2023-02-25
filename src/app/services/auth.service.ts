@@ -20,6 +20,8 @@ export class AuthService {
   userAgreementState = new BehaviorSubject(false);
   userid:any;
   userData:any;
+  username:any;
+  subjectname:any;
   authLoading:boolean=false;
 
   isAuthenticated(){
@@ -80,6 +82,9 @@ export class AuthService {
           this.authenticatationState.next(true);
           this.isLoggedIn=true;
           this.userid=serverResoponse.userID;
+          this.username = serverResoponse.candidateName;
+          this.subjectname=serverResoponse.subject;
+          console.log(this.userData);
           localStorage.setItem('USERID',this.userid);
           this.toastr.success("successfully logged in",'Success');
           this.router.navigate(['/user-agrement']);
@@ -99,7 +104,7 @@ export class AuthService {
     localStorage.removeItem('token');
     this.userData={};
     this.toastr.success("Logged out",'Success');
-    this.router.navigate(['/']);
+    //this.router.navigate(['/']);
   }
 
 

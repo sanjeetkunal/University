@@ -16,16 +16,25 @@ export class AppComponent implements OnInit {
     private auth:AuthService,
     private router:Router) { }
   title = 'College';
-
+  userloggedin:boolean=false;
+  username:any;
+  subjectname:any;
   ngOnInit(){
     if(localStorage.getItem('token')){
       this.auth.authenticatationState.next(true);
-      this.router.navigateByUrl('/user-agrement')
+      this.userloggedin = true;
+      this.router.navigateByUrl('/user-agrement');
+      setTimeout(()=>{
+        this.username = this.auth.username;
+        this.subjectname = this.auth.subjectname;
+      },3000)
+
     }
   }
 
   logout(){
     this.auth.logout();
+    this.userloggedin=false;
   }
 
   onRightClick() {
