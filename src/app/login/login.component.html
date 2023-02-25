@@ -1,5 +1,6 @@
 <div *ngIf="loading==false" class="bg-gradient">
   <div class="container login">
+    <br>
     <div class="login-box col-md-4">
       <h3 class="fw-bold" style="text-align: center;"><img src="./assets/Images/SKDLogo.png" style="width:140px;"></h3>
       
@@ -12,10 +13,11 @@
           <label for="password">Password</label>
           <input type="password" class="form-control" name="password" placeholder="Password" ngModel>
         </div>
-        <div class="form-group form-check">
+        <!-- <div class="form-group form-check">
           <input name="checkbox" type="checkbox" class="form-check-input" id="remember-me" ngModel>
           <label class="form-check-label" for="exampleCheck1">Remember me</label>
-        </div>
+        </div> -->
+        <br>
         <button  type="submit" class="btn btn-primary btn-block submit-btn" style="width:100%;">Login
           <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
         </button>
