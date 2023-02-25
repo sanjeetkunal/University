@@ -60,6 +60,7 @@ export class QuizComponent implements OnInit {
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       console.log(res);
       this.temp_res = res;
+
       this.auth.username=this.temp_res.candidateName;
       this.auth.subjectname = this.temp_res.subject;
       this.totalQuestions = this.temp_res.userquestionSet;
@@ -233,5 +234,9 @@ export class QuizComponent implements OnInit {
     //   return "selected"
     // }
     // return "unselected"
+  }
+
+  logout(){
+    this.auth.logout();
   }
 }

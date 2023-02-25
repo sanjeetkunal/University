@@ -1,5 +1,9 @@
 <div class="bg-gradient">
    <div class="container login">
+      <div>
+         <h3>Welcome : {{temp_res?.candidateName}} Subject : {{temp_res?.subject}}</h3>
+         <button class="btn btn-dark" (click)="logout()">Logout</button>
+      </div>
       <div class="quiz-btn col-md-6" style="text-align: right;">
          <span style="color:black">Remaining Time : {{formated_min}}Min : {{formated_sec}}Sec</span>
       </div>
