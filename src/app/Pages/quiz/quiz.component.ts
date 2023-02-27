@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.scss']
+  //src/assets/fonts/font.family.style.scss
 })
 export class QuizComponent implements OnInit {
 
@@ -146,21 +147,16 @@ export class QuizComponent implements OnInit {
     // console.log("-----------prev--------",this.totalQuestions[this.questionCounter])
     //submitting the question
     console.log(this.selectedQuestion);
-    if(!this.selectedQuestion.selected){
-
-      //if question is already not selected
-      let userid = localStorage.getItem('USERID');
-      this.selectedQuestion.userID = userid;
-      let token = localStorage.getItem('token');
-      const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-      let url = `http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
-      this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
-        console.log(res);
-        let server_res:any = res;
-        //this.toastr.success(server_res.message);
-      })
-    }
-
+    let userid = localStorage.getItem('USERID');
+    this.selectedQuestion.userID = userid;
+    let token = localStorage.getItem('token');
+    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+    let url = `http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
+    this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
+      console.log(res);
+      let server_res:any = res;
+      //this.toastr.success(server_res.message);
+    })
     this.EnglishLanguage = false;
     this.HindiLanguage = false;
     if (this.questionCounter < this.totalQuestions.length - 1) {
