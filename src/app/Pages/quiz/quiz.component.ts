@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.scss']
+  //src/assets/fonts/font.family.style.scss
 })
 export class QuizComponent implements OnInit {
 
