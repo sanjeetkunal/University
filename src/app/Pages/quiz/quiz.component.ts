@@ -170,7 +170,7 @@ export class QuizComponent implements OnInit {
         //this.toastr.success(server_res.message);
       })
     }else{
-      
+
       console.log("question is already selected")
 
     }
@@ -258,7 +258,7 @@ export class QuizComponent implements OnInit {
     this.http.post(url,this.final_res_server,{headers:reqHeader}).subscribe(res=>{
       console.log(res);
       let server_res:any = res;
-      this.toastr.success(server_res.message);
+      //this.toastr.success(server_res.message);
       this.auth.logout();
     })
     this.router.navigateByUrl('/quizfinish');

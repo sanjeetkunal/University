@@ -112,8 +112,8 @@ export class AuthService {
     this.username=null;
     this.subjectname=null;
     this.userData={};
-    this.toastr.success("Logged out",'Success');
-    this.router.navigate(['/']);
+    // this.toastr.success("Logged out",'Success');
+    this.router.navigate(['/quizfinish']);
   }
 
 
