@@ -162,14 +162,16 @@ export class QuizComponent implements OnInit {
     //console.log(this.selectedQuestion);
   
     console.log(this.temp_res.userquestionSet[this.questionCounter].selected)
-    if(!this.temp_res.userquestionSet[this.questionCounter].selected){
+
+
+    if(!this.temp_res.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop){
 
       this.selectedQuestion.selected=true;
       this.selectedQuestion.selectedoptions = this.student_res.selected_opt;
 
       //setting student_res to null
-      // this.selectedQuestion.selected=false;
-      // this.selectedQuestion.selectedoptions="";
+       this.student_res.selected_prop=false;
+      this.student_res.selected_opt="";
 
       //if question is already not selected
       let userid = localStorage.getItem('USERID');
@@ -182,6 +184,8 @@ export class QuizComponent implements OnInit {
         console.log(res);
         let server_res:any = res;
         //this.toastr.success(server_res.message);
+        this.submitTime();
+        
       })
     }else{
 
@@ -309,6 +313,32 @@ export class QuizComponent implements OnInit {
     //   return "selected"
     // }
     // return "unselected"
+  }
+
+  time_req={
+    userid:"",
+    activestatus: "active",
+    minutesleft: 30,
+    secondsleft: 30
+  }
+
+  submitTime(){
+    let token = localStorage.getItem('token');
+    let userid = localStorage.getItem('USERID');
+    if(userid)  this.time_req.userid=userid;
+    this.time_req.minutesleft=this.minutes;
+    this.time_req.secondsleft=this.seconds;
+    if(parseInt(this.minutes)===0){
+      this.time_req.activestatus="inactive";
+    }
+    
+    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+    let url = `http://103.44.53.3:8080/api/v1/auth/saveRemainingTime`;
+    console.log(reqHeader);
+    this.http.post(url, this.time_req, { headers: reqHeader }).subscribe(res => {
+      console.log(res);
+
+    })
   }
 
   logout(){
