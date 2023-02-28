@@ -25,6 +25,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatCardModule} from '@angular/material/card'
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
+import { QuizCompletedComponent } from './pages/quiz-completed/quiz-completed.component';
 
 
 
@@ -35,7 +36,8 @@ import {MatButtonModule} from '@angular/material/button';
     LoginComponent,
     UserAgrementComponent,
     QuizComponent,
-    QuizfinishComponent
+    QuizfinishComponent,
+    QuizCompletedComponent
   ],
   imports: [
     BrowserModule,

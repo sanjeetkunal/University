@@ -77,6 +77,15 @@ export class QuizComponent implements OnInit {
       this.username=this.temp_res.candidateName;
       this.subjectname = this.temp_res.subject;
       this.totalQuestions = this.temp_res.userquestionSet;
+
+      let quescounter = localStorage.getItem('quescounter');
+      if(quescounter){
+        this.questionCounter = parseInt(quescounter);
+      }else{
+        this.questionCounter=0;
+      }
+      
+
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
 
       this.timer = (parseInt(this.temp_res.remainingMinutes)*60)+parseInt(this.temp_res.remainingSeconds);//second
@@ -158,6 +167,10 @@ export class QuizComponent implements OnInit {
       this.selectedQuestion.selected=true;
       this.selectedQuestion.selectedoptions = this.student_res.selected_opt;
 
+      //setting student_res to null
+      // this.selectedQuestion.selected=false;
+      // this.selectedQuestion.selectedoptions="";
+
       //if question is already not selected
       let userid = localStorage.getItem('USERID');
       this.selectedQuestion.userID = userid;
@@ -172,16 +185,22 @@ export class QuizComponent implements OnInit {
       })
     }else{
 
-      console.log("question is already selected")
+      console.log("question is already selected or missed")
 
     }
 
+
+    this.buttonChecked=null;
 
     this.EnglishLanguage = false;
     this.HindiLanguage = false;
     if (this.questionCounter < this.totalQuestions.length - 1) {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
+
+      //setting question counter in localstorage
+      localStorage.setItem('quescounter',this.questionCounter.toString());
+
       // console.log("next questtion", this.selectedQuestion)
       this.buttonChecked=null;
       // this.buttonChecked=true;

@@ -41,8 +41,8 @@
            </mat-card-content>
          </mat-card>
       </div> -->
-     
-      <div class="question-box col-md-6">
+     <div [ngClass]="{disabledNoOfCasesDiv : selectedQuestion?.selected == true}">
+      <div class="question-box col-md-6 ">
          <form action="#" class="my-form">
             <div class="form-group">
                <h3>Q{{selectedQuestion?.sequenceno}}. {{selectedQuestion?.question}}</h3>
@@ -125,6 +125,8 @@
          </form>
 
       </div>
+
+   </div>
 
       
       <div class="quiz-btn col-md-6">

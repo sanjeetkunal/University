@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, windowToggle } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +98,8 @@ export class AuthService {
         console.log(err);
         this.toastr.error(err.error.message);
         // this.loginButtonText="Login";
+        this.router.navigateByUrl('/quiz-completed')
+        // window.location.reload();
        
       })
   }
@@ -113,7 +115,19 @@ export class AuthService {
     this.subjectname=null;
     this.userData={};
     // this.toastr.success("Logged out",'Success');
-    this.router.navigate(['/quizfinish']);
+    this.router.navigate(['/']);
+  }
+
+  removesession(){
+    console.log("user logged out");
+    this.authenticatationState.next(false);
+    this.userAgreementState.next(false);
+    localStorage.removeItem('accepted-agreement');
+    localStorage.removeItem('token');
+    this.isLoggedIn=false;
+    this.username=null;
+    this.subjectname=null;
+    this.userData={};
   }
 
 
