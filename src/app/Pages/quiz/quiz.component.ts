@@ -31,6 +31,10 @@ export class QuizComponent implements OnInit {
   endTestIn:any;
   username:any;
   subjectname:any;
+  student_res={
+    selected_prop:false,
+    selected_opt:"",
+  };
   
 
 
@@ -91,7 +95,7 @@ export class QuizComponent implements OnInit {
     }, err => {
       console.log(err);
       this.toastr.error(err.message);
-     
+      this.router.navigateByUrl('')
     })
   }
 
@@ -145,13 +149,19 @@ export class QuizComponent implements OnInit {
   nextQues() {
     // console.log("-----------prev--------",this.totalQuestions[this.questionCounter])
     //submitting the question
-    console.log(this.selectedQuestion);
-    if(!this.selectedQuestion.selected){
+    //console.log(this.selectedQuestion);
+  
+    console.log(this.temp_res.userquestionSet[this.questionCounter].selected)
+    if(!this.temp_res.userquestionSet[this.questionCounter].selected){
+
+      this.selectedQuestion.selected=true;
+      this.selectedQuestion.selectedoptions = this.student_res.selected_opt;
 
       //if question is already not selected
       let userid = localStorage.getItem('USERID');
       this.selectedQuestion.userID = userid;
       let token = localStorage.getItem('token');
+
       const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
       let url = `http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
       this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
@@ -159,7 +169,12 @@ export class QuizComponent implements OnInit {
         let server_res:any = res;
         //this.toastr.success(server_res.message);
       })
+    }else{
+      
+      console.log("question is already selected")
+
     }
+
 
     this.EnglishLanguage = false;
     this.HindiLanguage = false;
@@ -206,8 +221,11 @@ export class QuizComponent implements OnInit {
 
   singleQuesResNew(e:any){
     // let questionSaved = localStorage
-    this.selectedQuestion.selected=true;
-    this.selectedQuestion.selectedoptions=e.target.name;
+    // this.selectedQuestion.selected=true;
+    // this.selectedQuestion.selectedoptions=e.target.name;
+    this.student_res.selected_prop = true;
+    this.student_res.selected_opt = e.target.name;
+    console.log(this.student_res);
     console.log(e.target.name,e.target.value);
     console.log(this.selectedQuestion);
 
