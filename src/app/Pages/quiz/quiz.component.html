@@ -23,7 +23,7 @@
 <div class="bg-gradient">
    <div class="container login">
 
-      <div class="quiz-btn col-md-6" style="text-align: right;">
+      <div class="quiz-btn col-md-8" style="text-align: right;">
          <span style="color:black">Remaining Time : {{getFormatedTimer()}}</span>
       </div>
       <!-- <div class="col-sm-2" style="position: absolute;right: 45px;">
@@ -42,7 +42,7 @@
          </mat-card>
       </div> -->
      <div [ngClass]="{disabledNoOfCasesDiv : selectedQuestion?.selected == true}">
-      <div class="question-box col-md-6 ">
+      <div class="question-box col-md-8 ">
          <form action="#" class="my-form">
             <div class="form-group">
                <h3>Q{{selectedQuestion?.sequenceno}}. {{selectedQuestion?.question}}</h3>
@@ -129,7 +129,7 @@
    </div>
 
       
-      <div class="quiz-btn col-md-6">
+      <div class="quiz-btn col-md-8">
          <button *ngIf="questionCounter!=0"  class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
             (click)="prevQues()">Previous</button>
          <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"

@@ -90,16 +90,19 @@
         <!-- <label>Agree</label> -->
         <p><a class="agree-btn"(click)="openDialogWithRef(firstDialog)">I Agree</a></p>
 
+        
         <ng-template #firstDialog style="border: navy; opacity: 0.5%;">
+          <div class="my-modal">
           <h2 matDialogTitle>Hello, {{username}}!</h2>
           <p matDialogContent>Are you sure want to start your entrance TEST!</p>
           <mat-dialog-actions align="end">
            
-            <button mat-button matDialogClose (click)="agree()">Yes</button>
-            <button mat-button matDialogClose>No</button>
+            <button mat-button matDialogClose (click)="agree()" class="btn btn-success">Yes</button>
+            <button mat-button matDialogClose class="btn btn-danger">No</button>
           </mat-dialog-actions>
+        </div>
         </ng-template>
-
+     
         <!-- <label><input type="checkbox" name="radiobox" required> </label>
 
         <input type="radio" name="radiobox" (click)="notAgree()" ><span>Not Agree</span> -->
