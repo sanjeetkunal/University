@@ -36,7 +36,33 @@ export class QuizComponent implements OnInit {
     selected_prop:false,
     selected_opt:"",
   };
-  
+  singleQuestion={
+    hindiorenglish:null,
+    hioptionA:"",
+    hioptionAselected:false,
+    hioptionB:"",
+    hioptionBselected:false,
+    hioptionC:"",
+    hioptionCselected:false,
+    hioptionD:"",
+    hioptionDselected:false,
+    hiquestion:"",
+    optionA:"",
+    optionAselected:false,
+    optionB:"",
+    optionBselected:false,
+    optionC:"",
+    optionCselected:false,
+    optionD:"",
+    optionDselected:false,
+    question:"",
+    questionid:0,
+    radioorcheck:null,
+    responsemode:null,
+    selected:false,
+    selectedoptions:null,
+    sequenceno:0
+  };
 
 
   ngOnInit(): void {
@@ -78,11 +104,19 @@ export class QuizComponent implements OnInit {
       this.subjectname = this.temp_res.subject;
       this.totalQuestions = this.temp_res.userquestionSet;
 
-      let quescounter = localStorage.getItem('quescounter');
-      if(quescounter){
-        this.questionCounter = parseInt(quescounter);
-      }else{
-        this.questionCounter=0;
+      // let quescounter = localStorage.getItem('quescounter');
+      // if(quescounter){
+      //   this.questionCounter = parseInt(quescounter);
+      // }else{
+      //   this.questionCounter=0;
+      // }
+
+      for(let i=0;i<this.totalQuestions.length;i++){
+        this.singleQuestion=this.totalQuestions[i];
+        if(!this.singleQuestion.selected){
+          this.questionCounter=i;
+          break;
+        }
       }
       
 
@@ -285,7 +319,7 @@ export class QuizComponent implements OnInit {
       console.log(res);
       let server_res:any = res;
       //this.toastr.success(server_res.message);
-      this.auth.logout();
+      this.auth.removesession();
     })
     this.router.navigateByUrl('/quizfinish');
   }
@@ -345,6 +379,7 @@ export class QuizComponent implements OnInit {
 
   logout(){
     //this.submitFullResponse();
+    this.submitTime();
     this.auth.logout();
   }
 }
