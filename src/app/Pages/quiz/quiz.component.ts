@@ -190,6 +190,7 @@ export class QuizComponent implements OnInit {
     }else{
 
       console.log("question is already selected or missed")
+      this.submitTime();
 
     }
 
@@ -227,6 +228,7 @@ export class QuizComponent implements OnInit {
       this.questionCounter--;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("prev questtion", this.selectedQuestion)
+      this.submitTime();
     }
 
   }
@@ -342,7 +344,7 @@ export class QuizComponent implements OnInit {
   }
 
   logout(){
-    this.submitFullResponse();
+    //this.submitFullResponse();
     this.auth.logout();
   }
 }
