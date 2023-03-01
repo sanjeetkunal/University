@@ -289,6 +289,13 @@ export class QuizComponent implements OnInit {
     console.log(e.target.name,e.target.value);
     console.log(this.selectedQuestion);
 
+    if((e.target).className.includes("english_radio")){
+      this.selectedQuestion.responsemode="ENGLISH";
+    }
+    else{
+      this.selectedQuestion.responsemode="HINDI";
+    }
+
     this.full_response.add(this.selectedQuestion);
     console.log(this.full_response);
 

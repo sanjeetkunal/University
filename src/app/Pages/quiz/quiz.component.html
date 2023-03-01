@@ -49,36 +49,36 @@
 
 
                 <div class="form-check">
-               <input type="radio" class="form-check-input" 
+               <input type="radio" class="form-check-input english_radio" 
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="A"
-               value="A"> 
+               value="A" [checked]="selectedQuestion?.optionAselected"> 
                <label class="form-check-label"> {{selectedQuestion?.optionA}}</label>
-               <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.selected">✔️</span>
+               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.selected">✔️</span> -->
                <!-- <span>Checked</span> -->
                </div>
 
                <div class="form-check">
-               <input type="radio" class="form-check-input"
+               <input type="radio" class="form-check-input english_radio"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="B" 
-               value="B"> 
+               value="B" [checked]="selectedQuestion?.optionBselected"> 
                <label class="form-check-label"> {{selectedQuestion?.optionB}}</label>
-               <span *ngIf="selectedQuestion?.selectedoptions == 'B' && selectedQuestion?.selected">✔️</span>
+               <!-- <span *ngIf="selectedQuestion?.selectedoptions == 'B' && selectedQuestion?.selected">✔️</span> -->
                </div>
 
                <div class="form-check">
-               <input type="radio" class="form-check-input"
+               <input type="radio" class="form-check-input english_radio"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="C" 
-               value="C"> 
+               value="C" [checked]="selectedQuestion?.optionCselected"> 
                <label class="form-check-label"> {{selectedQuestion?.optionC}}</label>
-               <span *ngIf="selectedQuestion?.selectedoptions == 'C' && selectedQuestion?.selected">✔️</span>     
+               <!-- <span *ngIf="selectedQuestion?.selectedoptions == 'C' && selectedQuestion?.selected">✔️</span>      -->
                </div>
                
                <div class="form-check">
-               <input type="radio" class="form-check-input"
+               <input type="radio" class="form-check-input english_radio"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="D"
-               value="D"> 
+               value="D" [checked]="selectedQuestion?.optionDselected"> 
                <label class="form-check-label"> {{selectedQuestion?.optionD}}</label>
-               <span *ngIf="selectedQuestion?.selectedoptions == 'D' && selectedQuestion?.selected">✔️</span>
+               <!-- <span *ngIf="selectedQuestion?.selectedoptions == 'D' && selectedQuestion?.selected">✔️</span> -->
                </div>
 
 
@@ -90,33 +90,33 @@
                  <div class="form-check">
                <input type="radio" class="form-check-input" 
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="A"
-               value="{{selectedQuestion?.hioptionA}}"> 
+               value="{{selectedQuestion?.hioptionA}}" [checked]="selectedQuestion?.hioptionAselected"> 
                <label class="form-check-label"> {{selectedQuestion?.hioptionA}}</label>
-               <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.selected">✔️</span>
+               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.selected">✔️</span> -->
                </div>
 
                <div class="form-check">
                <input type="radio" class="form-check-input"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="B" 
-               value="{{selectedQuestion?.hioptionB}}"> 
+               value="{{selectedQuestion?.hioptionB}}" [checked]="selectedQuestion?.hioptionBselected"> 
                <label class="form-check-label"> {{selectedQuestion?.hioptionB}}</label>
-               <span *ngIf="selectedQuestion?.selectedoptions === 'B' && selectedQuestion?.selected">✔️</span>
+               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'B' && selectedQuestion?.selected">✔️</span> -->
                </div>
 
                <div class="form-check">
                <input type="radio" class="form-check-input"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="C" 
-               value="{{selectedQuestion?.hioptionC}}"> 
+               value="{{selectedQuestion?.hioptionC}}" [checked]="selectedQuestion?.hioptionCselected"> 
                <label class="form-check-label"> {{selectedQuestion?.hioptionC}}</label>
-               <span *ngIf="selectedQuestion?.selectedoptions === 'C' && selectedQuestion?.selected">✔️</span>
+               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'C' && selectedQuestion?.selected">✔️</span> -->
                </div>
                
                <div class="form-check">
                <input type="radio" class="form-check-input"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="D"
-               value="{{selectedQuestion?.hioptionD}}"> 
+               value="{{selectedQuestion?.hioptionD}}" [checked]="selectedQuestion?.hioptionDselected"> 
                <label class="form-check-label"> {{selectedQuestion?.hioptionD}}</label>
-               <span *ngIf="selectedQuestion?.selectedoptions === 'D' && selectedQuestion?.selected">✔️</span>
+               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'D' && selectedQuestion?.selected">✔️</span> -->
                   </div>
 
             </div>
