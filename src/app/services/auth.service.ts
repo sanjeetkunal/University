@@ -75,6 +75,7 @@ export class AuthService {
       this.http.post(url,logindata).subscribe(res=>{
         console.log(res);
         let serverResoponse:any = res;
+
         if(serverResoponse.message === "Bad credentials"){
           this.toastr.error('Error',serverResoponse.message);
           // this.loginButtonText = "Login";
@@ -98,8 +99,10 @@ export class AuthService {
         console.log(err);
         this.toastr.error(err.error.message);
         // this.loginButtonText="Login";
-        this.router.navigateByUrl('/quiz-completed')
-        // window.location.reload();
+       
+        this.router.navigate(['']);
+       
+      window.location.reload();
        
       })
   }

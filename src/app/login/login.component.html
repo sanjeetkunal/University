@@ -1,3 +1,6 @@
+<div *ngIf="loadinguser==false">
+
+
 <nav class="navbar navbar-expand-lg static-top" style="color: #d6d7ee; background-color: #d6d7ee;">
   <div class="container"  style="color: #d6d7ee;background-color: #d6d7ee;">
     <a class="navbar-brand" href="javascript:void(0)">
@@ -43,3 +46,54 @@
     </div>
   </div>
 </div>
+
+</div>
+
+<div *ngIf="loadinguser==true">
+  <nav class="navbar navbar-expand-lg static-top" style="color: #d6d7ee; background-color: #d6d7ee;">
+    <div class="container"  style="color: #d6d7ee;background-color: #d6d7ee;">
+      <a class="navbar-brand" href="javascript:void(0)">
+        <img src="./assets/Images/skd-logo.png" alt="..." height="36">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto" >
+         <div>
+  
+         </div>
+  
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div *ngIf="loading==false" class="bg-gradient">
+    <div class="container login">
+      <br>
+      <div class="login-box col-md-4">
+        <h3 class="fw-bold" style="text-align: center;"><img src="./assets/Images/SKDLogo.png" style="width:140px;"></h3>
+        
+        <form class="my-form" #formData="ngForm" (ngSubmit)="loginUser(formData)">
+          <div class="form-group">
+            <label for="userName">UserID</label>
+            <input type="text" class="form-control" name="mobile" placeholder="login id" ngModel>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Password" ngModel>
+          </div>
+          <!-- <div class="form-group form-check">
+            <input name="checkbox" type="checkbox" class="form-check-input" id="remember-me" ngModel>
+            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+          </div> -->
+          <br>
+          <button  type="submit" class="btn btn-primary btn-block submit-btn" style="width:100%;" disabled>
+            Please wait...
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

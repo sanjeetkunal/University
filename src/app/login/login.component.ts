@@ -19,6 +19,7 @@ export class LoginComponent {
 
   loading:boolean=false;
   SubmitButtonText:string="Login";
+  loadinguser=false;
 
   async loginUser(logindata: any) {
     const { mobile, password } = logindata.value;
@@ -26,9 +27,11 @@ export class LoginComponent {
       this.toastr.error("Please Fill All Requird fields");
       this.SubmitButtonText="Login";
     } else {
+      this.loadinguser=true;
       this.SubmitButtonText=`Please Wait...`;
-      this.loading = true;
+     
       this.auth.loginService(logindata.value);
+      
       //this.SubmitButtonText="Login";
       console.log(logindata.value);
      
