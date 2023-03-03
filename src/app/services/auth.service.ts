@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, windowToggle } from 'rxjs';
+import { LoginComponent } from '../login/login.component';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,9 @@ export class AuthService {
   subjectname:any;
   authLoading:boolean=false;
   loginButtonText="";
+
+  @ViewChild(LoginComponent) private logincat : LoginComponent;
+
 
   isAuthenticated(){
     return this.authenticatationState.value;
@@ -70,6 +74,7 @@ export class AuthService {
 
   async loginService(logindata:any){
     console.log(logindata);
+   
     let url=`http://103.44.53.3:8080/api/v1/auth/authenticate`
    
       this.http.post(url,logindata).subscribe(res=>{
@@ -79,6 +84,10 @@ export class AuthService {
         if(serverResoponse.message === "Bad credentials"){
           this.toastr.error('Error',serverResoponse.message);
           // this.loginButtonText = "Login";
+          console.log("bad credentials");
+          
+
+          window.location.reload();
         }else{
           console.log("loggged in")
           let token = serverResoponse.token;

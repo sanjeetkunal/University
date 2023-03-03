@@ -99,6 +99,9 @@ export class QuizComponent implements OnInit {
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       console.log(res);
       this.temp_res = res;
+      if(this.temp_res.userquestionSet.length === 0){
+        this.router.navigateByUrl('/user-agrement');
+      }
 
       this.username=this.temp_res.candidateName;
       this.subjectname = this.temp_res.subject;

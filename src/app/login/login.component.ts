@@ -31,9 +31,9 @@ export class LoginComponent {
       this.SubmitButtonText=`Please Wait...`;
      
       this.auth.loginService(logindata.value);
+
       
       //this.SubmitButtonText="Login";
-      console.log(logindata.value);
      
     }
   }
