@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders} from '@angular/common/http';
 import { Component, OnInit,TemplateRef } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -24,6 +24,7 @@ export class UserAgrementComponent implements OnInit{
     userloggedin:boolean=false;
     username:any;
     subjectname:any;
+    ques_ready:any;
 
 ngOnInit(){
 
@@ -31,6 +32,8 @@ ngOnInit(){
     this.subjectname = this.auth.subjectname;
     console.log(this.username,this.subjectname);
     console.log(this.auth.username,this.auth.subjectname);
+
+    this.checkQuestion();
 
 
   if(localStorage.getItem('accepted-agreement') ){
@@ -45,10 +48,33 @@ ngOnInit(){
 
 }
 
+checkQuestion(){
+  let reqbody: any = {};
+  let userid = localStorage.getItem('USERID');
+  let token = localStorage.getItem('token');
+  reqbody.userID = userid;
+  const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+
+  let url = `http://103.44.53.3:8080/api/v1/auth/questionPaperAssigned`;
+  this.http.post(url, reqbody,{ headers: reqHeader }).subscribe(res => {
+    console.log(res);
+    this.ques_ready = res;
+  },err => {
+    console.log(err);
+    this.toastr.error(err.message);
+   
+  })
+}
+
 agree(){
-  this.auth.userAgreementState.next(true);
-  localStorage.setItem('accepted-agreement','true');
-  this.router.navigateByUrl('/quiz');
+  if(!this.ques_ready){
+    this.toastr.error("Question paper have Not Been Assigned Yet")
+  }else{
+    this.auth.userAgreementState.next(true);
+    localStorage.setItem('accepted-agreement','true');
+    this.router.navigateByUrl('/quiz');
+  }
+
 }
 
 notAgree(){

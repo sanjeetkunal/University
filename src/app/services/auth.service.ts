@@ -27,7 +27,6 @@ export class AuthService {
   authLoading:boolean=false;
   loginButtonText="";
 
-  @ViewChild(LoginComponent) private logincat : LoginComponent;
 
 
   isAuthenticated(){
