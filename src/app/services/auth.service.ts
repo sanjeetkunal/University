@@ -27,6 +27,7 @@ export class AuthService {
   authLoading:boolean=false;
   loginButtonText="";
 
+  @ViewChild(LoginComponent) private logincat : LoginComponent;
 
 
   isAuthenticated(){
@@ -127,6 +128,7 @@ export class AuthService {
     this.userData={};
     // this.toastr.success("Logged out",'Success');
     this.router.navigate(['/']);
+    this.toastr.success("Logged out successfully!");
   }
 
   removesession(){
