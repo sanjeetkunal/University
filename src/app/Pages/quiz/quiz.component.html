@@ -143,7 +143,7 @@
             (click)="prevQues()">Previous</button>
          <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
             (click)="nextQues()">Next</button>
-         <button *ngIf="questionCounter==totalQuestions.length-1" (click)="nextQues()" class="btn btn-primary btn-block submit-btn" routerLink="/quizfinish" style="float: right;">Finish
+         <button  (click)="submitFullResponse()" class="btn btn-primary btn-block submit-btn" routerLink="/quizfinish" style="float: right;">Finish
             Test</button>
       </div>
    </div>
