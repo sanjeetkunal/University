@@ -79,13 +79,16 @@ export class AuthService {
         let serverResoponse:any = res;
 
         if(serverResoponse.message === "Bad credentials"){
-          this.toastr.error('Error',serverResoponse.message);
+          this.toastr.error("UserID / Password seems to be incorrect!");
           // this.loginButtonText = "Login";
           console.log("bad credentials");
-          
-
-          window.location.reload();
-        }else{
+          //window.location.reload();
+        }
+        else if(serverResoponse.message==="You have already submitted your test!"){
+          this.toastr.warning(serverResoponse.message);
+          //window.location.reload();
+        }
+        else{
           console.log("loggged in")
           let token = serverResoponse.token;
           localStorage.setItem('token',token);
@@ -106,9 +109,9 @@ export class AuthService {
         this.toastr.error(err.error.message);
         // this.loginButtonText="Login";
        
-        this.router.navigate(['']);
+      //   this.router.navigate(['']);
        
-      window.location.reload();
+      // window.location.reload();
        
       })
   }

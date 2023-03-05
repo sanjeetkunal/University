@@ -22,13 +22,14 @@ export class LoginComponent {
   loadinguser=false;
 
   async loginUser(logindata: any) {
+    debugger;
     const { mobile, password } = logindata.value;
     if (mobile == "" || password == "") {
-      this.toastr.error("Please Fill All Requird fields");
+      this.toastr.warning("Please enter userid and password !");
       this.SubmitButtonText="Login";
     } else {
-      this.loadinguser=true;
-      this.SubmitButtonText=`Please Wait...`;
+      //this.loadinguser=true;
+      //this.SubmitButtonText=`Please Wait...`;
      
       this.auth.loginService(logindata.value);
 
