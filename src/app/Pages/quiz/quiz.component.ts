@@ -312,8 +312,10 @@ export class QuizComponent implements OnInit {
     };
     this.final_res_server.candidateTest = this.res_array;
     this.final_res_server.userID = userid;
-    this.final_res_server.minutes=this.minutes;
-    this.final_res_server.seconds=this.seconds;
+    this.final_res_server.minutes=0;
+    this.final_res_server.seconds=0;
+    
+
 
     
     console.log("final request sent to server",this.final_res_server);
