@@ -66,15 +66,17 @@ checkQuestion(){
   })
 }
 
-agree(){
-  if(!this.ques_ready){
-    this.toastr.error("Question paper have Not Been Assigned Yet")
-  }else{
-    this.auth.userAgreementState.next(true);
-    localStorage.setItem('accepted-agreement','true');
-    this.router.navigateByUrl('/quiz');
+IsUserAgreeTermsAndCondition:boolean=false;
+agree(){ 
+  if(this.IsUserAgreeTermsAndCondition){
+    if(!this.ques_ready){
+        this.toastr.error("Question paper have Not Been Assigned Yet")
+      }else{
+        this.auth.userAgreementState.next(true);
+        localStorage.setItem('accepted-agreement','true');
+        this.router.navigateByUrl('/quiz');
+      }
   }
-
 }
 
 notAgree(){
@@ -87,10 +89,33 @@ logout(){
   this.userloggedin=false;
 }
 
+DialogMessage:string="";
+AgreeYes:string="Yes";
+AgreeNo:string="Close";
+AgreeYesShow:string="block";
+
 openDialogWithRef(ref: TemplateRef<any>) {
-  this.dialog.open(ref);
+  if(this.IsUserAgreeTermsAndCondition){
+    this.AgreeYes="Yes";
+    this.AgreeNo="No";
+    this.AgreeYesShow="block";
+    this.DialogMessage="Are you sure want to start your entrance TEST!";
+      this.dialog.open(ref);
+  }
+  else{
+    this.AgreeYesShow="none";
+    this.DialogMessage="Please select user agreement!";
+    this.AgreeNo="Close";
+    this.dialog.open(ref);
+  }
 }
 
+IAgreeChecked(event:any){
+  this.IsUserAgreeTermsAndCondition = false;
+  if (event.target.checked ) {
+    this.IsUserAgreeTermsAndCondition = true;
+  }
+}
 
 
 
