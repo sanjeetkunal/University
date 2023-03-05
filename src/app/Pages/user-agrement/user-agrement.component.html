@@ -10,8 +10,8 @@
         <ul class="navbar-nav ms-auto" >
          <div>
            <li class="nav-item">
-             <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Welcome : {{username}}  Subject: {{subjectname}}</a>
-             <button class = "btn btn-primary" (click)="logout()">Logout</button>
+             <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Name : {{username}} <br> Subject: {{subjectname}}</a>
+             <!-- <button class = "btn btn-primary" (click)="logout()">Logout</button> -->
            </li>
          </div>
  
@@ -88,10 +88,10 @@
         </p>
       
         <label>
-          <input type="checkbox" (change)="IAgreeChecked($event)">Please check
+          <input type="checkbox" (change)="IAgreeChecked($event)">&nbsp;Please accept terms and conditins.
         </label>
         <!-- <label>Agree</label> -->
-        <p><a class="agree-btn"(click)="openDialogWithRef(firstDialog)">I Agree</a></p>
+        <p><a class="agree-btn"(click)="openDialogWithRef(firstDialog)">Accept</a></p>
 
         
         <ng-template #firstDialog style="border: navy; opacity: 0.5%;">
@@ -102,7 +102,7 @@
 
            
            
-            <button mat-button matDialogClose (click)="agree()" class="btn btn-success" style="display:{{AgreeYesShow}};">{{AgreeYes}}</button>
+            <button mat-button matDialogClose (click)="agree()" class="btn btn-success" style="display:{{AgreeYesShow}}">{{AgreeYes}}</button>
             <button mat-button matDialogClose class="btn btn-danger">{{AgreeNo}}</button>
           </mat-dialog-actions>
         </div>

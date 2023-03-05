@@ -96,7 +96,9 @@ export class AuthService {
           this.isLoggedIn=true;
           this.userid=serverResoponse.userID;
           this.username = serverResoponse.candidateName;
+          localStorage.setItem('username',this.username);
           this.subjectname=serverResoponse.subject;
+          localStorage.setItem('subjectname',this.subjectname);
           // this.loginButtonText = "Login";
           console.log(this.username,this.subjectname);
           localStorage.setItem('USERID',this.userid);
@@ -122,6 +124,8 @@ export class AuthService {
     this.userAgreementState.next(false);
     localStorage.removeItem('accepted-agreement');
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('subjectname');
     this.isLoggedIn=false;
     this.username=null;
     this.subjectname=null;
@@ -137,6 +141,8 @@ export class AuthService {
     this.userAgreementState.next(false);
     localStorage.removeItem('accepted-agreement');
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('subjectname');
     this.isLoggedIn=false;
     this.username=null;
     this.subjectname=null;
