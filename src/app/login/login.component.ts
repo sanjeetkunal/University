@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth.service';
 
@@ -12,30 +12,34 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent {
 
   constructor(
-    private http:HttpClient,
+    private http: HttpClient,
     private toastr: ToastrService,
-    private auth:AuthService,
-    private router:Router) { }
+    private auth: AuthService,
+    private router: Router) { }
 
-  loading:boolean=false;
-  SubmitButtonText:string="Login";
-  loadinguser=false;
+  ngOnInit(): void {
+    this.auth.removesession();
+  }
+
+  loading: boolean = false;
+  SubmitButtonText: string = "Login";
+  loadinguser = false;
 
   async loginUser(logindata: any) {
     debugger;
     const { mobile, password } = logindata.value;
     if (mobile == "" || password == "") {
       this.toastr.warning("Please enter userid and password !");
-      this.SubmitButtonText="Login";
+      this.SubmitButtonText = "Login";
     } else {
       //this.loadinguser=true;
       //this.SubmitButtonText=`Please Wait...`;
-     
+
       this.auth.loginService(logindata.value);
 
-      
+
       //this.SubmitButtonText="Login";
-     
+
     }
   }
 
