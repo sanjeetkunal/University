@@ -72,7 +72,7 @@ export class AuthService {
   async loginService(logindata:any){
     console.log(logindata);
    
-    let url=`http://103.44.53.3:8080/api/v1/auth/authenticate`
+    let url=`http://localhost:8080/api/v1/auth/authenticate`
    
       this.http.post(url,logindata).subscribe(res=>{
         console.log(res);
