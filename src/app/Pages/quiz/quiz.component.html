@@ -10,8 +10,8 @@
        <ul class="navbar-nav ms-auto" >
         <div>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Welcome : {{username}}  Subject: {{subjectname}}</a>
-            <button class = "btn btn-primary" (click)="logout()">Logout</button>
+            <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Name : {{username}} <br> Subject: {{subjectname}}</a>
+            <!-- <button class = "btn btn-primary" (click)="logout()">Logout</button> -->
           </li>
         </div>
 
@@ -45,7 +45,7 @@
       <div class="question-box col-md-8 ">
          <form action="#" class="my-form">
             <div class="form-group">
-               <h3>Q{{selectedQuestion?.sequenceno}}. {{selectedQuestion?.question}}</h3>
+               <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.question"></span></h3>
              
 
 
@@ -54,7 +54,7 @@
                <input type="radio" class="form-check-input english_radio" 
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="A"
                value="A" [checked]="selectedQuestion?.optionAselected"> 
-                {{selectedQuestion?.optionA}}</label>
+               <span [innerHTML]="selectedQuestion?.optionA"></span></label>
                <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.selected">✔️</span> -->
                <!-- <span>Checked</span> -->
                </div>
@@ -64,7 +64,7 @@
                <input type="radio" class="form-check-input english_radio"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="B" 
                value="B" [checked]="selectedQuestion?.optionBselected"> 
-               {{selectedQuestion?.optionB}}</label>
+               <span [innerHTML]="selectedQuestion?.optionB"></span></label>
                <!-- <span *ngIf="selectedQuestion?.selectedoptions == 'B' && selectedQuestion?.selected">✔️</span> -->
                </div>
 
@@ -73,7 +73,7 @@
                <input type="radio" class="form-check-input english_radio"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="C" 
                value="C" [checked]="selectedQuestion?.optionCselected"> 
-               {{selectedQuestion?.optionC}}</label>
+               <span [innerHTML]="selectedQuestion?.optionC"></span></label>
                <!-- <span *ngIf="selectedQuestion?.selectedoptions == 'C' && selectedQuestion?.selected">✔️</span>      -->
                </div>
                
@@ -82,7 +82,7 @@
                <input type="radio" class="form-check-input english_radio"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="D"
                value="D" [checked]="selectedQuestion?.optionDselected"> 
-               {{selectedQuestion?.optionD}}</label>
+               <span [innerHTML]="selectedQuestion?.optionD"></span></label>
                <!-- <span *ngIf="selectedQuestion?.selectedoptions == 'D' && selectedQuestion?.selected">✔️</span> -->
                </div>
 
@@ -91,13 +91,15 @@
 
 
             <div class="form-group">
-               <h3>Q{{selectedQuestion?.sequenceno}}. {{selectedQuestion?.hiquestion}}</h3>
+               <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.hiquestion"></span></h3>
                  <div class="form-check">
                   <label class="form-check-label"> 
                <input type="radio" class="form-check-input" 
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="A"
                value="{{selectedQuestion?.hioptionA}}" [checked]="selectedQuestion?.hioptionAselected"> 
-              {{selectedQuestion?.hioptionA}}</label>
+               <span [innerHTML]="selectedQuestion?.hioptionA"></span></label>
+
+              
                <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.selected">✔️</span> -->
                </div>
 
@@ -106,7 +108,7 @@
                <input type="radio" class="form-check-input"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="B" 
                value="{{selectedQuestion?.hioptionB}}" [checked]="selectedQuestion?.hioptionBselected"> 
-                {{selectedQuestion?.hioptionB}}</label>
+               <span [innerHTML]="selectedQuestion?.hioptionB"></span></label>
                <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'B' && selectedQuestion?.selected">✔️</span> -->
                </div>
 
@@ -115,7 +117,7 @@
                <input type="radio" class="form-check-input"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="C" 
                value="{{selectedQuestion?.hioptionC}}" [checked]="selectedQuestion?.hioptionCselected"> 
-               {{selectedQuestion?.hioptionC}}</label>
+               <span [innerHTML]="selectedQuestion?.hioptionC"></span></label>
                <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'C' && selectedQuestion?.selected">✔️</span> -->
                </div>
                
@@ -124,7 +126,7 @@
                <input type="radio" class="form-check-input"
                [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="D"
                value="{{selectedQuestion?.hioptionD}}" [checked]="selectedQuestion?.hioptionDselected"> 
-               {{selectedQuestion?.hioptionD}}</label>
+               <span [innerHTML]="selectedQuestion?.hioptionD"></span></label>
                <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'D' && selectedQuestion?.selected">✔️</span> -->
                   </div>
 
@@ -143,7 +145,7 @@
             (click)="prevQues()">Previous</button>
          <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
             (click)="nextQues()">Next</button>
-         <button  (click)="submitFullResponse()" class="btn btn-primary btn-block submit-btn" routerLink="/quizfinish" style="float: right;">Finish
+         <button  (click)="submitFullResponse()" class="btn btn-primary btn-block submit-btn" routerLink="/quizfinish" style="float: right;background-color: #332d6d;">Submit Your
             Test</button>
       </div>
    </div>

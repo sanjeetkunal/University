@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
   //src/assets/fonts/font.family.style.scss
 })
 export class QuizComponent implements OnInit {
-
+  testhtml = "<p>Hello world</p>";
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,

@@ -27,8 +27,6 @@ export class AuthService {
   authLoading:boolean=false;
   loginButtonText="";
 
-
-
   isAuthenticated(){
     return this.authenticatationState.value;
   }
@@ -74,20 +72,23 @@ export class AuthService {
   async loginService(logindata:any){
     console.log(logindata);
    
-    let url=`http://103.44.53.3:8080/api/v1/auth/authenticate`
+    let url=`http://localhost:8080/api/v1/auth/authenticate`
    
       this.http.post(url,logindata).subscribe(res=>{
         console.log(res);
         let serverResoponse:any = res;
 
         if(serverResoponse.message === "Bad credentials"){
-          this.toastr.error('Error',serverResoponse.message);
+          this.toastr.error("UserID / Password seems to be incorrect!");
           // this.loginButtonText = "Login";
           console.log("bad credentials");
-          
-
-          window.location.reload();
-        }else{
+          //window.location.reload();
+        }
+        else if(serverResoponse.message==="You have already submitted your test!"){
+          this.toastr.warning(serverResoponse.message);
+          //window.location.reload();
+        }
+        else{
           console.log("loggged in")
           let token = serverResoponse.token;
           localStorage.setItem('token',token);
@@ -95,7 +96,9 @@ export class AuthService {
           this.isLoggedIn=true;
           this.userid=serverResoponse.userID;
           this.username = serverResoponse.candidateName;
+          localStorage.setItem('username',this.username);
           this.subjectname=serverResoponse.subject;
+          localStorage.setItem('subjectname',this.subjectname);
           // this.loginButtonText = "Login";
           console.log(this.username,this.subjectname);
           localStorage.setItem('USERID',this.userid);
@@ -108,9 +111,9 @@ export class AuthService {
         this.toastr.error(err.error.message);
         // this.loginButtonText="Login";
        
-        this.router.navigate(['']);
+      //   this.router.navigate(['']);
        
-      window.location.reload();
+      // window.location.reload();
        
       })
   }
@@ -121,12 +124,15 @@ export class AuthService {
     this.userAgreementState.next(false);
     localStorage.removeItem('accepted-agreement');
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('subjectname');
     this.isLoggedIn=false;
     this.username=null;
     this.subjectname=null;
     this.userData={};
     // this.toastr.success("Logged out",'Success');
     this.router.navigate(['/']);
+    this.toastr.success("Logged out successfully!");
   }
 
   removesession(){
@@ -135,6 +141,8 @@ export class AuthService {
     this.userAgreementState.next(false);
     localStorage.removeItem('accepted-agreement');
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('subjectname');
     this.isLoggedIn=false;
     this.username=null;
     this.subjectname=null;

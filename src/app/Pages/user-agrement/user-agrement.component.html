@@ -10,8 +10,8 @@
         <ul class="navbar-nav ms-auto" >
          <div>
            <li class="nav-item">
-             <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Welcome : {{username}}  Subject: {{subjectname}}</a>
-             <button class = "btn btn-primary" (click)="logout()">Logout</button>
+             <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Name : {{username}} <br> Subject: {{subjectname}}</a>
+             <!-- <button class = "btn btn-primary" (click)="logout()">Logout</button> -->
            </li>
          </div>
  
@@ -35,8 +35,8 @@
         <p>
           यह सभी उम्मीदवारों के लिए पूरी तरह से ऑटो जेनरेटेड एंट्रेंस टेस्ट पेपर है। 
           इस प्रश्न पत्र में 50 सामान्य और 50 विषय विशिष्ट के साथ मिश्रित 100 प्रश्न हैं। 
-          परीक्षा के दौरान कोई टैब परिवर्तन की अनुमति नहीं है। 
-          कोई उम्मीदवार ब्राउज़र टैब को बदलता/स्विच करता है या विंडो को 4 से अधिक बार बदलता है, 
+          परीक्षा के दौरान कोई टैब/स्क्रीन परिवर्तन की अनुमति नहीं है। 
+          कोई उम्मीदवार ब्राउज़र टैबस्क्रीन को बदलता/स्विच करता है या विंडो को बदलता है, 
           उस स्थिति में उम्मीदवार को अयोग्य घोषित कर दिया जाएगा और तुरंत उसका टेस्ट स्वतः ही सबमिट हो जायेगा, 
           और उस उम्मीदवार के लिए आगे कोई लॉगिन की अनुमति नहीं दी जाएगी।
 
@@ -49,9 +49,9 @@
 
         </p>
         <p>
-          उम्मीदवार टेस्ट शुरू होने के बाद भी कभी भी टेस्ट लॉगआउट कर सकते हैं। 
-          उनके द्वारा पिछली बार सबमिट किए गए प्रश्न से परीक्षा फिर से शुरू की जाएगी। 
-          एक बार प्रदान किया गया समय समाप्त हो जाने के बाद सिस्टम स्वचालित रूप से परीक्षण सबमिट कर देगा 
+          उम्मीदवार टेस्ट शुरू होने के बाद कभी भी टेस्ट सबमिट कर सकते हैं। 
+          किसी भी प्रकार के तकनिकी खराबी की वजह से यदि आप का कंप्यूटर बंद होता है तो आप दोबारा लॉगिन कर अपना टेस्ट दे सकते हैं। 
+          एक बार प्रदान किया गया समय समाप्त हो जाने के बाद सिस्टम स्वचालित रूप से टेस्ट सबमिट कर देगा 
           और उसके बाद कोई और लॉगिन करने की अनुमति नहीं दी जाएगी।
         </p>
 
@@ -66,18 +66,21 @@
               <li>	Rough work shall be allowed on paper/copy.</li>
               <li>	Only non-programmable calculators are allowed.</li>
               <li>	The English version will be treated as standard in case of any ambiguity or printing mistake.</li>
-              <li>Unattempted questions can be revited and can be given answer to.</li>
+              <li>  Unattempted questions can be revisited and can be answered.</li>
+              <li>  Unattempted questions can be revisited and can be answered.</li>
+              <li>  In any case, the decision of the University Board will be final and conclusive in the admission process.</li>
            
             </ol>
             <ol style="padding-left: 150px;">
               <li> सभी प्रश्न अनिवार्य हैं।</li>
               <li> ऐसे प्रश्न छोड़े जा सकते हैं जिनका उत्तर उम्मीदवार नहीं देना चाहते हैं।</li>
               <li> प्रत्येक प्रश्न के लिए 2 अंक हैं।</li>
-              <li> उत्तर को रेडियो बटन का उपयोग करके चुना जाना चाहिए।</li>
+              <li> उत्तर को दिए गए चार विकल्पों में से उपयुक्त विकल्प चुन कर दिया जाना चाहिए ।</li>
               <li> कागज/कॉपी पर रफ कार्य की अनुमति दी जाएगी।</li>
               <li> केवल नॉन-प्रोग्रामेबल कैलकुलेटर की अनुमति है।</li>
               <li> किसी भी अस्पष्टता या छपाई की गलती के मामले में अंग्रेजी संस्करण को मानक माना जाएगा।</li>
-              <li>अटैम्प्टेड प्रश्न दोबारा पूछे जा सकते हैं और उनका उत्तर दिया जा सकता है।</li>
+              <li> छोड़े गए प्रश्न पर दोबारा जा कर उनका उत्तर दिया जा सकता है।</li>
+              <li> किसी भी प्रकार की स्तिथि में विश्वविद्द्यालय बोर्ड का निर्णय ही नामांकन प्रक्रिया में अंतिम और निर्णायक होगा। </li>
 
             </ol>
             </div>
@@ -88,10 +91,11 @@
         </p>
       
         <label>
-          <input type="checkbox" (change)="IAgreeChecked($event)">Please check
+          <input type="checkbox" (change)="IAgreeChecked($event)"> 
+          I accept the terms and conditions!
         </label>
         <!-- <label>Agree</label> -->
-        <p><a class="agree-btn"(click)="openDialogWithRef(firstDialog)">I Agree</a></p>
+        <p><a class="agree-btn"(click)="openDialogWithRef(firstDialog)">Accept</a></p>
 
         
         <ng-template #firstDialog style="border: navy; opacity: 0.5%;">
@@ -102,7 +106,7 @@
 
            
            
-            <button mat-button matDialogClose (click)="agree()" class="btn btn-success" style="display:{{AgreeYesShow}};">{{AgreeYes}}</button>
+            <button mat-button matDialogClose (click)="agree()" class="btn btn-success" style="display:{{AgreeYesShow}}">{{AgreeYes}}</button>
             <button mat-button matDialogClose class="btn btn-danger">{{AgreeNo}}</button>
           </mat-dialog-actions>
         </div>
