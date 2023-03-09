@@ -18,7 +18,10 @@ export class QuizComponent implements OnInit {
     private http: HttpClient,
     private toastr: ToastrService,
     private auth: AuthService,
-    private router: Router) { }
+    private router: Router) {
+
+
+     }
 
   answer: string = "";
   totalQuestions = [];

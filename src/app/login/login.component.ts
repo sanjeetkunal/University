@@ -4,6 +4,10 @@ import {  Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth.service';
 
+//image capture functionality
+import { Observable, Subject } from 'rxjs';
+import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,11 +15,29 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent {
 
+  private trigger: Subject<any> = new Subject();
+  public webcamImage!: WebcamImage;
+  private nextWebcam: Subject<any> = new Subject();
+  sysImage = '';
+
   constructor(
     private http:HttpClient,
     private toastr: ToastrService,
     private auth:AuthService,
-    private router:Router) { }
+    private router:Router) {
+
+      window.addEventListener("blur", () => {
+        document.title = "Breakup";
+        console.log("tab changed")
+       
+      });
+    
+    window.addEventListener("focus", () => {
+        document.title = "Patch Up";
+        
+      });
+
+    }
 
   loading:boolean=false;
   SubmitButtonText:string="Login";
@@ -36,6 +58,21 @@ export class LoginComponent {
       //this.SubmitButtonText="Login";
      
     }
+  }
+
+  public getSnapshot(): void {
+    this.trigger.next(void 0);
+  }
+  public captureImg(webcamImage: WebcamImage): void {
+    this.webcamImage = webcamImage;
+    this.sysImage = webcamImage!.imageAsDataUrl;
+    console.info('got webcam image', this.sysImage);
+  }
+  public get invokeObservable(): Observable<any> {
+    return this.trigger.asObservable();
+  }
+  public get nextWebcamObservable(): Observable<any> {
+    return this.nextWebcam.asObservable();
   }
 
 }
