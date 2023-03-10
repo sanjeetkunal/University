@@ -18,7 +18,24 @@ export class QuizComponent implements OnInit {
     private http: HttpClient,
     private toastr: ToastrService,
     private auth: AuthService,
-    private router: Router) { }
+    private router: Router) { 
+      window.addEventListener("blur", () => {
+       
+        console.log("tab changed")
+        this.tabChangeFun();
+       
+      });
+    
+    window.addEventListener("focus", () => {
+        //  document.title = "Patch Up";
+        
+      });
+    }
+
+    tabChangeFun(){
+      //document.title = "Breakup";
+      this.submitFullResponse();
+     }
 
   answer: string = "";
   totalQuestions = [];
