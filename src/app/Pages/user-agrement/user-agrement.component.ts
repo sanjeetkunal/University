@@ -58,7 +58,7 @@ export class UserAgrementComponent implements OnInit {
     reqbody.userID = userid;
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
 
-    let url = `http://103.44.53.3:8080/api/v1/auth/questionPaperAssigned`;
+    let url = `https://entrance.skduniversity.com/api/v1/auth/questionPaperAssigned`;
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       console.log(res);
       this.ques_ready = res;

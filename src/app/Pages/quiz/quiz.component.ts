@@ -97,7 +97,7 @@ export class QuizComponent implements OnInit {
     //   'Authorization': `Bearer ${token}`
     // })
 
-    let url = `http://103.44.53.3:8080/api/v1/auth/getUserQuestionPaper`;
+    let url = `https://entrance.skduniversity.com/api/v1/auth/getUserQuestionPaper`;
     console.log(reqHeader);
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       console.log(res);
@@ -217,7 +217,7 @@ export class QuizComponent implements OnInit {
       let token = localStorage.getItem('token');
 
       const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-      let url = `http://103.44.53.3:8080/api/v1/auth/saveOneAnswer`;
+      let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
       this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
         console.log(res);
         let server_res:any = res;
@@ -327,7 +327,7 @@ export class QuizComponent implements OnInit {
     this.selectedQuestion.userID=userid;
     let token = localStorage.getItem('token');
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-    let url=`http://103.44.53.3:8080/api/v1/auth/saveUserTest`;
+    let url=`https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
     this.http.post(url,this.final_res_server,{headers:reqHeader}).subscribe(res=>{
       console.log(res);
       let server_res:any = res;
@@ -382,7 +382,7 @@ export class QuizComponent implements OnInit {
     }
     
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-    let url = `http://103.44.53.3:8080/api/v1/auth/saveRemainingTime`;
+    let url = `https://entrance.skduniversity.com/api/v1/auth/saveRemainingTime`;
     console.log(reqHeader);
     this.http.post(url, this.time_req, { headers: reqHeader }).subscribe(res => {
       console.log(res);
