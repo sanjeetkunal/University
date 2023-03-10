@@ -51,7 +51,6 @@ export class UserAgrementComponent implements OnInit {
   }
 
   checkQuestion() {
-    debugger;
     let reqbody: any = {};
     let userid = localStorage.getItem('USERID');
     let token = localStorage.getItem('token');

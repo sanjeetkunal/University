@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(){
+   // window.location.href = "https://entrance.skduniversity.com/ui/";
     if(localStorage.getItem('token')){
       this.auth.authenticatationState.next(true);
       console.log()
