@@ -13,7 +13,8 @@ import { ConnectionService } from 'ng-connection-service';
   //src/assets/fonts/font.family.style.scss
 })
 export class QuizComponent implements OnInit {
-  testhtml = "<p>Hello world</p>";
+  //testhtml = "<p>Hello world</p>";
+  internetDown: boolean = false;
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
@@ -21,8 +22,11 @@ export class QuizComponent implements OnInit {
     private router: Router, private connectionService: ConnectionService) {
     this.connectionService.monitor().subscribe(isConnected => {
       if (!isConnected.hasInternetAccess && !isConnected.hasNetworkConnection) {
-        this.logout();
-        this.toastr.warning("Internet not connected with your device. You can login again and continue your test.");
+        if (!this.internetDown) {
+          this.internetDown = true;
+          this.logout();
+          this.toastr.warning("Internet not connected with your device. You can login again and continue your test.");
+        }
       }
     });
 
@@ -87,7 +91,8 @@ export class QuizComponent implements OnInit {
     selectedoptions: null,
     sequenceno: 0
   };
-
+  EnglishDivClass: string = "form-group";
+  HindiDivClass: string = "form-group";
 
   ngOnInit(): void {
     this.username = this.auth.username;
@@ -219,7 +224,8 @@ export class QuizComponent implements OnInit {
     // console.log("-----------prev--------",this.totalQuestions[this.questionCounter])
     //submitting the question
     //console.log(this.selectedQuestion);
-
+    this.HindiDivClass = "form-group";
+    this.EnglishDivClass = "form-group";
     console.log(this.temp_res.userquestionSet[this.questionCounter].selected)
 
 
@@ -279,7 +285,21 @@ export class QuizComponent implements OnInit {
 
   }
 
+  // prevQues() {
+  //   if (this.questionCounter == 0) {
+  //     this.toastr.error("No Previous Questions");
+  //   }
+  //   else {
+  //     this.questionCounter--;
+  //     this.selectedQuestion = this.totalQuestions[this.questionCounter];
+  //     // console.log("prev questtion", this.selectedQuestion)
+  //     this.submitTime();
+  //   }
+
+  // }
+
   prevQues() {
+    this.selectedQuestion = null;
     if (this.questionCounter == 0) {
       this.toastr.error("No Previous Questions");
     }
@@ -287,20 +307,38 @@ export class QuizComponent implements OnInit {
       this.questionCounter--;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("prev questtion", this.selectedQuestion)
+      if (this.selectedQuestion.responsemode == "HINDI") {
+        if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.hioptionAselected = true; }
+        if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.hioptionBselected = true; }
+        if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.hioptionCselected = true; }
+        if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.hioptionDselected = true; }
+      }
+      else {
+        if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.optionAselected = true; }
+        if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.optionBselected = true; }
+        if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.optionCselected = true; }
+        if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.optionDselected = true; }
+      }
       this.submitTime();
     }
-
   }
 
   singleQuesRes(e: any) {
     console.log(e.value);
     this.selectedQuestion.selected = true;
     this.selectedQuestion.selectedoptions = e.value;
-    console.log(this.selectedQuestion);
+    //console.log(this.selectedQuestion);
 
-
+    if ((e.target).className.includes("english_radio")) {
+      this.selectedQuestion.responsemode = "ENGLISH";
+      this.HindiDivClass = this.HindiDivClass + " div-disabled";
+    }
+    else {
+      this.selectedQuestion.responsemode = "HINDI";
+      this.EnglishDivClass = this.EnglishDivClass + " div-disabled";
+    }
     this.full_response.add(this.selectedQuestion);
-    console.log(this.full_response);
+    //console.log(this.full_response);
 
   }
 

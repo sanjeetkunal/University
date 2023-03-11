@@ -12,7 +12,7 @@ import { ConnectionService } from 'ng-connection-service';
   styleUrls: ['./user-agrement.component.scss']
 })
 export class UserAgrementComponent implements OnInit {
-
+  internetDown: boolean = false;
   checked = false;
   constructor(
     private http: HttpClient,
@@ -23,8 +23,11 @@ export class UserAgrementComponent implements OnInit {
   ) {
     this.connectionService.monitor().subscribe(isConnected => {
       if (!isConnected.hasInternetAccess && !isConnected.hasNetworkConnection) {
-        this.logout();
-        this.toastr.warning("Internet not connected with your device. You can login again and continue your test.");
+        if (!this.internetDown) {
+          this.internetDown=true;
+          this.logout();
+          this.toastr.warning("Internet not connected with your device. You can login again and continue your test.");          
+        }
       }
     });
   }

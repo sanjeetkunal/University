@@ -56,7 +56,7 @@ export class AuthService {
           'x-access-token': token
       })
       }
-      this.http.get('http://localhost:8000/api/users/protect',httpOptions).subscribe(res=>{
+      this.http.get('https://entrance.skduniversity.com/api/users/protect',httpOptions).subscribe(res=>{
       console.log(res);
       this.userData = res;
       this.authenticatationState.next(true);

@@ -48,7 +48,7 @@
      <div [ngClass]="{disabledNoOfCasesDiv : selectedQuestion?.selected == true}">
       <div class="question-box col-md-8 ">
          <form action="#" class="my-form">
-            <div class="form-group">
+            <div ngClass="{{EnglishDivClass}}">
                <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.question"></span></h3>
              
 
@@ -94,7 +94,7 @@
             </div>
 
 
-            <div class="form-group">
+            <div ngClass="{{HindiDivClass}}">
                <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.hiquestion"></span></h3>
                  <div class="form-check">
                   <label class="form-check-label"> 
