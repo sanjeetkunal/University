@@ -5,6 +5,7 @@ import { Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { ConnectionService } from 'ng-connection-service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-quiz',
@@ -19,7 +20,8 @@ export class QuizComponent implements OnInit {
     private http: HttpClient,
     private toastr: ToastrService,
     private auth: AuthService,
-    private router: Router, private connectionService: ConnectionService) {
+    private router: Router, private connectionService: ConnectionService,
+    private deviceService: DeviceDetectorService) {
     this.connectionService.monitor().subscribe(isConnected => {
       if (!isConnected.hasInternetAccess && !isConnected.hasNetworkConnection) {
         if (!this.internetDown) {
@@ -34,13 +36,24 @@ export class QuizComponent implements OnInit {
 
       console.log("tab changed")
       //this.tabChangeFun();
-
+      this.epicFunction();
     });
 
     window.addEventListener("focus", () => {
       //  document.title = "Patch Up";
 
     });
+  }
+
+  deviceInfo : any=null;
+  epicFunction() {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    const isMobile = this.deviceService.isMobile();
+    const isTablet = this.deviceService.isTablet();
+    const isDesktopDevice = this.deviceService.isDesktop();    
+    if(isDesktopDevice){
+      this.submitFullResponse();
+    }
   }
 
   tabChangeFun() {
