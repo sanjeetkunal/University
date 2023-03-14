@@ -20,12 +20,6 @@ export class QuizComponent implements OnInit {
     private http: HttpClient,
     private toastr: ToastrService,
     private auth: AuthService,
-<<<<<<< HEAD
-    private router: Router) {
-
-
-     }
-=======
     private router: Router, private connectionService: ConnectionService,
     private deviceService: DeviceDetectorService) {
     this.connectionService.monitor().subscribe(isConnected => {
@@ -66,7 +60,6 @@ export class QuizComponent implements OnInit {
     //document.title = "Breakup";
     this.submitFullResponse();
   }
->>>>>>> aecf5818567ecde1a128a78587ca32ab64948f65
 
   answer: string = "";
   totalQuestions = [];
