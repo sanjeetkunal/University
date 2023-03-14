@@ -4,7 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { ConnectionService } from 'ng-connection-service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-quiz',
@@ -13,72 +14,117 @@ import { AuthService } from 'src/app/services/auth.service';
   //src/assets/fonts/font.family.style.scss
 })
 export class QuizComponent implements OnInit {
-  testhtml = "<p>Hello world</p>";
+  //testhtml = "<p>Hello world</p>";
+  internetDown: boolean = false;
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
     private auth: AuthService,
+<<<<<<< HEAD
     private router: Router) {
 
 
      }
+=======
+    private router: Router, private connectionService: ConnectionService,
+    private deviceService: DeviceDetectorService) {
+    this.connectionService.monitor().subscribe(isConnected => {
+      if (!isConnected.hasInternetAccess && !isConnected.hasNetworkConnection) {
+        if (!this.internetDown) {
+          this.internetDown = true;
+          this.logout();
+          this.toastr.warning("Internet not connected with your device. You can login again and continue your test.");
+        }
+      }
+    });
+
+    window.addEventListener("blur", () => {
+
+      console.log("tab changed")
+      //this.tabChangeFun();
+      this.epicFunction();
+    });
+
+    window.addEventListener("focus", () => {
+      //  document.title = "Patch Up";
+
+    });
+  }
+
+  deviceInfo : any=null;
+  epicFunction() {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    const isMobile = this.deviceService.isMobile();
+    const isTablet = this.deviceService.isTablet();
+    const isDesktopDevice = this.deviceService.isDesktop();    
+    if(isDesktopDevice){
+      this.submitFullResponse();
+    }
+  }
+
+  tabChangeFun() {
+    //document.title = "Breakup";
+    this.submitFullResponse();
+  }
+>>>>>>> aecf5818567ecde1a128a78587ca32ab64948f65
 
   answer: string = "";
   totalQuestions = [];
   selectedQuestion: any;
   questionCounter = 0;
-  res_array:any=[];
-  answerSelect:any;
+  res_array: any = [];
+  answerSelect: any;
   full_response = new Set();
-  buttonChecked:any;
-  final_res_server:any={};
-  endTestIn:any;
-  username:any;
-  subjectname:any;
-  student_res={
-    selected_prop:false,
-    selected_opt:"",
+  buttonChecked: any;
+  final_res_server: any = {};
+  endTestIn: any;
+  username: any;
+  subjectname: any;
+  student_res = {
+    selected_prop: false,
+    selected_opt: "",
   };
-  singleQuestion={
-    hindiorenglish:null,
-    hioptionA:"",
-    hioptionAselected:false,
-    hioptionB:"",
-    hioptionBselected:false,
-    hioptionC:"",
-    hioptionCselected:false,
-    hioptionD:"",
-    hioptionDselected:false,
-    hiquestion:"",
-    optionA:"",
-    optionAselected:false,
-    optionB:"",
-    optionBselected:false,
-    optionC:"",
-    optionCselected:false,
-    optionD:"",
-    optionDselected:false,
-    question:"",
-    questionid:0,
-    radioorcheck:null,
-    responsemode:null,
-    selected:false,
-    selectedoptions:null,
-    sequenceno:0
+  singleQuestion = {
+    hindiorenglish: null,
+    hioptionA: "",
+    hioptionAselected: false,
+    hioptionB: "",
+    hioptionBselected: false,
+    hioptionC: "",
+    hioptionCselected: false,
+    hioptionD: "",
+    hioptionDselected: false,
+    hiquestion: "",
+    optionA: "",
+    optionAselected: false,
+    optionB: "",
+    optionBselected: false,
+    optionC: "",
+    optionCselected: false,
+    optionD: "",
+    optionDselected: false,
+    question: "",
+    questionid: 0,
+    radioorcheck: null,
+    responsemode: null,
+    selected: false,
+    selectedoptions: null,
+    sequenceno: 0
   };
-
+  EnglishDivClass: string = "form-group";
+  HindiDivClass: string = "form-group";
 
   ngOnInit(): void {
     this.username = this.auth.username;
     this.subjectname = this.auth.subjectname;
-    console.log(this.username,this.subjectname);
-    console.log(this.auth.username,this.auth.subjectname);
+    console.log(this.username, this.subjectname);
+    console.log(this.auth.username, this.auth.subjectname);
 
     if (!this.auth.userAgreementState.value) {
       this.router.navigateByUrl('/user-agrement')
       this.toastr.error("Please Accept User Terms Agreement");
     }
-   
+
     this.loadQuestions();
 
   }
@@ -104,7 +150,7 @@ export class QuizComponent implements OnInit {
       this.temp_res = res;
 
 
-      this.username=this.temp_res.candidateName;
+      this.username = this.temp_res.candidateName;
       this.subjectname = this.temp_res.subject;
       this.totalQuestions = this.temp_res.userquestionSet;
 
@@ -115,18 +161,18 @@ export class QuizComponent implements OnInit {
       //   this.questionCounter=0;
       // }
 
-      for(let i=0;i<this.totalQuestions.length;i++){
-        this.singleQuestion=this.totalQuestions[i];
-        if(!this.singleQuestion.selected){
-          this.questionCounter=i;
+      for (let i = 0; i < this.totalQuestions.length; i++) {
+        this.singleQuestion = this.totalQuestions[i];
+        if (!this.singleQuestion.selected) {
+          this.questionCounter = i;
           break;
         }
       }
-      
+
 
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
 
-      this.timer = (parseInt(this.temp_res.remainingMinutes)*60)+parseInt(this.temp_res.remainingSeconds);//second
+      this.timer = (parseInt(this.temp_res.remainingMinutes) * 60) + parseInt(this.temp_res.remainingSeconds);//second
       this.startTimer();
       // console.log("first selected question", this.selectedQuestion);
       // let minute = this.temp_res.remainingMinutes;
@@ -162,7 +208,7 @@ export class QuizComponent implements OnInit {
   //     this.time++;
   //     if (this.seconds < 59) {
   //       this.seconds++;
-        
+
   //     }
   //     else {
   //       this.seconds = 0;
@@ -180,17 +226,17 @@ export class QuizComponent implements OnInit {
         this.submitFullResponse();
         clearInterval(t);
       }
-      else{
+      else {
         this.timer--;
       }
     }, 1000);
   }
 
-  minutes:any;
-  seconds:any;
-  getFormatedTimer(){
-    this.minutes=Math.floor(this.timer/60);
-    this.seconds=this.timer-parseInt(this.minutes)*60;
+  minutes: any;
+  seconds: any;
+  getFormatedTimer() {
+    this.minutes = Math.floor(this.timer / 60);
+    this.seconds = this.timer - parseInt(this.minutes) * 60;
     return `${this.minutes} Min : ${this.seconds} Sec`;
   }
 
@@ -198,18 +244,19 @@ export class QuizComponent implements OnInit {
     // console.log("-----------prev--------",this.totalQuestions[this.questionCounter])
     //submitting the question
     //console.log(this.selectedQuestion);
-  
+    this.HindiDivClass = "form-group";
+    this.EnglishDivClass = "form-group";
     console.log(this.temp_res.userquestionSet[this.questionCounter].selected)
 
 
-    if(!this.temp_res.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop){
+    if (!this.temp_res.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop) {
 
-      this.selectedQuestion.selected=true;
+      this.selectedQuestion.selected = true;
       this.selectedQuestion.selectedoptions = this.student_res.selected_opt;
 
       //setting student_res to null
-       this.student_res.selected_prop=false;
-      this.student_res.selected_opt="";
+      this.student_res.selected_prop = false;
+      this.student_res.selected_opt = "";
 
       //if question is already not selected
       let userid = localStorage.getItem('USERID');
@@ -220,12 +267,12 @@ export class QuizComponent implements OnInit {
       let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
       this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
         console.log(res);
-        let server_res:any = res;
+        let server_res: any = res;
         //this.toastr.success(server_res.message);
         this.submitTime();
-        
+
       })
-    }else{
+    } else {
 
       console.log("question is already selected or missed")
       this.submitTime();
@@ -233,7 +280,7 @@ export class QuizComponent implements OnInit {
     }
 
 
-    this.buttonChecked=null;
+    this.buttonChecked = null;
 
     this.EnglishLanguage = false;
     this.HindiLanguage = false;
@@ -242,10 +289,10 @@ export class QuizComponent implements OnInit {
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
 
       //setting question counter in localstorage
-      localStorage.setItem('quescounter',this.questionCounter.toString());
+      localStorage.setItem('quescounter', this.questionCounter.toString());
 
       // console.log("next questtion", this.selectedQuestion)
-      this.buttonChecked=null;
+      this.buttonChecked = null;
       // this.buttonChecked=true;
 
     } else {
@@ -258,7 +305,21 @@ export class QuizComponent implements OnInit {
 
   }
 
+  // prevQues() {
+  //   if (this.questionCounter == 0) {
+  //     this.toastr.error("No Previous Questions");
+  //   }
+  //   else {
+  //     this.questionCounter--;
+  //     this.selectedQuestion = this.totalQuestions[this.questionCounter];
+  //     // console.log("prev questtion", this.selectedQuestion)
+  //     this.submitTime();
+  //   }
+
+  // }
+
   prevQues() {
+    this.selectedQuestion = null;
     if (this.questionCounter == 0) {
       this.toastr.error("No Previous Questions");
     }
@@ -266,38 +327,56 @@ export class QuizComponent implements OnInit {
       this.questionCounter--;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
       // console.log("prev questtion", this.selectedQuestion)
+      if (this.selectedQuestion.responsemode == "HINDI") {
+        if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.hioptionAselected = true; }
+        if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.hioptionBselected = true; }
+        if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.hioptionCselected = true; }
+        if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.hioptionDselected = true; }
+      }
+      else {
+        if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.optionAselected = true; }
+        if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.optionBselected = true; }
+        if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.optionCselected = true; }
+        if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.optionDselected = true; }
+      }
       this.submitTime();
     }
-
   }
 
   singleQuesRes(e: any) {
     console.log(e.value);
-    this.selectedQuestion.selected=true;
-    this.selectedQuestion.selectedoptions=e.value;
-    console.log(this.selectedQuestion);
+    this.selectedQuestion.selected = true;
+    this.selectedQuestion.selectedoptions = e.value;
+    //console.log(this.selectedQuestion);
 
-    
+    if ((e.target).className.includes("english_radio")) {
+      this.selectedQuestion.responsemode = "ENGLISH";
+      this.HindiDivClass = this.HindiDivClass + " div-disabled";
+    }
+    else {
+      this.selectedQuestion.responsemode = "HINDI";
+      this.EnglishDivClass = this.EnglishDivClass + " div-disabled";
+    }
     this.full_response.add(this.selectedQuestion);
-    console.log(this.full_response);
+    //console.log(this.full_response);
 
   }
 
-  singleQuesResNew(e:any){
+  singleQuesResNew(e: any) {
     // let questionSaved = localStorage
     // this.selectedQuestion.selected=true;
     // this.selectedQuestion.selectedoptions=e.target.name;
     this.student_res.selected_prop = true;
     this.student_res.selected_opt = e.target.name;
     console.log(this.student_res);
-    console.log(e.target.name,e.target.value);
+    console.log(e.target.name, e.target.value);
     console.log(this.selectedQuestion);
 
-    if((e.target).className.includes("english_radio")){
-      this.selectedQuestion.responsemode="ENGLISH";
+    if ((e.target).className.includes("english_radio")) {
+      this.selectedQuestion.responsemode = "ENGLISH";
     }
-    else{
-      this.selectedQuestion.responsemode="HINDI";
+    else {
+      this.selectedQuestion.responsemode = "HINDI";
     }
 
     this.full_response.add(this.selectedQuestion);
@@ -305,32 +384,32 @@ export class QuizComponent implements OnInit {
 
   }
 
-  submitFullResponse(){
+  submitFullResponse() {
     let userid = localStorage.getItem('USERID');
 
     //converting set data to array
-    for(let answer of this.full_response){
+    for (let answer of this.full_response) {
       console.log(answer);
       this.res_array.push(answer);
     };
     this.final_res_server.candidateTest = this.res_array;
     this.final_res_server.userID = userid;
-    this.final_res_server.minutes=0;
-    this.final_res_server.seconds=0;
-    
+    this.final_res_server.minutes = 0;
+    this.final_res_server.seconds = 0;
 
 
-    
-    console.log("final request sent to server",this.final_res_server);
 
 
-    this.selectedQuestion.userID=userid;
+    console.log("final request sent to server", this.final_res_server);
+
+
+    this.selectedQuestion.userID = userid;
     let token = localStorage.getItem('token');
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-    let url=`https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
-    this.http.post(url,this.final_res_server,{headers:reqHeader}).subscribe(res=>{
+    let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
+    this.http.post(url, this.final_res_server, { headers: reqHeader }).subscribe(res => {
       console.log(res);
-      let server_res:any = res;
+      let server_res: any = res;
       //this.toastr.success(server_res.message);
       this.auth.removesession();
     })
@@ -356,31 +435,31 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  isCheckedQuestion(option:any,realOtion:any){
-    console.log(option,realOtion);
+  isCheckedQuestion(option: any, realOtion: any) {
+    console.log(option, realOtion);
     // if(option === realOtion){
     //   return "selected"
     // }
     // return "unselected"
   }
 
-  time_req={
-    userid:"",
+  time_req = {
+    userid: "",
     activestatus: "active",
     minutesleft: 30,
     secondsleft: 30
   }
 
-  submitTime(){
+  submitTime() {
     let token = localStorage.getItem('token');
     let userid = localStorage.getItem('USERID');
-    if(userid)  this.time_req.userid=userid;
-    this.time_req.minutesleft=this.minutes;
-    this.time_req.secondsleft=this.seconds;
-    if(parseInt(this.minutes)===0){
-      this.time_req.activestatus="inactive";
+    if (userid) this.time_req.userid = userid;
+    this.time_req.minutesleft = this.minutes;
+    this.time_req.secondsleft = this.seconds;
+    if (parseInt(this.minutes) === 0) {
+      this.time_req.activestatus = "inactive";
     }
-    
+
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
     let url = `https://entrance.skduniversity.com/api/v1/auth/saveRemainingTime`;
     console.log(reqHeader);
@@ -390,7 +469,7 @@ export class QuizComponent implements OnInit {
     })
   }
 
-  logout(){
+  logout() {
     //this.submitFullResponse();
     this.submitTime();
     this.auth.logout();

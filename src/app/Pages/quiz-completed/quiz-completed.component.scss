@@ -26,6 +26,20 @@ body  {
     margin-bottom: 100px;        
 }
 
+@media(max-width:500px) {
+  .wrapperAlert {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 12px;
+    border: thin solid #ddd;
+    margin: auto;
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 300px;
+}
+}
+
 .topHalf {
   width: 100%;
   color: white;

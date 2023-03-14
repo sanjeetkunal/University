@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
+import { ConnectionService } from 'ng-connection-service';
 
 @Component({
   selector: 'app-user-agrement',
@@ -11,15 +12,25 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./user-agrement.component.scss']
 })
 export class UserAgrementComponent implements OnInit {
-
+  internetDown: boolean = false;
   checked = false;
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
     private auth: AuthService,
     private router: Router,
-    public dialog: MatDialog
-  ) { }
+    public dialog: MatDialog, private connectionService: ConnectionService
+  ) {
+    this.connectionService.monitor().subscribe(isConnected => {
+      if (!isConnected.hasInternetAccess && !isConnected.hasNetworkConnection) {
+        if (!this.internetDown) {
+          this.internetDown=true;
+          this.logout();
+          this.toastr.warning("Internet not connected with your device. You can login again and continue your test.");          
+        }
+      }
+    });
+  }
 
   userloggedin: boolean = false;
   username: any;
@@ -27,7 +38,7 @@ export class UserAgrementComponent implements OnInit {
   ques_ready: any;
 
   ngOnInit() {
-// this.auth.removesession();
+    // this.auth.removesession();
     // this.username = this.auth.username;
     // this.subjectname = this.auth.subjectname;
     this.username = localStorage.getItem('username');
@@ -51,7 +62,6 @@ export class UserAgrementComponent implements OnInit {
   }
 
   checkQuestion() {
-    debugger;
     let reqbody: any = {};
     let userid = localStorage.getItem('USERID');
     let token = localStorage.getItem('token');

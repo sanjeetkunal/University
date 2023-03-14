@@ -48,7 +48,6 @@ export class LoginComponent {
   loadinguser = false;
 
   async loginUser(logindata: any) {
-    debugger;
     const { mobile, password } = logindata.value;
     if (mobile == "" || password == "") {
       this.toastr.warning("Please enter userid and password !");

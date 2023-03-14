@@ -2,7 +2,7 @@
     background-color: #eceffc !important;
 
     .login {
-        padding-top: 3rem !important;
+        padding-top: 1rem !important;
         padding-bottom: 3rem !important;
     }
 
@@ -77,6 +77,12 @@
 }
 
 .disabledNoOfCasesDiv{
+    pointer-events: none; 
+    opacity: 2.0;
+    color:lightgray;
+}
+
+.div-disabled{
     pointer-events: none; 
     opacity: 2.0;
     color:lightgray;

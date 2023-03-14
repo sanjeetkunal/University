@@ -23,7 +23,11 @@
 <div class="bg-gradient">
    <div class="container login">
 
-      <div class="quiz-btn col-md-8" style="text-align: right;">
+      <div class="col-md-8 quiz-btn" style="text-align: left;margin-bottom: 20px;;">
+         <span style="color:#000;font-size: 15px;"><strong>Note :</strong> Please do not change tab/screen/window, othrewise you will be considered disqualified and test will be submitted.</span><br>
+         <span style="color:#000;font-size: 15px;"><strong>टिप्पणी :</strong> कृपया टैब/स्क्रीन/विंडो न बदलें, अन्यथा आपको अयोग्य माना जाएगा और परीक्षण सबमिट किया जाएगा।</span>
+      </div>
+      <div class="quiz-btn col-md-8" style="text-align: right;font-size: 18px;">
          <span style="color:black">Remaining Time : {{getFormatedTimer()}}</span>
       </div>
       <!-- <div class="col-sm-2" style="position: absolute;right: 45px;">
@@ -44,7 +48,7 @@
      <div [ngClass]="{disabledNoOfCasesDiv : selectedQuestion?.selected == true}">
       <div class="question-box col-md-8 ">
          <form action="#" class="my-form">
-            <div class="form-group">
+            <div ngClass="{{EnglishDivClass}}">
                <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.question"></span></h3>
              
 
@@ -90,7 +94,7 @@
             </div>
 
 
-            <div class="form-group">
+            <div ngClass="{{HindiDivClass}}">
                <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.hiquestion"></span></h3>
                  <div class="form-check">
                   <label class="form-check-label"> 
