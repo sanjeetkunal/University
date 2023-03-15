@@ -27,13 +27,13 @@ export class LoginComponent {
     private router:Router) {
 
       window.addEventListener("blur", () => {
-        document.title = "Breakup";
-        console.log("tab changed")
+        // document.title = "Breakup";
+        // console.log("tab changed")
        
       });
     
     window.addEventListener("focus", () => {
-        document.title = "Patch Up";
+        //document.title = "Patch Up";
         
       });
 
@@ -49,18 +49,11 @@ export class LoginComponent {
 
   async loginUser(logindata: any) {
     const { mobile, password } = logindata.value;
-    if (mobile == "" || password == "") {
+    if (mobile.trim() == "" || password.trim() == "") {
       this.toastr.warning("Please enter userid and password !");
       this.SubmitButtonText = "Login";
     } else {
-      //this.loadinguser=true;
-      //this.SubmitButtonText=`Please Wait...`;
-
-      this.auth.loginService(logindata.value);
-
-
-      //this.SubmitButtonText="Login";
-
+         this.auth.loginService(logindata.value);
     }
   }
 

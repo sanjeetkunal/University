@@ -94,7 +94,7 @@
           I accept and agree upon the terms and conditions!
         </label>
         <!-- <label>Agree</label> -->
-        <p><a class="agree-btn"(click)="openDialogWithRef(firstDialog)">Accept</a></p>
+        <p><a class="agree-btn"(click)="CheckTermsConditionAcceptOrNot(firstDialog)">Accept</a></p>
 
         
         <ng-template #firstDialog style="border: navy; opacity: 0.5%;">
@@ -105,7 +105,7 @@
 
            
            
-            <button mat-button matDialogClose (click)="agree()" class="btn btn-success" style="display:{{AgreeYesShow}}">{{AgreeYes}}</button>
+            <button mat-button matDialogClose (click)="AcceptTermsCondition()" class="btn btn-success" style="display:{{AgreeYesShow}}">{{AgreeYes}}</button>
             <button mat-button matDialogClose class="btn btn-danger">{{AgreeNo}}</button>
           </mat-dialog-actions>
         </div>

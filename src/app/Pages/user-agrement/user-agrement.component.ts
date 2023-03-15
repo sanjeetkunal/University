@@ -24,91 +24,77 @@ export class UserAgrementComponent implements OnInit {
     this.connectionService.monitor().subscribe(isConnected => {
       if (!isConnected.hasInternetAccess && !isConnected.hasNetworkConnection) {
         if (!this.internetDown) {
-          this.internetDown=true;
+          this.internetDown = true;
           this.logout();
-          this.toastr.warning("Internet not connected with your device. You can login again and continue your test.");          
+          this.toastr.warning("Internet not connected with your device. You can login again and continue your test.");
         }
       }
     });
   }
 
-  userloggedin: boolean = false;
+  //userloggedin: boolean = false;
   username: any;
   subjectname: any;
   ques_ready: any;
+  token: any;
+  IsUserAgreeTermsAndCondition: boolean = false;
 
   ngOnInit() {
-    // this.auth.removesession();
-    // this.username = this.auth.username;
-    // this.subjectname = this.auth.subjectname;
+    this.IsUserAgreeTermsAndCondition=false;
+    this.token = localStorage.getItem('token');
     this.username = localStorage.getItem('username');
     this.subjectname = localStorage.getItem('subjectname');
-    // console.log(this.username, this.subjectname);
-    // console.log(this.auth.username, this.auth.subjectname);
 
-    this.checkQuestion();
-
-
-    if (localStorage.getItem('accepted-agreement')) {
+    if (this.token !== null) {
       this.auth.userAgreementState.next(true);
-
-      if (this.auth.isAuthenticated()) {
-        this.router.navigate(['/quiz']);
-      }
-
-    }
-    console.log(this.auth.userAgreementState.value);
-
-  }
-
-  checkQuestion() {
-    let reqbody: any = {};
-    let userid = localStorage.getItem('USERID');
-    let token = localStorage.getItem('token');
-    reqbody.userID = userid;
-    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-
-    let url = `https://entrance.skduniversity.com/api/v1/auth/questionPaperAssigned`;
-    this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
-      console.log(res);
-      this.ques_ready = res;
-    }, err => {
-      console.log(err);
-      this.toastr.error(err.message);
-
-    })
-  }
-
-  IsUserAgreeTermsAndCondition: boolean = false;
-  agree() {
-    if (this.IsUserAgreeTermsAndCondition) {
-      if (!this.ques_ready) {
-        this.toastr.error("Question paper have Not Been Assigned Yet")
-      } else {
-        this.auth.userAgreementState.next(true);
-        localStorage.setItem('accepted-agreement', 'true');
-        this.router.navigateByUrl('/quiz');
-      }
     }
   }
+
+  // checkQuestion() {
+  //   let reqbody: any = {};
+  //   let userid = localStorage.getItem('USERID');
+  //   let token = localStorage.getItem('token');
+  //   reqbody.userID = userid;
+  //   const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+
+  //   let url = `https://entrance.skduniversity.com/api/v1/auth/questionPaperAssigned`;
+  //   this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
+  //     console.log(res);
+  //     this.ques_ready = res;
+  //   }, err => {
+  //     console.log(err);
+  //     this.toastr.error(err.message);
+
+  //   })
+  // }
+
+
+  // agree() {
+  //   if (this.IsUserAgreeTermsAndCondition) {
+  //     if (!this.ques_ready) {
+  //       this.toastr.error("Question paper have Not Been Assigned Yet")
+  //     } else {
+  //       this.auth.userAgreementState.next(true);
+  //       localStorage.setItem('accepted-agreement', 'true');
+  //       this.router.navigateByUrl('/quiz');
+  //     }
+  //   }
+  // }
 
   notAgree() {
     this.auth.userAgreementState.next(false);
     this.toastr.error("Please Agree with terms and condition");
   }
 
-  logout() {
-    this.auth.logout();
-    this.userloggedin = false;
-  }
+  logout() { this.auth.logout(); }
 
   DialogMessage: string = "";
   AgreeYes: string = "Yes";
   AgreeNo: string = "Close";
   AgreeYesShow: string = "block";
 
-  openDialogWithRef(ref: TemplateRef<any>) {
-    if (this.IsUserAgreeTermsAndCondition) {
+  CheckTermsConditionAcceptOrNot(ref: TemplateRef<any>) {   
+    if (this.token !== null && this.IsUserAgreeTermsAndCondition) {
       this.AgreeYes = "Yes";
       this.AgreeNo = "No";
       this.AgreeYesShow = "block";
@@ -122,16 +108,19 @@ export class UserAgrementComponent implements OnInit {
       this.dialog.open(ref);
     }
   }
-
-  IAgreeChecked(event: any) {
+  
+  IAgreeChecked(event: any) {   
     this.IsUserAgreeTermsAndCondition = false;
     if (event.target.checked) {
       this.IsUserAgreeTermsAndCondition = true;
     }
   }
 
-
-
+  AcceptTermsCondition() { 
+    if (this.token !== null && this.IsUserAgreeTermsAndCondition) {
+        this.router.navigateByUrl('/quiz');
+    }
+  }
 }
 
 

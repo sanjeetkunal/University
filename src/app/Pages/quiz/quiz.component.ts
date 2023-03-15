@@ -11,10 +11,8 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.scss']
-  //src/assets/fonts/font.family.style.scss
 })
 export class QuizComponent implements OnInit {
-  //testhtml = "<p>Hello world</p>";
   internetDown: boolean = false;
   constructor(
     private http: HttpClient,
@@ -26,39 +24,24 @@ export class QuizComponent implements OnInit {
       if (!isConnected.hasInternetAccess && !isConnected.hasNetworkConnection) {
         if (!this.internetDown) {
           this.internetDown = true;
-          this.logout();
+          this.auth.logout();
           this.toastr.warning("Internet not connected with your device. You can login again and continue your test.");
         }
       }
     });
-
     window.addEventListener("blur", () => {
-
-      console.log("tab changed")
-      //this.tabChangeFun();
-      this.epicFunction();
+      //this.epicFunction(); 
     });
-
-    window.addEventListener("focus", () => {
-      //  document.title = "Patch Up";
-
-    });
+    //window.addEventListener("focus", () => { });
   }
 
-  deviceInfo : any=null;
+  deviceInfo: any = null;
   epicFunction() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
-    const isMobile = this.deviceService.isMobile();
-    const isTablet = this.deviceService.isTablet();
-    const isDesktopDevice = this.deviceService.isDesktop();    
-    if(isDesktopDevice){
-      this.submitFullResponse();
-    }
-  }
-
-  tabChangeFun() {
-    //document.title = "Breakup";
-    this.submitFullResponse();
+    //const isMobile = this.deviceService.isMobile();
+    //const isTablet = this.deviceService.isTablet();
+    const isDesktopDevice = this.deviceService.isDesktop();
+    if (isDesktopDevice) { debugger; this.submitFullResponse(); }
   }
 
   answer: string = "";
@@ -73,144 +56,59 @@ export class QuizComponent implements OnInit {
   endTestIn: any;
   username: any;
   subjectname: any;
-  student_res = {
-    selected_prop: false,
-    selected_opt: "",
-  };
+  temp_res: any;
+  student_res = { selected_prop: false, selected_opt: "", };
+
   singleQuestion = {
     hindiorenglish: null,
-    hioptionA: "",
-    hioptionAselected: false,
-    hioptionB: "",
-    hioptionBselected: false,
-    hioptionC: "",
-    hioptionCselected: false,
-    hioptionD: "",
-    hioptionDselected: false,
-    hiquestion: "",
-    optionA: "",
-    optionAselected: false,
-    optionB: "",
-    optionBselected: false,
-    optionC: "",
-    optionCselected: false,
-    optionD: "",
-    optionDselected: false,
-    question: "",
-    questionid: 0,
-    radioorcheck: null,
-    responsemode: null,
-    selected: false,
-    selectedoptions: null,
-    sequenceno: 0
+    hioptionA: "", hioptionAselected: false, hioptionB: "", hioptionBselected: false, hioptionC: "", hioptionCselected: false,
+    hioptionD: "", hioptionDselected: false, hiquestion: "", optionA: "", optionAselected: false, optionB: "",
+    optionBselected: false, optionC: "", optionCselected: false, optionD: "", optionDselected: false, question: "",
+    questionid: 0, radioorcheck: null, responsemode: null, selected: false, selectedoptions: null, sequenceno: 0
   };
+
   EnglishDivClass: string = "form-group";
   HindiDivClass: string = "form-group";
+  userid: any;
+  token: any;
 
   ngOnInit(): void {
-    this.username = this.auth.username;
-    this.subjectname = this.auth.subjectname;
-    console.log(this.username, this.subjectname);
-    console.log(this.auth.username, this.auth.subjectname);
-
-    if (!this.auth.userAgreementState.value) {
-      this.router.navigateByUrl('/user-agrement')
-      this.toastr.error("Please Accept User Terms Agreement");
-    }
-
-    this.loadQuestions();
-
+    this.username = localStorage.getItem('username');
+    this.subjectname = localStorage.getItem('subjectname');
+    this.userid = localStorage.getItem('userid');
+    this.token = localStorage.getItem('token');
+    this.GetAllQuestionsSet();
   }
 
-  temp_res: any;
-
-  loadQuestions() {
-    console.log("load questions running")
+  GetAllQuestionsSet() {
     let reqbody: any = {};
-    let userid = localStorage.getItem('USERID');
-    let token = localStorage.getItem('token');
-    reqbody.userID = userid;
-    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-    // let headers = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    //   'Authorization': `Bearer ${token}`
-    // })
-
+    reqbody.userID = this.userid;
+    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
     let url = `https://entrance.skduniversity.com/api/v1/auth/getUserQuestionPaper`;
-    console.log(reqHeader);
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
-      console.log(res);
       this.temp_res = res;
-
-
       this.username = this.temp_res.candidateName;
       this.subjectname = this.temp_res.subject;
       this.totalQuestions = this.temp_res.userquestionSet;
-
-      // let quescounter = localStorage.getItem('quescounter');
-      // if(quescounter){
-      //   this.questionCounter = parseInt(quescounter);
-      // }else{
-      //   this.questionCounter=0;
-      // }
-
-      for (let i = 0; i < this.totalQuestions.length; i++) {
-        this.singleQuestion = this.totalQuestions[i];
-        if (!this.singleQuestion.selected) {
-          this.questionCounter = i;
-          break;
+      if (this.totalQuestions.length > 0) {
+        for (let i = 0; i < this.totalQuestions.length; i++) {
+          this.singleQuestion = this.totalQuestions[i];
+          if (!this.singleQuestion.selected) { this.questionCounter = i; break; }
         }
+        console.log(res);
+        this.selectedQuestion = this.totalQuestions[this.questionCounter];
+        this.timer = (parseInt(this.temp_res.remainingMinutes) * 60) + parseInt(this.temp_res.remainingSeconds);//second
+        this.startTimer();
       }
-
-
-      this.selectedQuestion = this.totalQuestions[this.questionCounter];
-
-      this.timer = (parseInt(this.temp_res.remainingMinutes) * 60) + parseInt(this.temp_res.remainingSeconds);//second
-      this.startTimer();
-      // console.log("first selected question", this.selectedQuestion);
-      // let minute = this.temp_res.remainingMinutes;
-      // let second = this.temp_res.remainingSeconds;
-      // let totalSeconds = ((minute * 60)+second)*1000;
-      // console.log("Test will end in",totalSeconds);
-
-      // setTimeout(()=>{
-      //   console.log("Test will end in",totalSeconds);
-      //   this.submitFullResponse();
-      // },totalSeconds);
-
-
+      else {
+        this.toastr.error("Questions paper not assigned yet, please connect with administrator.");
+        this.auth.logout();
+      }
     }, err => {
-      console.log(err);
+      this.auth.logout();
       this.toastr.error(err.message);
-      this.router.navigateByUrl('')
     })
   }
-
-  // stopTimer: any;
-  // time = 0;
-  // dt = new Date(new Date().setTime(0));
-  // ctime = this.dt.getTime();
-  // seconds = Math.floor((this.ctime % (1000 * 60)) / 1000);
-  // minute = Math.floor((this.ctime % (1000 * 60 * 60)) / (1000 * 60));
-  // formated_sec: any = "59";
-  // formated_min: any = "30";
-
-
-  // timer() {
-  //   this.stopTimer = setInterval(() => {
-  //     this.time++;
-  //     if (this.seconds < 59) {
-  //       this.seconds++;
-
-  //     }
-  //     else {
-  //       this.seconds = 0;
-  //       this.minute++;
-  //     }
-  //     this.formated_sec = this.seconds < 10 ? `0${this.seconds}` : `${this.seconds}`;
-  //     this.formated_min = this.minute < 10 ? `0${this.minute}` : `${this.minute}`;
-  //   },1000)
-  // }
 
   timer: any;
   startTimer() {
@@ -233,38 +131,45 @@ export class QuizComponent implements OnInit {
     return `${this.minutes} Min : ${this.seconds} Sec`;
   }
 
-  nextQues() {
-    // console.log("-----------prev--------",this.totalQuestions[this.questionCounter])
-    //submitting the question
-    //console.log(this.selectedQuestion);
+  selectedFiveQuestionsList: any = [];
+  SaveFiveQuestionRequest = { userID: "", subject: "", minutes: "", seconds: "", userResponses: [] };
+
+  GoToNextQuestion() {
     this.HindiDivClass = "form-group";
     this.EnglishDivClass = "form-group";
-    console.log(this.temp_res.userquestionSet[this.questionCounter].selected)
-
-
     if (!this.temp_res.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop) {
-
       this.selectedQuestion.selected = true;
       this.selectedQuestion.selectedoptions = this.student_res.selected_opt;
+      var objSelectedQues = { questionid: this.selectedQuestion.questionid, selected: this.selectedQuestion.selected, selectedoptions: this.selectedQuestion.selectedoptions, responsemode: this.selectedQuestion.responsemode };
+      this.selectedFiveQuestionsList.push(objSelectedQues);
+      if (this.selectedFiveQuestionsList.length === 5) {
+        debugger;
+        const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+        let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
+        this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsList }
+        this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {          
+          console.log(res);
+          this.selectedFiveQuestionsList=[];
+        });
+      }
+      // //setting student_res to null
+      // this.student_res.selected_prop = false;
+      // this.student_res.selected_opt = "";
 
-      //setting student_res to null
-      this.student_res.selected_prop = false;
-      this.student_res.selected_opt = "";
+      // //if question is already not selected
+      // let userid = localStorage.getItem('USERID');
+      // this.selectedQuestion.userID = userid;
+      // let token = localStorage.getItem('token');
 
-      //if question is already not selected
-      let userid = localStorage.getItem('USERID');
-      this.selectedQuestion.userID = userid;
-      let token = localStorage.getItem('token');
+      // const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+      // let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
+      // this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
+      //   console.log(res);
+      //   let server_res: any = res;
+      //   //this.toastr.success(server_res.message);
+      //   this.submitTime();
 
-      const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-      let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
-      this.http.post(url, this.selectedQuestion, { headers: reqHeader }).subscribe(res => {
-        console.log(res);
-        let server_res: any = res;
-        //this.toastr.success(server_res.message);
-        this.submitTime();
-
-      })
+      // })
     } else {
 
       console.log("question is already selected or missed")
@@ -293,23 +198,7 @@ export class QuizComponent implements OnInit {
       this.router.navigateByUrl('/quizfinish');
       this.submitFullResponse();
     }
-    // console.log("-----------after--------",this.totalQuestions[this.questionCounter])
-
-
   }
-
-  // prevQues() {
-  //   if (this.questionCounter == 0) {
-  //     this.toastr.error("No Previous Questions");
-  //   }
-  //   else {
-  //     this.questionCounter--;
-  //     this.selectedQuestion = this.totalQuestions[this.questionCounter];
-  //     // console.log("prev questtion", this.selectedQuestion)
-  //     this.submitTime();
-  //   }
-
-  // }
 
   prevQues() {
     this.selectedQuestion = null;
@@ -337,10 +226,8 @@ export class QuizComponent implements OnInit {
   }
 
   singleQuesRes(e: any) {
-    console.log(e.value);
     this.selectedQuestion.selected = true;
     this.selectedQuestion.selectedoptions = e.value;
-    //console.log(this.selectedQuestion);
 
     if ((e.target).className.includes("english_radio")) {
       this.selectedQuestion.responsemode = "ENGLISH";
@@ -351,59 +238,30 @@ export class QuizComponent implements OnInit {
       this.EnglishDivClass = this.EnglishDivClass + " div-disabled";
     }
     this.full_response.add(this.selectedQuestion);
-    //console.log(this.full_response);
-
   }
 
   singleQuesResNew(e: any) {
-    // let questionSaved = localStorage
-    // this.selectedQuestion.selected=true;
-    // this.selectedQuestion.selectedoptions=e.target.name;
     this.student_res.selected_prop = true;
     this.student_res.selected_opt = e.target.name;
-    console.log(this.student_res);
-    console.log(e.target.name, e.target.value);
-    console.log(this.selectedQuestion);
-
-    if ((e.target).className.includes("english_radio")) {
-      this.selectedQuestion.responsemode = "ENGLISH";
-    }
-    else {
-      this.selectedQuestion.responsemode = "HINDI";
-    }
-
+    if ((e.target).className.includes("english_radio")) { this.selectedQuestion.responsemode = "ENGLISH"; }
+    else { this.selectedQuestion.responsemode = "HINDI"; }
     this.full_response.add(this.selectedQuestion);
-    console.log(this.full_response);
-
   }
 
   submitFullResponse() {
-    let userid = localStorage.getItem('USERID');
-
-    //converting set data to array
-    for (let answer of this.full_response) {
-      console.log(answer);
-      this.res_array.push(answer);
-    };
+    for (let answer of this.full_response) { this.res_array.push(answer); };
     this.final_res_server.candidateTest = this.res_array;
-    this.final_res_server.userID = userid;
+    this.final_res_server.userID = this.userid;
     this.final_res_server.minutes = 0;
     this.final_res_server.seconds = 0;
 
-
-
-
-    console.log("final request sent to server", this.final_res_server);
-
-
-    this.selectedQuestion.userID = userid;
+    this.selectedQuestion.userID = this.userid;
     let token = localStorage.getItem('token');
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
     let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
     this.http.post(url, this.final_res_server, { headers: reqHeader }).subscribe(res => {
       console.log(res);
       let server_res: any = res;
-      //this.toastr.success(server_res.message);
       this.auth.removesession();
     })
     this.router.navigateByUrl('/quizfinish');
@@ -460,11 +318,5 @@ export class QuizComponent implements OnInit {
       console.log(res);
 
     })
-  }
-
-  logout() {
-    //this.submitFullResponse();
-    this.submitTime();
-    this.auth.logout();
   }
 }

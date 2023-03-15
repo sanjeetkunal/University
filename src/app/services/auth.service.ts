@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable,ViewChild } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, windowToggle } from 'rxjs';
@@ -12,146 +12,95 @@ export class AuthService {
 
 
   constructor(
-    private http:HttpClient,
+    private http: HttpClient,
     private toastr: ToastrService,
-    private router:Router
+    private router: Router
   ) { }
 
-  isLoggedIn=false;
+  isLoggedIn = false;
   authenticatationState = new BehaviorSubject(false);
   userAgreementState = new BehaviorSubject(false);
-  userid:any;
-  userData:any;
-  username:any;
-  subjectname:any;
-  authLoading:boolean=false;
-  loginButtonText="";
+  userid: any;
+  userData: any;
+  username: any;
+  subjectname: any;
+  authLoading: boolean = false;
+  loginButtonText = "";
 
-  isAuthenticated(){
+  isAuthenticated() {
     return this.authenticatationState.value;
   }
 
-  isaccepted(){
+  isaccepted() {
     return this.userAgreementState.value;
   }
 
-
-  checkToken(){
-    let token=localStorage.getItem('token');
-    if(token){
-      console.log("token added",token)
+  checkToken() {
+    let token = localStorage.getItem('token');
+    if (token) {
       this.authenticatationState.next(true);
       this.loadUser();
-    }else{
-      console.log("token not found");
+    } else {
       this.authenticatationState.next(false);
     }
   }
 
-  async loadUser(){
+  async loadUser() {
     let token = localStorage.getItem('token');
-    if(token){
+    if (token) {
       const httpOptions = {
         headers: new HttpHeaders({
           'x-access-token': token
-      })
+        })
       }
-      this.http.get('https://entrance.skduniversity.com/api/users/protect',httpOptions).subscribe(res=>{
-      console.log(res);
-      this.userData = res;
-      this.authenticatationState.next(true);
-      },err=>{
-        console.log(err);
+      this.http.get('https://entrance.skduniversity.com/api/users/protect', httpOptions).subscribe(res => {
+        this.userData = res;
+        this.authenticatationState.next(true);
+      }, err => {
         this.logout();
-        this.toastr.error(err.error.errormsg.message,'Error');
+        this.toastr.error(err.error.errormsg.message, 'Error');
       });
     }
 
   }
 
-  async loginService(logindata:any){
-    console.log(logindata);
-   
-    let url=`https://entrance.skduniversity.com/api/v1/auth/authenticate`
-   
-      this.http.post(url,logindata).subscribe(res=>{
-        console.log(res);
-        let serverResoponse:any = res;
-
-        if(serverResoponse.message === "Bad credentials"){
-          this.toastr.error("UserID / Password seems to be incorrect!");
-          // this.loginButtonText = "Login";
-          console.log("bad credentials");
-          //window.location.reload();
-        }
-        else if(serverResoponse.message==="You have already submitted your test!"){
-          this.toastr.warning(serverResoponse.message);
-          //window.location.reload();
-        }
-        else{
-          console.log("loggged in")
-          let token = serverResoponse.token;
-          localStorage.setItem('token',token);
-          this.authenticatationState.next(true);
-          this.isLoggedIn=true;
-          this.userid=serverResoponse.userID;
-          this.username = serverResoponse.candidateName;
-          localStorage.setItem('username',this.username);
-          this.subjectname=serverResoponse.subject;
-          localStorage.setItem('subjectname',this.subjectname);
-          // this.loginButtonText = "Login";
-          console.log(this.username,this.subjectname);
-          localStorage.setItem('USERID',this.userid);
-          this.toastr.success("successfully logged in",'Success');
-          this.router.navigate(['/user-agrement']);
-          
-        }
-      },err=>{
-        console.log(err);
-
-        this.toastr.error("Services are down!");
-        // this.loginButtonText="Login";
-       
-      //   this.router.navigate(['']);
-       
-      // window.location.reload();
-       
-      })
+  async loginService(logindata: any) {
+    let url = `https://entrance.skduniversity.com/api/v1/auth/authenticate`
+    this.http.post(url, logindata).subscribe(res => {
+      let serverResoponse: any = res;
+      if (serverResoponse.token === null) { this.toastr.error(serverResoponse.message); }
+      else if (serverResoponse.token !== null) {
+        this.authenticatationState.next(true);
+        this.isLoggedIn = true;
+        localStorage.setItem('token', serverResoponse.token);
+        localStorage.setItem('username', serverResoponse.candidateName);
+        localStorage.setItem('subjectname', serverResoponse.subject);
+        localStorage.setItem('userid', serverResoponse.userID);
+        this.toastr.success("Logged in successfully", 'Success');
+        this.router.navigate(['/user-agrement']);
+      }
+      else { this.toastr.error(serverResoponse.message); }
+    }, err => {
+      this.toastr.error("Services are down, please contact to administrator.");
+    })
   }
 
-  logout(){
-    console.log("user logged out");
-    this.authenticatationState.next(false);
-    this.userAgreementState.next(false);
-    localStorage.removeItem('accepted-agreement');
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    localStorage.removeItem('subjectname');
-    this.isLoggedIn=false;
-    this.username=null;
-    this.subjectname=null;
-    this.userData={};
-    // this.toastr.success("Logged out",'Success');
+  logout() {
+    this.removesession();
     this.router.navigate(['/']);
     this.toastr.success("Logged out successfully!");
   }
 
-  removesession(){
-    console.log("user logged out");
+  removesession() {
     this.authenticatationState.next(false);
     this.userAgreementState.next(false);
-    localStorage.removeItem('accepted-agreement');
+    localStorage.removeItem('userid');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('subjectname');
-    this.isLoggedIn=false;
-    this.username=null;
-    this.subjectname=null;
-    this.userData={};
+    this.isLoggedIn = false;
+    this.username = null;
+    this.subjectname = null;
+    this.userData = {};
   }
-
-
-
-
-
 }
