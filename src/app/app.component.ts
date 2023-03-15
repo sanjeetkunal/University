@@ -23,24 +23,22 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
    // window.location.href = "https://entrance.skduniversity.com/ui/";
-    if(localStorage.getItem('token')){
-      this.auth.authenticatationState.next(true);
-      console.log()
-      setTimeout(()=>{
-        this.userloggedin  = this.auth.isLoggedIn;
-        this.username = this.auth.username;
-        this.subjectname = this.auth.subjectname;
-      },2000)
-      this.router.navigateByUrl('/user-agrement');
-
-
-    }
+    // if(localStorage.getItem('token')){
+    //   this.auth.authenticatationState.next(true);
+    //   console.log()
+    //   setTimeout(()=>{
+    //     this.userloggedin  = this.auth.isLoggedIn;
+    //     this.username = this.auth.username;
+    //     this.subjectname = this.auth.subjectname;
+    //   },2000)
+    //   this.router.navigateByUrl('/user-agrement');
+    // }
   }
 
-  logout(){
-    this.auth.logout();
-    this.userloggedin=false;
-  }
+  // logout(){
+  //   this.auth.logout();
+  //   this.userloggedin=false;
+  // }
 
   onRightClick() {
     return false;

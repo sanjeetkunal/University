@@ -37,6 +37,15 @@ export class LoginComponent {
         
       });
 
+
+  //     window.addEventListener("keydown",
+  //     function (event) { 
+  //        if (event.keyCode == 116 || (event.keyCode == 65+17 && event.ctrlKey)) { 
+  //          alert('You cannot reload this page'); 
+  //          event.preventDefault();
+  //     } 
+  // });
+
     }
 
   ngOnInit(): void {

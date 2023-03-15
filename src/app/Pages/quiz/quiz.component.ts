@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { NavigationEnd, Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { ConnectionService } from 'ng-connection-service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import {  filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-quiz',
@@ -33,6 +34,32 @@ export class QuizComponent implements OnInit {
       //this.epicFunction(); 
     });
     //window.addEventListener("focus", () => { });
+
+    window.addEventListener("keydown",
+    function (event) { 
+      if (event.keyCode == 116 || (event.keyCode == 65+17 && event.ctrlKey)) { 
+         alert('You cannot reload this page'); 
+         event.preventDefault();
+    } 
+});
+
+
+    this.router.events
+    .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
+    .subscribe(event => {
+   
+      if (
+        event.id === 1 &&
+        event.url === event.urlAfterRedirects
+      ) {
+
+            console.log("page is refreshed in quizfinish")
+        
+
+          
+      }
+    })
+
   }
 
   deviceInfo: any = null;
