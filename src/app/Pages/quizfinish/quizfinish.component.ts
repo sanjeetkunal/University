@@ -11,22 +11,22 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class QuizfinishComponent {
   
-  constructor(private router:Router){
-    this.router.events
-    .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
-    .subscribe(event => {
-      if (
-        event.id === 1 &&
-        event.url === event.urlAfterRedirects
-      ) {
+  // constructor(private router:Router){
+  //   this.router.events
+  //   .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
+  //   .subscribe(event => {
+  //     if (
+  //       event.id === 1 &&
+  //       event.url === event.urlAfterRedirects
+  //     ) {
 
-            console.log("page is refreshed in quizfinish")
+  //           console.log("page is refreshed in quizfinish")
         
 
           
-      }
-    })
-  }
+  //     }
+  //   })
+  // }
 
 }
 
