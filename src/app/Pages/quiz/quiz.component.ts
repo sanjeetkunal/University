@@ -44,7 +44,6 @@ export class QuizComponent implements OnInit {
     //     } 
     // });
 
-
     this.router.events.pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd)).subscribe(event => {
       if (event.id === 1 && event.url === event.urlAfterRedirects) {
         let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
@@ -81,8 +80,8 @@ export class QuizComponent implements OnInit {
       if (user_accepted === 'true') {
         this.auth.authenticatationState.next(true);
         setTimeout(() => {
-          this.username = this.auth.username;
-          this.subjectname = this.auth.subjectname;
+          this.username = localStorage.getItem('username');
+          this.subjectname = localStorage.getItem('subjectname');
         }, 2000)
       } else {
         this.toastr.warning("Please accept the User Agreement");
@@ -105,7 +104,7 @@ export class QuizComponent implements OnInit {
   endTestIn: any;
   username: any;
   subjectname: any;
-  temp_res: any;
+  userQuestionDetails: any;
   student_res = { selected_prop: false, selected_opt: "", };
 
   singleQuestion = {
@@ -138,21 +137,26 @@ export class QuizComponent implements OnInit {
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
     let url = `https://entrance.skduniversity.com/api/v1/auth/getUserQuestionPaper`;
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
-      this.temp_res = res;
-      console.log(this.temp_res);
-      this.username = this.temp_res.candidateName;
-      this.subjectname = this.temp_res.subject;
-      this.totalQuestions = this.temp_res.userquestionSet;
+       this.userQuestionDetails = res;
+       this.username = this.userQuestionDetails.candidateName;
+       //localStorage.setItem('username',this.username);
+       this.subjectname = this.userQuestionDetails.subject;
+       //localStorage.setItem('subjectname',this.subjectname);
+       this.userid = this.userQuestionDetails.userID;
+       //localStorage.setItem('userid',this.userid);
+      
+
+      this.totalQuestions = this.userQuestionDetails.userquestionSet;
       if (this.totalQuestions.length > 0) {
         for (let i = 0; i < this.totalQuestions.length; i++) {
           this.singleQuestion = this.totalQuestions[i];
           if (!this.singleQuestion.selected) { this.questionCounter = i; break; }
-        }        
+        }
         this.selectedQuestion = this.totalQuestions[this.questionCounter];
         var sessionMinuts = localStorage.getItem('minuts');
         var sessionSeconds = localStorage.getItem('seconds');
         if (sessionMinuts !== null && sessionMinuts !== "NaN" && sessionSeconds !== "NaN" && sessionSeconds !== null) { this.timer = (parseInt(sessionMinuts) * 60) + parseInt(sessionSeconds); }//second  
-        else { this.timer = (parseInt(this.temp_res.remainingMinutes) * 60) + parseInt(this.temp_res.remainingSeconds); }//second
+        else { this.timer = (parseInt(this.userQuestionDetails.remainingMinutes) * 60) + parseInt(this.userQuestionDetails.remainingSeconds); }//second
         this.startTimer();
       }
       else {
@@ -192,10 +196,13 @@ export class QuizComponent implements OnInit {
 
   selectedFiveQuestionsList: any = [];
   SaveFiveQuestionRequest = { userID: "", subject: "", minutes: "", seconds: "", userResponses: [] };
-  GoToNextQuestion() {
+  GoToNextQuestion() {    
     this.HindiDivClass = "form-group";
     this.EnglishDivClass = "form-group";
-    if (!this.temp_res.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop) {
+    if (!this.userQuestionDetails.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop) {
+      this.subjectname=this.userQuestionDetails.subject;
+      this.userid=this.userQuestionDetails.userID;
+
       this.selectedQuestion.selected = true;
       this.selectedQuestion.selectedoptions = this.student_res.selected_opt;
       var objSelectedQues = { questionid: this.selectedQuestion.questionid, selected: this.selectedQuestion.selected, selectedoptions: this.selectedQuestion.selectedoptions, responsemode: this.selectedQuestion.responsemode };
@@ -270,35 +277,18 @@ export class QuizComponent implements OnInit {
 
   selectedFinalQuestionsList: any = [];
   submitFullResponse() {
-    debugger;
     let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
     if (prevFiveQuestion !== undefined && prevFiveQuestion !== null) {
-      this.selectedFinalQuestionsList = JSON.parse(prevFiveQuestion || "");      
-      if (this.selectedFinalQuestionsList !== null) {
-        const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-        let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
-        this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsListTesting }
-        this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
-          this.selectedFinalQuestionsList = [];          
-          this.auth.removesession();
-          this.router.navigateByUrl('/quizfinish');
-        });
-      }
+      this.selectedFinalQuestionsList = JSON.parse(prevFiveQuestion || "");
     }
-    // for (let answer of this.full_response) { this.res_array.push(answer); };
-    // this.final_res_server.candidateTest = this.res_array;
-    // this.final_res_server.userID = this.userid;
-    // this.final_res_server.minutes = this.minutes;
-    // this.final_res_server.seconds = this.seconds;
-    // this.selectedQuestion.userID = this.userid;
-    // const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-    // console.log(this.final_res_server);
-    // let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
-    // this.http.post(url, this.final_res_server, { headers: reqHeader }).subscribe(res => {
-    //   let server_res: any = res;
-    //   this.auth.removesession();
-    // });
-    // this.router.navigateByUrl('/quizfinish');
+    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+    let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
+    this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFinalQuestionsList }
+    this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
+      this.selectedFinalQuestionsList = [];
+      this.auth.removesession();
+      this.router.navigateByUrl('/quizfinish');
+    });
   }
 
   EnglishLanguage: boolean = false;
@@ -307,25 +297,4 @@ export class QuizComponent implements OnInit {
     if (language == "hindi") { if (!this.HindiLanguage) { this.EnglishLanguage = true; } }
     else { if (!this.EnglishLanguage) { this.HindiLanguage = true; } }
   }
-
-  //time_req = { userid: "", activestatus: "active", minutesleft: 30, secondsleft: 30 }
-
-  // submitTime() {
-  //   let token = localStorage.getItem('token');
-  //   let userid = localStorage.getItem('USERID');
-  //   if (userid) this.time_req.userid = userid;
-  //   this.time_req.minutesleft = this.minutes;
-  //   this.time_req.secondsleft = this.seconds;
-  //   if (parseInt(this.minutes) === 0) {
-  //     this.time_req.activestatus = "inactive";
-  //   }
-
-  //   const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-  //   let url = `https://entrance.skduniversity.com/api/v1/auth/saveRemainingTime`;
-  //   console.log(reqHeader);
-  //   this.http.post(url, this.time_req, { headers: reqHeader }).subscribe(res => {
-  //     console.log(res);
-
-  //   })
-  // }  
 }

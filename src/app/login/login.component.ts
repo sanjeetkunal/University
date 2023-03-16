@@ -14,7 +14,6 @@ import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-
   private trigger: Subject<any> = new Subject();
   public webcamImage!: WebcamImage;
   private nextWebcam: Subject<any> = new Subject();
@@ -23,34 +22,20 @@ export class LoginComponent {
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
-    private auth:AuthService,
-    private router:Router) {
-
-      window.addEventListener("blur", () => {
-        // document.title = "Breakup";
-        // console.log("tab changed")
-       
-      });
-    
-    window.addEventListener("focus", () => {
-        //document.title = "Patch Up";
-        
-      });
-
-
-  //     window.addEventListener("keydown",
-  //     function (event) { 
-  //        if (event.keyCode == 116 || (event.keyCode == 65+17 && event.ctrlKey)) { 
-  //          alert('You cannot reload this page'); 
-  //          event.preventDefault();
-  //     } 
-  // });
-
-    }
-
-  ngOnInit(): void {
-    this.auth.removesession();
+    private auth: AuthService,
+    private router: Router) {
+    window.addEventListener("blur", () => { });
+    window.addEventListener("focus", () => { });
+    //     window.addEventListener("keydown",
+    //     function (event) { 
+    //        if (event.keyCode == 116 || (event.keyCode == 65+17 && event.ctrlKey)) { 
+    //          alert('You cannot reload this page'); 
+    //          event.preventDefault();
+    //     } 
+    // });
   }
+
+  ngOnInit(): void { this.auth.removesession(); }
 
   loading: boolean = false;
   SubmitButtonText: string = "Login";
@@ -61,24 +46,16 @@ export class LoginComponent {
     if (mobile.trim() == "" || password.trim() == "") {
       this.toastr.warning("Please enter userid and password !");
       this.SubmitButtonText = "Login";
-    } else {
-         this.auth.loginService(logindata.value);
-    }
+    } else { this.auth.loginService(logindata.value); }
   }
 
-  public getSnapshot(): void {
-    this.trigger.next(void 0);
-  }
+  public getSnapshot(): void { this.trigger.next(void 0); }
   public captureImg(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
     this.sysImage = webcamImage!.imageAsDataUrl;
     console.info('got webcam image', this.sysImage);
   }
-  public get invokeObservable(): Observable<any> {
-    return this.trigger.asObservable();
-  }
-  public get nextWebcamObservable(): Observable<any> {
-    return this.nextWebcam.asObservable();
-  }
 
+  public get invokeObservable(): Observable<any> { return this.trigger.asObservable(); }
+  public get nextWebcamObservable(): Observable<any> { return this.nextWebcam.asObservable(); }
 }
