@@ -253,25 +253,25 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  singleQuesRes(e: any) {
-    this.selectedQuestion.selected = true;
-    this.selectedQuestion.selectedoptions = e.value;
-    if ((e.target).className.includes("english_radio")) {
-      this.selectedQuestion.responsemode = "ENGLISH";
-      this.HindiDivClass = this.HindiDivClass + " div-disabled";
-    }
-    else {
-      this.selectedQuestion.responsemode = "HINDI";
-      this.EnglishDivClass = this.EnglishDivClass + " div-disabled";
-    }
-    this.full_response.add(this.selectedQuestion);
-  }
+  // singleQuesRes(e: any) {
+  //   this.selectedQuestion.selected = true;
+  //   this.selectedQuestion.selectedoptions = e.value;
+  //   if ((e.target).className.includes("english_radio")) {
+  //     this.selectedQuestion.responsemode = "ENGLISH";
+  //     this.HindiDivClass = this.HindiDivClass + " div-disabled";
+  //   }
+  //   else {
+  //     this.selectedQuestion.responsemode = "HINDI";
+  //     this.EnglishDivClass = this.EnglishDivClass + " div-disabled";
+  //   }
+  //   this.full_response.add(this.selectedQuestion);
+  // }
 
   singleQuesResNew(e: any) {
     this.student_res.selected_prop = true;
     this.student_res.selected_opt = e.target.name;
-    if ((e.target).className.includes("english_radio")) { this.selectedQuestion.responsemode = "ENGLISH"; }
-    else { this.selectedQuestion.responsemode = "HINDI"; }
+    if ((e.target).className.includes("english_radio")) { this.selectedQuestion.responsemode = "ENGLISH"; this.HindiDivClass = this.HindiDivClass + " div-disabled";}
+    else { this.selectedQuestion.responsemode = "HINDI"; this.EnglishDivClass = this.EnglishDivClass + " div-disabled";}
     this.full_response.add(this.selectedQuestion);
   }
 
