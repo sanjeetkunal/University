@@ -148,7 +148,6 @@ export class QuizComponent implements OnInit {
           this.singleQuestion = this.totalQuestions[i];
           if (!this.singleQuestion.selected) { this.questionCounter = i; break; }
         }
-        debugger;
         this.selectedQuestion = this.totalQuestions[this.questionCounter];
         var sessionMinuts = localStorage.getItem('minuts');
         var sessionSeconds = localStorage.getItem('seconds');
