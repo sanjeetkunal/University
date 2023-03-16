@@ -47,18 +47,17 @@ export class QuizComponent implements OnInit {
 
     this.router.events.pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd)).subscribe(event => {
       if (event.id === 1 && event.url === event.urlAfterRedirects) {
-        debugger;
         let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
-        if (prevFiveQuestion!==undefined&&prevFiveQuestion!==null) {
+        if (prevFiveQuestion !== undefined && prevFiveQuestion !== null) {
           this.selectedFiveQuestionsListTesting = JSON.parse(prevFiveQuestion || "");
           if (this.selectedFiveQuestionsListTesting !== null) {
             const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-              let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
-              this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsListTesting }
-              this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
-                this.selectedFiveQuestionsListTesting = [];
-                this.auth.logout();
-              });
+            let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
+            this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsListTesting }
+            this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
+              this.selectedFiveQuestionsListTesting = [];
+              localStorage.removeItem("FiveQuestionSet");
+            });
           }
         }
       }
@@ -90,7 +89,7 @@ export class QuizComponent implements OnInit {
         this.router.navigate(['/user-agrement']);
       }
     } else {
-         this.auth.logout();
+      this.auth.logout();
     }
   }
 
