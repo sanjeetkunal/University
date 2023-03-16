@@ -113,6 +113,7 @@ export class UserAgrementComponent implements OnInit {
     this.IsUserAgreeTermsAndCondition = false;
     if (event.target.checked) {
       this.IsUserAgreeTermsAndCondition = true;
+      localStorage.setItem('user-accepted','true')
     }
   }
 

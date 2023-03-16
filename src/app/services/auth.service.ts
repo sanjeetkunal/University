@@ -97,7 +97,10 @@ export class AuthService {
     localStorage.removeItem('userid');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('user-accepted');
     localStorage.removeItem('subjectname');
+    localStorage.removeItem('minuts');
+      localStorage.removeItem('seconds');
     this.isLoggedIn = false;
     this.username = null;
     this.subjectname = null;

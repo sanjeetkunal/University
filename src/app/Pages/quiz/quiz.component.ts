@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { ConnectionService } from 'ng-connection-service';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import {  filter } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-quiz',
@@ -31,44 +31,67 @@ export class QuizComponent implements OnInit {
       }
     });
     window.addEventListener("blur", () => {
+      this.final_res_server.onblur = "blur submit"
       //this.epicFunction(); 
     });
     //window.addEventListener("focus", () => { });
 
-    window.addEventListener("keydown",
-    function (event) { 
-      if (event.keyCode == 116 || (event.keyCode == 65+17 && event.ctrlKey)) { 
-         alert('You cannot reload this page'); 
-         event.preventDefault();
-    } 
-});
+    //     window.addEventListener("keydown",
+    //     function (event) { 
+    //       if (event.keyCode == 116 || (event.keyCode == 65+17 && event.ctrlKey)) { 
+    //          alert('You cannot reload this page'); 
+    //          event.preventDefault();
+    //     } 
+    // });
 
 
-    this.router.events
-    .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
-    .subscribe(event => {
-   
-      if (
-        event.id === 1 &&
-        event.url === event.urlAfterRedirects
-      ) {
-
-            console.log("page is refreshed in quizfinish")
-        
-
-          
+    this.router.events.pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd)).subscribe(event => {
+      if (event.id === 1 && event.url === event.urlAfterRedirects) {
+        debugger;
+        let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
+        if (prevFiveQuestion!==undefined&&prevFiveQuestion!==null) {
+          this.selectedFiveQuestionsListTesting = JSON.parse(prevFiveQuestion || "");
+          if (this.selectedFiveQuestionsListTesting !== null) {
+            const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+              let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
+              this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsListTesting }
+              this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
+                this.selectedFiveQuestionsListTesting = [];
+                this.auth.logout();
+              });
+          }
+        }
       }
     })
-
   }
 
+  selectedFiveQuestionsListTesting: any = [];
   deviceInfo: any = null;
   epicFunction() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
     //const isMobile = this.deviceService.isMobile();
     //const isTablet = this.deviceService.isTablet();
     const isDesktopDevice = this.deviceService.isDesktop();
-    if (isDesktopDevice) { debugger; this.submitFullResponse(); }
+    if (isDesktopDevice) { this.submitFullResponse(); }
+  }
+
+  userChecker() {
+    let user_accepted = localStorage.getItem('user-accepted');
+    if (this.token !== null) {
+      this.GetAllQuestionsSet();
+      if (user_accepted === 'true') {
+        this.auth.authenticatationState.next(true);
+        setTimeout(() => {
+          this.username = this.auth.username;
+          this.subjectname = this.auth.subjectname;
+        }, 2000)
+      } else {
+        this.toastr.warning("Please accept the User Agreement");
+        this.router.navigate(['/user-agrement']);
+      }
+    } else {
+         this.auth.logout();
+    }
   }
 
   answer: string = "";
@@ -107,7 +130,7 @@ export class QuizComponent implements OnInit {
     this.subjectname = localStorage.getItem('subjectname');
     this.userid = localStorage.getItem('userid');
     this.token = localStorage.getItem('token');
-    this.GetAllQuestionsSet();
+    this.userChecker();
   }
 
   GetAllQuestionsSet() {
@@ -117,6 +140,7 @@ export class QuizComponent implements OnInit {
     let url = `https://entrance.skduniversity.com/api/v1/auth/getUserQuestionPaper`;
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       this.temp_res = res;
+      console.log(this.temp_res);
       this.username = this.temp_res.candidateName;
       this.subjectname = this.temp_res.subject;
       this.totalQuestions = this.temp_res.userquestionSet;
@@ -125,10 +149,11 @@ export class QuizComponent implements OnInit {
           this.singleQuestion = this.totalQuestions[i];
           if (!this.singleQuestion.selected) { this.questionCounter = i; break; }
         }
+        debugger;
         this.selectedQuestion = this.totalQuestions[this.questionCounter];
-        var sessionMinuts = localStorage.getItem('minuts_' + this.userid);
-        var sessionSeconds = localStorage.getItem('seconds_' + this.userid)
-        if (sessionMinuts !== null && sessionSeconds !== null) { this.timer = (parseInt(sessionMinuts) * 60) + parseInt(sessionSeconds); }//second  
+        var sessionMinuts = localStorage.getItem('minuts');
+        var sessionSeconds = localStorage.getItem('seconds');
+        if (sessionMinuts !== null && sessionMinuts !== "NaN" && sessionSeconds !== "NaN" && sessionSeconds !== null) { this.timer = (parseInt(sessionMinuts) * 60) + parseInt(sessionSeconds); }//second  
         else { this.timer = (parseInt(this.temp_res.remainingMinutes) * 60) + parseInt(this.temp_res.remainingSeconds); }//second
         this.startTimer();
       }
@@ -158,12 +183,12 @@ export class QuizComponent implements OnInit {
 
   ManageTimmerCounter(this_minutes: any, this_seconds: any, this_type: any) {
     if (this_type === "manage") {
-      localStorage.setItem('minuts_' + this.userid, this_minutes);
-      localStorage.setItem('seconds_' + this.userid, this_seconds);
+      localStorage.setItem('minuts', this_minutes);
+      localStorage.setItem('seconds', this_seconds);
     }
     else {
-      this.minutes = localStorage.getItem('minuts_' + this.userid);
-      this.seconds = localStorage.getItem('seconds_' + this.userid);
+      this.minutes = localStorage.getItem('minuts');
+      this.seconds = localStorage.getItem('seconds');
     }
   }
 
@@ -177,12 +202,14 @@ export class QuizComponent implements OnInit {
       this.selectedQuestion.selectedoptions = this.student_res.selected_opt;
       var objSelectedQues = { questionid: this.selectedQuestion.questionid, selected: this.selectedQuestion.selected, selectedoptions: this.selectedQuestion.selectedoptions, responsemode: this.selectedQuestion.responsemode };
       this.selectedFiveQuestionsList.push(objSelectedQues);
+      localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsList));
       if (this.selectedFiveQuestionsList.length === 5) {
         const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
         let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
         this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsList }
         this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
           this.selectedFiveQuestionsList = [];
+          localStorage.removeItem("FiveQuestionSet");
         });
       }
     }
@@ -251,6 +278,7 @@ export class QuizComponent implements OnInit {
     this.final_res_server.seconds = this.seconds;
     this.selectedQuestion.userID = this.userid;
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+    console.log(this.final_res_server);
     let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
     this.http.post(url, this.final_res_server, { headers: reqHeader }).subscribe(res => {
       let server_res: any = res;
