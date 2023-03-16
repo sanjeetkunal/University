@@ -147,8 +147,7 @@ export class QuizComponent implements OnInit {
         for (let i = 0; i < this.totalQuestions.length; i++) {
           this.singleQuestion = this.totalQuestions[i];
           if (!this.singleQuestion.selected) { this.questionCounter = i; break; }
-        }
-        debugger;
+        }        
         this.selectedQuestion = this.totalQuestions[this.questionCounter];
         var sessionMinuts = localStorage.getItem('minuts');
         var sessionSeconds = localStorage.getItem('seconds');
@@ -269,21 +268,37 @@ export class QuizComponent implements OnInit {
     this.full_response.add(this.selectedQuestion);
   }
 
+  selectedFinalQuestionsList: any = [];
   submitFullResponse() {
-    for (let answer of this.full_response) { this.res_array.push(answer); };
-    this.final_res_server.candidateTest = this.res_array;
-    this.final_res_server.userID = this.userid;
-    this.final_res_server.minutes = this.minutes;
-    this.final_res_server.seconds = this.seconds;
-    this.selectedQuestion.userID = this.userid;
-    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-    console.log(this.final_res_server);
-    let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
-    this.http.post(url, this.final_res_server, { headers: reqHeader }).subscribe(res => {
-      let server_res: any = res;
-      this.auth.removesession();
-    });
-    this.router.navigateByUrl('/quizfinish');
+    debugger;
+    let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
+    if (prevFiveQuestion !== undefined && prevFiveQuestion !== null) {
+      this.selectedFinalQuestionsList = JSON.parse(prevFiveQuestion || "");      
+      if (this.selectedFinalQuestionsList !== null) {
+        const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+        let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
+        this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsListTesting }
+        this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
+          this.selectedFinalQuestionsList = [];          
+          this.auth.removesession();
+          this.router.navigateByUrl('/quizfinish');
+        });
+      }
+    }
+    // for (let answer of this.full_response) { this.res_array.push(answer); };
+    // this.final_res_server.candidateTest = this.res_array;
+    // this.final_res_server.userID = this.userid;
+    // this.final_res_server.minutes = this.minutes;
+    // this.final_res_server.seconds = this.seconds;
+    // this.selectedQuestion.userID = this.userid;
+    // const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+    // console.log(this.final_res_server);
+    // let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
+    // this.http.post(url, this.final_res_server, { headers: reqHeader }).subscribe(res => {
+    //   let server_res: any = res;
+    //   this.auth.removesession();
+    // });
+    // this.router.navigateByUrl('/quizfinish');
   }
 
   EnglishLanguage: boolean = false;

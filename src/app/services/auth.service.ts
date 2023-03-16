@@ -101,6 +101,7 @@ export class AuthService {
     localStorage.removeItem('subjectname');
     localStorage.removeItem('minuts');
       localStorage.removeItem('seconds');
+      localStorage.removeItem("FiveQuestionSet");
     this.isLoggedIn = false;
     this.username = null;
     this.subjectname = null;
