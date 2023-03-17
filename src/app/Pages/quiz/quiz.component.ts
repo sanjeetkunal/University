@@ -22,6 +22,7 @@ export class QuizComponent implements OnInit {
     private router: Router, private connectionService: ConnectionService,
     private deviceService: DeviceDetectorService) {
     this.connectionService.monitor().subscribe(isConnected => {
+      this.setUserSessionDetails();
       if (!isConnected.hasInternetAccess && !isConnected.hasNetworkConnection) {
         if (!this.internetDown) {
           this.internetDown = true;
@@ -124,11 +125,17 @@ export class QuizComponent implements OnInit {
   seconds: any;
 
   ngOnInit(): void {
+    this.setUserSessionDetails();
+    this.userChecker();
+  }
+
+  setUserSessionDetails(){
     this.username = localStorage.getItem('username');
     this.subjectname = localStorage.getItem('subjectname');
     this.userid = localStorage.getItem('userid');
     this.token = localStorage.getItem('token');
-    this.userChecker();
+    this.minutes = localStorage.getItem('minuts');
+    this.seconds = localStorage.getItem('seconds');
   }
 
   GetAllQuestionsSet() {
@@ -233,6 +240,7 @@ export class QuizComponent implements OnInit {
   }
 
   prevQues() {
+    console.log(this.totalQuestions);
     this.selectedQuestion = null;
     if (this.questionCounter == 0) { this.toastr.error("No Previous Questions"); }
     else {
