@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit,TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { NavigationEnd, Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
@@ -212,7 +212,7 @@ export class QuizComponent implements OnInit {
   SaveFiveQuestionRequest = { userID: "", subject: "", minutes: "", seconds: "", userResponses: [] };
   GoToNextQuestion() {
     this.HindiDivClass = "form-group";
-    this.EnglishDivClass = "form-group";
+    this.EnglishDivClass = "form-group";    
     console.log(this.userQuestionDetails.userquestionSet[this.questionCounter].selected);
     if (!this.userQuestionDetails.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop) {
       this.subjectname = this.userQuestionDetails.subject;
@@ -254,23 +254,31 @@ export class QuizComponent implements OnInit {
   }
 
   prevQues() {
-    console.log(this.totalQuestions);
+    this.student_res.selected_prop = false;
+      this.student_res.selected_opt = "";
+    this.HindiDivClass = "form-group";
+    this.EnglishDivClass = "form-group";
+    this.buttonChecked = null;
     this.selectedQuestion = null;
     if (this.questionCounter == 0) { this.toastr.error("No Previous Questions"); }
     else {
       this.questionCounter--;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
-      if (this.selectedQuestion.responsemode == "HINDI") {
-        if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.hioptionAselected = true; }
-        if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.hioptionBselected = true; }
-        if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.hioptionCselected = true; }
-        if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.hioptionDselected = true; }
-      }
-      else {
-        if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.optionAselected = true; }
-        if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.optionBselected = true; }
-        if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.optionCselected = true; }
-        if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.optionDselected = true; }
+      if (this.selectedQuestion.selected) {
+        this.HindiDivClass = this.HindiDivClass + " div-disabled";
+        this.EnglishDivClass = this.EnglishDivClass + " div-disabled";
+        if (this.selectedQuestion.responsemode == "HINDI") {
+          if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.hioptionAselected = true; }
+          if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.hioptionBselected = true; }
+          if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.hioptionCselected = true; }
+          if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.hioptionDselected = true; }
+        }
+        else {
+          if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.optionAselected = true; }
+          if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.optionBselected = true; }
+          if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.optionCselected = true; }
+          if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.optionDselected = true; }
+        }
       }
     }
   }
@@ -320,7 +328,7 @@ export class QuizComponent implements OnInit {
     else { if (!this.EnglishLanguage) { this.HindiLanguage = true; } }
   }
 
-  openSubmitModal(ref: TemplateRef<any>){
+  openSubmitModal(ref: TemplateRef<any>) {
     this.dialog.open(ref);
   }
 }
