@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
   username:any;
   subjectname:any;
 
-
   ngOnInit(){
    // window.location.href = "https://entrance.skduniversity.com/ui/";
     // if(localStorage.getItem('token')){
