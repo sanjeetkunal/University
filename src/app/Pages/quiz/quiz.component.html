@@ -149,11 +149,25 @@
             (click)="prevQues()">Previous</button>
          <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
             (click)="GoToNextQuestion()">Next</button>
-         <button  (click)="submitFullResponse()" class="btn btn-primary btn-block submit-btn" routerLink="/quizfinish" style="float: right;background-color: #332d6d;">Submit Your
+         <button  (click)="openSubmitModal(firstDialog)" class="btn btn-primary btn-block submit-btn" style="float: right;background-color: #332d6d;">Submit Your
             Test</button>
       </div>
    </div>
 </div>
+
+<ng-template #firstDialog style="border: navy; opacity: 0.5%;">
+   <div class="my-modal">
+   <h2 matDialogTitle>Attention, {{username}}!</h2>
+   <p matDialogContent>Are You Sure Want to Submit Your Test</p>
+   <mat-dialog-actions align="end">
+
+    
+    
+     <button mat-button matDialogClose (click)="submitFullResponse()" class="btn btn-success">Yes</button>
+     <button mat-button matDialogClose class="btn btn-danger">No</button>
+   </mat-dialog-actions>
+ </div>
+ </ng-template>
 
 <!-- <mat-radio-group aria-label="Select an option">
    <mat-radio-button style="background-color:black" color="warn" name="option1" value="1" (change)="radioChange($event)">Option 1</mat-radio-button>

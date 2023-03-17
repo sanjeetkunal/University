@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,TemplateRef } from '@angular/core';
 import { NavigationEnd, Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { ConnectionService } from 'ng-connection-service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { filter } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-quiz',
@@ -19,6 +20,7 @@ export class QuizComponent implements OnInit {
     private http: HttpClient,
     private toastr: ToastrService,
     private auth: AuthService,
+    public dialog: MatDialog,
     private router: Router, private connectionService: ConnectionService,
     private deviceService: DeviceDetectorService) {
     this.connectionService.monitor().subscribe(isConnected => {
@@ -126,16 +128,21 @@ export class QuizComponent implements OnInit {
 
   ngOnInit(): void {
     this.setUserSessionDetails();
-    this.userChecker();
   }
 
-  setUserSessionDetails(){
+  setUserSessionDetails() {
     this.username = localStorage.getItem('username');
     this.subjectname = localStorage.getItem('subjectname');
     this.userid = localStorage.getItem('userid');
     this.token = localStorage.getItem('token');
     this.minutes = localStorage.getItem('minuts');
     this.seconds = localStorage.getItem('seconds');
+    if (this.token !== null && this.userid !== null && this.username !== null && this.subjectname !== null) {
+      this.userChecker();
+    }
+    else {
+      this.auth.logout();
+    }
   }
 
   GetAllQuestionsSet() {
@@ -144,14 +151,14 @@ export class QuizComponent implements OnInit {
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
     let url = `https://entrance.skduniversity.com/api/v1/auth/getUserQuestionPaper`;
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
-       this.userQuestionDetails = res;
-       this.username = this.userQuestionDetails.candidateName;
-       //localStorage.setItem('username',this.username);
-       this.subjectname = this.userQuestionDetails.subject;
-       //localStorage.setItem('subjectname',this.subjectname);
-       this.userid = this.userQuestionDetails.userID;
-       //localStorage.setItem('userid',this.userid);
-      
+      this.userQuestionDetails = res;
+      this.username = this.userQuestionDetails.candidateName;
+      //localStorage.setItem('username',this.username);
+      this.subjectname = this.userQuestionDetails.subject;
+      //localStorage.setItem('subjectname',this.subjectname);
+      this.userid = this.userQuestionDetails.userID;
+      //localStorage.setItem('userid',this.userid);
+
 
       this.totalQuestions = this.userQuestionDetails.userquestionSet;
       if (this.totalQuestions.length > 0) {
@@ -203,19 +210,26 @@ export class QuizComponent implements OnInit {
 
   selectedFiveQuestionsList: any = [];
   SaveFiveQuestionRequest = { userID: "", subject: "", minutes: "", seconds: "", userResponses: [] };
-  GoToNextQuestion() {    
+  GoToNextQuestion() {
     this.HindiDivClass = "form-group";
     this.EnglishDivClass = "form-group";
+    console.log(this.userQuestionDetails.userquestionSet[this.questionCounter].selected);
     if (!this.userQuestionDetails.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop) {
-      this.subjectname=this.userQuestionDetails.subject;
-      this.userid=this.userQuestionDetails.userID;
+      this.subjectname = this.userQuestionDetails.subject;
+      this.userid = this.userQuestionDetails.userID;
 
       this.selectedQuestion.selected = true;
       this.selectedQuestion.selectedoptions = this.student_res.selected_opt;
+
+      //setting student_res to null
+      this.student_res.selected_prop = false;
+      this.student_res.selected_opt = "";
+
       var objSelectedQues = { questionid: this.selectedQuestion.questionid, selected: this.selectedQuestion.selected, selectedoptions: this.selectedQuestion.selectedoptions, responsemode: this.selectedQuestion.responsemode };
       this.selectedFiveQuestionsList.push(objSelectedQues);
       localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsList));
       if (this.selectedFiveQuestionsList.length === 5) {
+        debugger;
         const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
         let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
         this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsList }
@@ -278,8 +292,8 @@ export class QuizComponent implements OnInit {
   singleQuesResNew(e: any) {
     this.student_res.selected_prop = true;
     this.student_res.selected_opt = e.target.name;
-    if ((e.target).className.includes("english_radio")) { this.selectedQuestion.responsemode = "ENGLISH"; this.HindiDivClass = this.HindiDivClass + " div-disabled";}
-    else { this.selectedQuestion.responsemode = "HINDI"; this.EnglishDivClass = this.EnglishDivClass + " div-disabled";}
+    if ((e.target).className.includes("english_radio")) { this.selectedQuestion.responsemode = "ENGLISH"; this.HindiDivClass = this.HindiDivClass + " div-disabled"; }
+    else { this.selectedQuestion.responsemode = "HINDI"; this.EnglishDivClass = this.EnglishDivClass + " div-disabled"; }
     this.full_response.add(this.selectedQuestion);
   }
 
@@ -304,5 +318,9 @@ export class QuizComponent implements OnInit {
   onLanguageClicked(language: string) {
     if (language == "hindi") { if (!this.HindiLanguage) { this.EnglishLanguage = true; } }
     else { if (!this.EnglishLanguage) { this.HindiLanguage = true; } }
+  }
+
+  openSubmitModal(ref: TemplateRef<any>){
+    this.dialog.open(ref);
   }
 }
