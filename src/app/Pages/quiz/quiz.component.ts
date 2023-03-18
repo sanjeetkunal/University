@@ -35,7 +35,7 @@ export class QuizComponent implements OnInit {
     });
     window.addEventListener("blur", () => {
       this.final_res_server.onblur = "blur submit"
-      //this.epicFunction(); 
+      this.epicFunction(); 
     });
     //window.addEventListener("focus", () => { });
 
@@ -55,7 +55,7 @@ export class QuizComponent implements OnInit {
           if (this.selectedFiveQuestionsListTesting !== null) {
             const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
             let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
-            this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsListTesting }
+            this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds,sessionevent:"pagereload", userResponses: this.selectedFiveQuestionsListTesting }
             this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
               this.selectedFiveQuestionsListTesting = [];
               localStorage.removeItem("FiveQuestionSet");
@@ -73,7 +73,7 @@ export class QuizComponent implements OnInit {
     //const isMobile = this.deviceService.isMobile();
     //const isTablet = this.deviceService.isTablet();
     const isDesktopDevice = this.deviceService.isDesktop();
-    if (isDesktopDevice) { this.submitFullResponse(); }
+    if (isDesktopDevice) { this.submitFullResponse("cheatingattempted"); }
   }
 
   userChecker() {
@@ -160,7 +160,7 @@ export class QuizComponent implements OnInit {
       this.userid = this.userQuestionDetails.userID;
       //localStorage.setItem('userid',this.userid);
 
-
+    
       this.totalQuestions = this.userQuestionDetails.userquestionSet;
       if (this.totalQuestions.length > 0) {
         for (let i = 0; i < this.totalQuestions.length; i++) {
@@ -187,7 +187,7 @@ export class QuizComponent implements OnInit {
   showMinSecHtml:any;
   startTimer() {
     let t: any = window.setInterval(() => {      
-      if (this.timer <= 0) { this.submitFullResponse(); clearInterval(t); }
+      if (this.timer <= 0) { this.submitFullResponse("timezero"); clearInterval(t); }
       else { this.getFormatedTimer(); this.timer--; }
     }, 1000);
   }
@@ -225,7 +225,7 @@ export class QuizComponent implements OnInit {
   }
 
   selectedFiveQuestionsList: any = [];
-  SaveFiveQuestionRequest = { userID: "", subject: "", minutes: "", seconds: "", userResponses: [] };
+  SaveFiveQuestionRequest = { userID: "", subject: "", minutes: "", seconds: "",sessionevent:"", userResponses: [] };
   GoToNextQuestion() {
     this.HindiDivClass = "form-group";
     this.EnglishDivClass = "form-group";    
@@ -248,7 +248,7 @@ export class QuizComponent implements OnInit {
         debugger;
         const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
         let url = `https://entrance.skduniversity.com/api/v1/auth/saveOneAnswer`;
-        this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFiveQuestionsList }
+        this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds,sessionevent:"finalsubmission", userResponses: this.selectedFiveQuestionsList }
         this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
           this.selectedFiveQuestionsList = [];
           localStorage.removeItem("FiveQuestionSet");
@@ -265,7 +265,7 @@ export class QuizComponent implements OnInit {
       this.buttonChecked = null;
     } else {
       this.router.navigateByUrl('/quizfinish');
-      this.submitFullResponse();
+      this.submitFullResponse("finalsubmission");
     }
   }
 
@@ -322,14 +322,14 @@ export class QuizComponent implements OnInit {
   }
 
   selectedFinalQuestionsList: any = [];
-  submitFullResponse() {
+  submitFullResponse(sessionEventTest:any) {
     let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
     if (prevFiveQuestion !== undefined && prevFiveQuestion !== null) {
       this.selectedFinalQuestionsList = JSON.parse(prevFiveQuestion || "");
     }
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
     let url = `https://entrance.skduniversity.com/api/v1/auth/saveUserTest`;
-    this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, userResponses: this.selectedFinalQuestionsList }
+    this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, sessionevent:sessionEventTest, userResponses: this.selectedFinalQuestionsList }
     this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
       this.selectedFinalQuestionsList = [];
       this.auth.removesession();
