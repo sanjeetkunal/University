@@ -127,7 +127,7 @@ export class QuizComponent implements OnInit {
   seconds: any;
 
   ngOnInit(): void {
-    this.setUserSessionDetails();
+    //this.setUserSessionDetails();
   }
 
   setUserSessionDetails() {
@@ -184,19 +184,34 @@ export class QuizComponent implements OnInit {
     })
   }
 
+  showMinSecHtml:any;
   startTimer() {
-    let t: any = window.setInterval(() => {
-      this.ManageTimmerCounter(this.minutes, this.seconds, "manage");
+    let t: any = window.setInterval(() => {      
       if (this.timer <= 0) { this.submitFullResponse(); clearInterval(t); }
-      else { this.timer--; }
+      else { this.getFormatedTimer(); this.timer--; }
     }, 1000);
   }
 
   getFormatedTimer() {
     this.minutes = Math.floor(this.timer / 60);
     this.seconds = this.timer - parseInt(this.minutes) * 60;
-    return `${this.minutes} Min : ${this.seconds} Sec`;
+    this.ManageTimmerCounter(this.minutes, this.seconds, "manage");
+    this.showMinSecHtml= `${this.minutes} Min : ${this.seconds} Sec`;
   }
+
+  // startTimer() {
+  //   let t: any = window.setInterval(() => {
+  //     this.ManageTimmerCounter(this.minutes, this.seconds, "manage");
+  //     if (this.timer <= 0) { this.submitFullResponse(); clearInterval(t); }
+  //     else { this.timer--; }
+  //   }, 1000);
+  // }
+
+  // getFormatedTimer() {
+  //   this.minutes = Math.floor(this.timer / 60);
+  //   this.seconds = this.timer - parseInt(this.minutes) * 60;
+  //   return `${this.minutes} Min : ${this.seconds} Sec`;
+  // }
 
   ManageTimmerCounter(this_minutes: any, this_seconds: any, this_type: any) {
     if (this_type === "manage") {
