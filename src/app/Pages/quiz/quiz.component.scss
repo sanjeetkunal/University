@@ -9,7 +9,7 @@
     .question-box {
         border-radius: 0.3rem !important;
         background-color: #fff !important;
-        padding: 3rem !important;
+        padding: 1rem !important;
         margin-right: auto !important;
         margin-left: auto !important;
         box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .75) !important;
@@ -86,4 +86,23 @@
     pointer-events: none; 
     opacity: 2.0;
     color:lightgray;
+}
+
+
+.form-check img {
+    width: 100% !important;
+}
+
+@media(max-width:500px){
+    .form-check img {
+        width: 100% !important;
+    }  
+}
+
+@media (max-width: 500px){
+.media-ques img {
+    max-width: 100%;
+    padding-top: 56.25%;
+    padding-top: calc(100% / (var(--aspect-ratio)));
+}
 }
