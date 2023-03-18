@@ -152,6 +152,7 @@ export class QuizComponent implements OnInit {
     let url = `https://entrance.skduniversity.com/api/v1/auth/getUserQuestionPaper`;
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       this.userQuestionDetails = res;
+      console.log(res);
       this.username = this.userQuestionDetails.candidateName;
       //localStorage.setItem('username',this.username);
       this.subjectname = this.userQuestionDetails.subject;
@@ -330,5 +331,9 @@ export class QuizComponent implements OnInit {
 
   openSubmitModal(ref: TemplateRef<any>) {
     this.dialog.open(ref);
+  }
+
+  logout(){
+    this.auth.logout();
   }
 }

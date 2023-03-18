@@ -1,31 +1,35 @@
 <nav class="navbar navbar-expand-lg static-top" style="color: #d6d7ee; background-color: #d6d7ee;">
-   <div class="container"  style="color: #d6d7ee;background-color: #d6d7ee;">
-     <a class="navbar-brand" href="javascript:void(0)">
-       <img src="./assets/Images/skd-logo.png" alt="..." height="36">
-     </a>
-     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-     </button>
-     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-       <ul class="navbar-nav ms-auto" >
-        <div>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Name : {{username}} <br> Subject: {{subjectname}}</a>
-            <!-- <button class = "btn btn-primary" (click)="logout()">Logout</button> -->
-          </li>
-        </div>
+   <div class="container" style="color: #d6d7ee;background-color: #d6d7ee;">
+      <a class="navbar-brand" href="javascript:void(0)">
+         <img src="./assets/Images/skd-logo.png" alt="..." height="36">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+         <ul class="navbar-nav ms-auto">
+            <div>
+               <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Name : {{username}} <br>
+                     Subject: {{subjectname}}</a>
+                  <!-- <button class="btn btn-primary" (click)="logout()">Logout</button> -->
+               </li>
+            </div>
 
-       </ul>
-     </div>
+         </ul>
+      </div>
    </div>
- </nav>
+</nav>
 
 <div class="bg-gradient">
    <div class="container login">
 
       <div class="col-md-8 quiz-btn" style="text-align: left;margin-bottom: 20px;;">
-         <span style="color:#000;font-size: 15px;"><strong>Note :</strong> Please do not change tab/screen/window, othrewise you will be considered disqualified and test will be submitted.</span><br>
-         <span style="color:#000;font-size: 15px;"><strong>टिप्पणी :</strong> कृपया टैब/स्क्रीन/विंडो न बदलें, अन्यथा आपको अयोग्य माना जाएगा और परीक्षण सबमिट किया जाएगा।</span>
+         <span style="color:#000;font-size: 15px;"><strong>Note :</strong> Please do not change tab/screen/window,
+            othrewise you will be considered disqualified and test will be submitted.</span><br>
+         <span style="color:#000;font-size: 15px;"><strong>टिप्पणी :</strong> कृपया टैब/स्क्रीन/विंडो न बदलें, अन्यथा
+            आपको अयोग्य माना जाएगा और परीक्षण सबमिट किया जाएगा।</span>
       </div>
       <div class="quiz-btn col-md-8" style="text-align: right;font-size: 18px;">
          <span style="color:black">Remaining Time : {{getFormatedTimer()}}</span>
@@ -45,128 +49,129 @@
            </mat-card-content>
          </mat-card>
       </div> -->
-     <div [ngClass]="{disabledNoOfCasesDiv : selectedQuestion?.selected == true}">
-      <div class="question-box col-md-8 ">
-         <form action="#" class="my-form">
-            <div ngClass="{{EnglishDivClass}}">
-               <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.question"></span></h3>
-             
+      <div [ngClass]="{disabledNoOfCasesDiv : selectedQuestion?.selected == true}">
+         <div class="question-box col-md-8 ">
+            <form action="#" class="my-form">
+               <div ngClass="{{EnglishDivClass}}">
+                  <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.question"></span></h3>
 
 
-                <div class="form-check">
-                  <label class="form-check-label">
-               <input type="radio" class="form-check-input english_radio" 
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="A"
-               value="A" [checked]="selectedQuestion?.optionAselected"> 
-               <span [innerHTML]="selectedQuestion?.optionA"></span></label>
-               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.selected">✔️</span> -->
-               <!-- <span>Checked</span> -->
-               </div>
 
-               <div class="form-check">
-                  <label class="form-check-label"> 
-               <input type="radio" class="form-check-input english_radio"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="B" 
-               value="B" [checked]="selectedQuestion?.optionBselected"> 
-               <span [innerHTML]="selectedQuestion?.optionB"></span></label>
-               <!-- <span *ngIf="selectedQuestion?.selectedoptions == 'B' && selectedQuestion?.selected">✔️</span> -->
-               </div>
-
-               <div class="form-check">
-                  <label class="form-check-label"> 
-               <input type="radio" class="form-check-input english_radio"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="C" 
-               value="C" [checked]="selectedQuestion?.optionCselected"> 
-               <span [innerHTML]="selectedQuestion?.optionC"></span></label>
-               <!-- <span *ngIf="selectedQuestion?.selectedoptions == 'C' && selectedQuestion?.selected">✔️</span>      -->
-               </div>
-               
-               <div class="form-check">
-                  <label class="form-check-label">
-               <input type="radio" class="form-check-input english_radio"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="D"
-               value="D" [checked]="selectedQuestion?.optionDselected"> 
-               <span [innerHTML]="selectedQuestion?.optionD"></span></label>
-               <!-- <span *ngIf="selectedQuestion?.selectedoptions == 'D' && selectedQuestion?.selected">✔️</span> -->
-               </div>
-
-
-            </div>
-
-
-            <div ngClass="{{HindiDivClass}}">
-               <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.hiquestion"></span></h3>
-                 <div class="form-check">
-                  <label class="form-check-label"> 
-               <input type="radio" class="form-check-input" 
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="A"
-               value="{{selectedQuestion?.hioptionA}}" [checked]="selectedQuestion?.hioptionAselected"> 
-               <span [innerHTML]="selectedQuestion?.hioptionA"></span></label>
-
-              
-               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.selected">✔️</span> -->
-               </div>
-
-               <div class="form-check">
-                  <label class="form-check-label">
-               <input type="radio" class="form-check-input"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="B" 
-               value="{{selectedQuestion?.hioptionB}}" [checked]="selectedQuestion?.hioptionBselected"> 
-               <span [innerHTML]="selectedQuestion?.hioptionB"></span></label>
-               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'B' && selectedQuestion?.selected">✔️</span> -->
-               </div>
-
-               <div class="form-check">
-                  <label class="form-check-label">
-               <input type="radio" class="form-check-input"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="C" 
-               value="{{selectedQuestion?.hioptionC}}" [checked]="selectedQuestion?.hioptionCselected"> 
-               <span [innerHTML]="selectedQuestion?.hioptionC"></span></label>
-               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'C' && selectedQuestion?.selected">✔️</span> -->
-               </div>
-               
-               <div class="form-check">
-                  <label class="form-check-label"> 
-               <input type="radio" class="form-check-input"
-               [(ngModel)]=buttonChecked (click)="singleQuesResNew($event)" name="D"
-               value="{{selectedQuestion?.hioptionD}}" [checked]="selectedQuestion?.hioptionDselected"> 
-               <span [innerHTML]="selectedQuestion?.hioptionD"></span></label>
-               <!-- <span *ngIf="selectedQuestion?.selectedoptions === 'D' && selectedQuestion?.selected">✔️</span> -->
+                  <div class="form-check">
+                     <label class="form-check-label">
+                        <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
+                           (click)="singleQuesResNew($event)" name="A" value="A"
+                           [checked]="selectedQuestion?.optionAselected">
+                        <span [innerHTML]="selectedQuestion?.optionA"></span></label>
+                     <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.optionAselected">✔️</span>
+                     <!-- <span>Checked</span> -->
                   </div>
 
-            </div>
+                  <div class="form-check">
+                     <label class="form-check-label">
+                        <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
+                           (click)="singleQuesResNew($event)" name="B" value="B"
+                           [checked]="selectedQuestion?.optionBselected">
+                        <span [innerHTML]="selectedQuestion?.optionB"></span></label>
+                     <span *ngIf="selectedQuestion?.selectedoptions == 'B' && selectedQuestion?.optionBselected">✔️</span>
+                  </div>
+
+                  <div class="form-check">
+                     <label class="form-check-label">
+                        <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
+                           (click)="singleQuesResNew($event)" name="C" value="C"
+                           [checked]="selectedQuestion?.optionCselected">
+                        <span [innerHTML]="selectedQuestion?.optionC"></span></label>
+                     <span *ngIf="selectedQuestion?.selectedoptions == 'C' && selectedQuestion?.optionCselected">✔️</span>
+                  </div>
+
+                  <div class="form-check">
+                     <label class="form-check-label">
+                        <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
+                           (click)="singleQuesResNew($event)" name="D" value="D"
+                           [checked]="selectedQuestion?.optionDselected">
+                        <span [innerHTML]="selectedQuestion?.optionD"></span></label>
+                     <span *ngIf="selectedQuestion?.selectedoptions == 'D' && selectedQuestion?.optionDselected">✔️</span>
+                  </div>
 
 
-         </form>
+               </div>
+
+
+               <div ngClass="{{HindiDivClass}}">
+                  <h3>Q{{selectedQuestion?.sequenceno}}. <span [innerHTML]="selectedQuestion?.hiquestion"></span></h3>
+                  <div class="form-check">
+                     <label class="form-check-label">
+                        <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
+                           (click)="singleQuesResNew($event)" name="A" value="{{selectedQuestion?.hioptionA}}"
+                           [checked]="selectedQuestion?.hioptionAselected">
+                        <span [innerHTML]="selectedQuestion?.hioptionA"></span></label>
+
+
+                     <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.hioptionAselected">✔️</span>
+                  </div>
+
+                  <div class="form-check">
+                     <label class="form-check-label">
+                        <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
+                           (click)="singleQuesResNew($event)" name="B" value="{{selectedQuestion?.hioptionB}}"
+                           [checked]="selectedQuestion?.hioptionBselected">
+                        <span [innerHTML]="selectedQuestion?.hioptionB"></span></label>
+                     <span *ngIf="selectedQuestion?.selectedoptions === 'B' && selectedQuestion?.hioptionBselected">✔️</span>
+                  </div>
+
+                  <div class="form-check">
+                     <label class="form-check-label">
+                        <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
+                           (click)="singleQuesResNew($event)" name="C" value="{{selectedQuestion?.hioptionC}}"
+                           [checked]="selectedQuestion?.hioptionCselected">
+                        <span [innerHTML]="selectedQuestion?.hioptionC"></span></label>
+                     <span *ngIf="selectedQuestion?.selectedoptions === 'C' && selectedQuestion?.hioptionCselected">✔️</span>
+                  </div>
+
+                  <div class="form-check">
+                     <label class="form-check-label">
+                        <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
+                           (click)="singleQuesResNew($event)" name="D" value="{{selectedQuestion?.hioptionD}}"
+                           [checked]="selectedQuestion?.hioptionDselected">
+                        <span [innerHTML]="selectedQuestion?.hioptionD"></span></label>
+                     <span *ngIf="selectedQuestion?.selectedoptions === 'D' && selectedQuestion?.hioptionDselected">✔️</span>
+                  </div>
+
+               </div>
+
+
+            </form>
+
+         </div>
 
       </div>
 
-   </div>
 
-      
       <div class="quiz-btn col-md-8">
-         <button *ngIf="questionCounter!=0"  class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
-            (click)="prevQues()">Previous</button>
-         <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn" style="background: orange;border: none;"
-            (click)="GoToNextQuestion()">Next</button>
-         <button  (click)="openSubmitModal(firstDialog)" class="btn btn-primary btn-block submit-btn" style="float: right;background-color: #332d6d;">Submit Your
+         <button *ngIf="questionCounter!=0" class="btn btn-primary btn-block submit-btn"
+            style="background: orange;border: none;" (click)="prevQues()">Previous</button>
+         <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn"
+            style="background: orange;border: none;" (click)="GoToNextQuestion()">Next</button>
+         <button (click)="openSubmitModal(firstDialog)" class="btn btn-primary btn-block submit-btn"
+            style="float: right;background-color: #332d6d;">Submit Your
             Test</button>
       </div>
    </div>
 </div>
 <ng-template #firstDialog style="border: navy; opacity: 0.5%;">
    <div class="my-modal">
-   <h2 matDialogTitle>Attention, {{username}}!</h2>
-   <p matDialogContent>Are You Sure Want to Submit Your Test</p>
-   <mat-dialog-actions align="end">
+      <h2 matDialogTitle>Attention, {{username}}!</h2>
+      <p matDialogContent>Are You Sure Want to Submit Your Test</p>
+      <mat-dialog-actions align="end">
 
-    
-    
-     <button mat-button matDialogClose (click)="submitFullResponse()" class="btn btn-success">Yes</button>
-     <button mat-button matDialogClose class="btn btn-danger">No</button>
-   </mat-dialog-actions>
- </div>
- </ng-template>
+
+
+         <button mat-button matDialogClose (click)="submitFullResponse()" class="btn btn-success">Yes</button>
+         <button mat-button matDialogClose class="btn btn-danger">No</button>
+      </mat-dialog-actions>
+   </div>
+</ng-template>
 
 <!-- <mat-radio-group aria-label="Select an option">
    <mat-radio-button style="background-color:black" color="warn" name="option1" value="1" (change)="radioChange($event)">Option 1</mat-radio-button>
