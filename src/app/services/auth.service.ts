@@ -26,6 +26,8 @@ export class AuthService {
   subjectname: any;
   authLoading: boolean = false;
   loginButtonText = "";
+  // baseUrl:string="https://entrance.skduniversity.com/api/";
+  baseUrl:string="http://103.44.53.3:8080/api/";
 
   isAuthenticated() {
     return this.authenticatationState.value;
@@ -53,7 +55,7 @@ export class AuthService {
           'x-access-token': token
         })
       }
-      this.http.get('https://entrance.skduniversity.com/api/users/protect', httpOptions).subscribe(res => {
+      this.http.get(this.baseUrl+'users/protect', httpOptions).subscribe(res => {
         this.userData = res;
         this.authenticatationState.next(true);
       }, err => {
@@ -65,7 +67,7 @@ export class AuthService {
   }
 
   async loginService(logindata: any) {
-    let url = `https://entrance.skduniversity.com/api/v1/auth/authenticate`
+    let url = this.baseUrl+`v1/auth/authenticate`
     this.http.post(url, logindata).subscribe(res => {
       let serverResoponse: any = res;
       if (serverResoponse.token === null) { this.toastr.error(serverResoponse.message); }

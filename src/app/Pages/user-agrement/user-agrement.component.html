@@ -11,7 +11,7 @@
          <div>
            <li class="nav-item">
              <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i>Name : {{username}} <br> Subject: {{subjectname}}</a>
-             <!-- <button class = "btn btn-primary" (click)="logout()">Logout</button> -->
+              <!-- <button class = "btn btn-primary" (click)="logout()">Logout</button> -->
            </li>
          </div>
  
@@ -92,6 +92,8 @@
         <label>
           <input type="checkbox" (change)="IAgreeChecked($event)"> 
           I accept and agree upon the terms and conditions!
+          /
+          मैं नियम और शर्तों को स्वीकार करता हूं और उनसे सहमत हूं!
         </label>
         <!-- <label>Agree</label> -->
         <p><a class="agree-btn"(click)="CheckTermsConditionAcceptOrNot(firstDialog)">Accept</a></p>
@@ -100,7 +102,7 @@
         <ng-template #firstDialog style="border: navy; opacity: 0.5%;">
           <div class="my-modal">
           <h2 matDialogTitle>Hello, {{username}}!</h2>
-          <p matDialogContent>{{DialogMessage}}</p>
+          <p matDialogContent [innerHTML]="DialogMessage"></p>
           <mat-dialog-actions align="end">
 
            

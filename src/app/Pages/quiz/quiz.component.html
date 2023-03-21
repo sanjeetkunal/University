@@ -155,15 +155,14 @@
          <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn"
             style="background: orange;border: none;" (click)="GoToNextQuestion()">Next</button>
          <button (click)="openSubmitModal(firstDialog)" class="btn btn-primary btn-block submit-btn"
-            style="float: right;background-color: #332d6d;">Submit Your
-            Test</button>
+            style="float: right;background-color: #332d6d;">Finish</button>
       </div>
    </div>
 </div>
 <ng-template #firstDialog style="border: navy; opacity: 0.5%;">
    <div class="my-modal">
       <h2 matDialogTitle>Attention, {{username}}!</h2>
-      <p matDialogContent>Are You Sure Want to Submit Your Test</p>
+      <p matDialogContent>Do you really want to finish your exam?<br>क्या आप वास्तव में अपनी परीक्षा समाप्त करना चाहते हैं?</p>
       <mat-dialog-actions align="end">
 
 

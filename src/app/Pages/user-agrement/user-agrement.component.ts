@@ -98,12 +98,12 @@ export class UserAgrementComponent implements OnInit {
       this.AgreeYes = "Yes";
       this.AgreeNo = "No";
       this.AgreeYesShow = "block";
-      this.DialogMessage = "Are you sure want to start your entrance TEST!";
+      this.DialogMessage = "Are you sure want to start your entrance TEST? <br/> क्या आप वाकई अपनी प्रवेश परीक्षा शुरू करना चाहते हैं?";
       this.dialog.open(ref);
     }
     else {
       this.AgreeYesShow = "none";
-      this.DialogMessage = "Please select terms and conditins!";
+      this.DialogMessage = "Please select terms and conditins! <br/> कृपया नियम और शर्तें चुनें!";
       this.AgreeNo = "Close";
       this.dialog.open(ref);
     }

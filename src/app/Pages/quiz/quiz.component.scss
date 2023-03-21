@@ -13,7 +13,7 @@
         margin-right: auto !important;
         margin-left: auto !important;
         box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .75) !important;
-
+        min-height: 405px;
     }
 
     .font-bold {
@@ -88,6 +88,9 @@
     color:lightgray;
 }
 
+.div-displaynone{
+display: none !important;;
+}
 
 .form-check img {
     width: 100% !important;

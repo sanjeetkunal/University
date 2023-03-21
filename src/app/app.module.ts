@@ -61,4 +61,6 @@ import { QuizCompletedComponent } from './pages/quiz-completed/quiz-completed.co
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  
+ }
