@@ -83,7 +83,7 @@ export class AuthService {
       }
       else { this.toastr.error(serverResoponse.message); }
     }, err => {
-      this.toastr.error("Services are down, please contact to administrator.");
+        this.toastr.error(err.error.errorList);
     })
   }
 

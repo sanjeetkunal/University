@@ -205,7 +205,7 @@ export class QuizComponent implements OnInit {
     this.seconds = this.timer - parseInt(this.minutes) * 60;
     this.ManageTimmerCounter(this.minutes, this.seconds, "manage");
     this.showMinSecHtml= `${this.minutes} Min : ${this.seconds} Sec`;
-    if(currentMinutes>this.minutes){
+    if(this.minutes > 0 && currentMinutes>this.minutes){
         this.SaveTimingAfter1Mint();
     }
   }
@@ -297,7 +297,7 @@ export class QuizComponent implements OnInit {
 
   prevQues() {
     this.student_res.selected_prop = false;
-      this.student_res.selected_opt = "";
+    this.student_res.selected_opt = "";
     this.HindiDivClass = "form-group";
     this.EnglishDivClass = "form-group";
     this.buttonChecked = null;
@@ -359,6 +359,8 @@ export class QuizComponent implements OnInit {
     this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
       this.selectedFinalQuestionsList = [];
       this.auth.removesession();
+      this.minutes = 0;
+      this.seconds = 0;
       this.router.navigateByUrl('/quizfinish');
     });
   }
