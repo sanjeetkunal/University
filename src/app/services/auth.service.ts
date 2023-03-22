@@ -93,9 +93,8 @@ export class AuthService {
     this.toastr.success("Logged out successfully!");
   }
 
-  removesession() {
-    this.authenticatationState.next(false);
-    this.userAgreementState.next(false);
+  removesession() {    
+    debugger;
     localStorage.removeItem('userid');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -108,5 +107,7 @@ export class AuthService {
     this.username = null;
     this.subjectname = null;
     this.userData = {};
+    this.authenticatationState.next(false);
+    this.userAgreementState.next(false);
   }
 }

@@ -55,8 +55,8 @@ export class QuizComponent implements OnInit {
           this.selectedFiveQuestionsListTesting = JSON.parse(prevFiveQuestion || "");
           if (this.selectedFiveQuestionsListTesting !== null) {
             const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-            let url = this.auth.baseUrl+`v1/auth/saveOneAnswer`;
-            this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds,submissionevent:"pagereload", userResponses: this.selectedFiveQuestionsListTesting }
+            let url = this.auth.baseUrl + `v1/auth/saveOneAnswer`;
+            this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: "pagereload", userResponses: this.selectedFiveQuestionsListTesting }
             this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
               this.selectedFiveQuestionsListTesting = [];
               localStorage.removeItem("FiveQuestionSet");
@@ -150,7 +150,7 @@ export class QuizComponent implements OnInit {
     let reqbody: any = {};
     reqbody.userID = this.userid;
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-    let url = this.auth.baseUrl+`v1/auth/getUserQuestionPaper`;
+    let url = this.auth.baseUrl + `v1/auth/getUserQuestionPaper`;
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       this.userQuestionDetails = res;
       console.log(res);
@@ -161,7 +161,7 @@ export class QuizComponent implements OnInit {
       this.userid = this.userQuestionDetails.userID;
       //localStorage.setItem('userid',this.userid);
 
-    
+
       this.totalQuestions = this.userQuestionDetails.userquestionSet;
       if (this.totalQuestions.length > 0) {
         for (let i = 0; i < this.totalQuestions.length; i++) {
@@ -185,28 +185,28 @@ export class QuizComponent implements OnInit {
     })
   }
 
-  showMinSecHtml:any;
+  showMinSecHtml: any;
   startTimer() {
-    let t: any = window.setInterval(() => {      
-      if (this.timer <= 0) { 
-        this.submitFullResponse("timezero"); 
-        clearInterval(t); 
+    let t: any = window.setInterval(() => {
+      if (this.timer <= 0) {
+        this.submitFullResponse("timezero");
+        clearInterval(t);
       }
-      else { 
-        this.getFormatedTimer(); 
-        this.timer--; 
+      else {
+        this.getFormatedTimer();
+        this.timer--;
       }
     }, 1000);
   }
 
-  getFormatedTimer() {   
-    let currentMinutes=this.minutes;
+  getFormatedTimer() {
+    let currentMinutes = this.minutes;
     this.minutes = Math.floor(this.timer / 60);
     this.seconds = this.timer - parseInt(this.minutes) * 60;
     this.ManageTimmerCounter(this.minutes, this.seconds, "manage");
-    this.showMinSecHtml= `${this.minutes} Min : ${this.seconds} Sec`;
-    if(this.minutes > 0 && currentMinutes>this.minutes){
-        this.SaveTimingAfter1Mint();
+    this.showMinSecHtml = `${this.minutes} Min : ${this.seconds} Sec`;
+    if (this.minutes > 0 && currentMinutes > this.minutes) {
+      this.SaveTimingAfter1Mint();
     }
   }
 
@@ -235,24 +235,26 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  SaveTimmer = { userid: "", minutesleft: "", secondsleft: ""};
-  SaveTimingAfter1Mint(){
+  SaveTimmer = { userid: "", minutesleft: "", secondsleft: "" };
+  SaveTimingAfter1Mint() {
     this.minutes = localStorage.getItem('minuts');
     this.seconds = localStorage.getItem('seconds');
     this.userid = localStorage.getItem('userid');
-    let url = this.auth.baseUrl+`v1/auth/saveRemainingTime`;
-    const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-    this.SaveTimmer = { userid: this.userid, minutesleft: this.minutes, secondsleft: this.seconds};
-    this.http.post(url,this.SaveTimmer , { headers: reqHeader }).subscribe(res => {
-      console.log(res);
-    });
+    if (this.minutes !== null && this.seconds !== null && this.userid !== null) {
+      let url = this.auth.baseUrl + `v1/auth/saveRemainingTime`;
+      const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+      this.SaveTimmer = { userid: this.userid, minutesleft: this.minutes, secondsleft: this.seconds };      
+      this.http.post(url, this.SaveTimmer, { headers: reqHeader }).subscribe(res => {
+        console.log(res);
+      });
+    }
   }
 
   selectedFiveQuestionsList: any = [];
-  SaveFiveQuestionRequest = { userID: "", subject: "", minutes: "", seconds: "",submissionevent:"", userResponses: [] };
-  GoToNextQuestion() {   
+  SaveFiveQuestionRequest = { userID: "", subject: "", minutes: "", seconds: "", submissionevent: "", userResponses: [] };
+  GoToNextQuestion() {
     this.HindiDivClass = "form-group";
-    this.EnglishDivClass = "form-group";    
+    this.EnglishDivClass = "form-group";
     console.log(this.userQuestionDetails.userquestionSet[this.questionCounter].selected);
     if (!this.userQuestionDetails.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop) {
       this.subjectname = this.userQuestionDetails.subject;
@@ -270,8 +272,8 @@ export class QuizComponent implements OnInit {
       localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsList));
       if (this.selectedFiveQuestionsList.length === 5) {
         const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-        let url = this.auth.baseUrl+`v1/auth/saveOneAnswer`;
-        this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds,submissionevent:"fivequestion", userResponses: this.selectedFiveQuestionsList }
+        let url = this.auth.baseUrl + `v1/auth/saveOneAnswer`;
+        this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: "fivequestion", userResponses: this.selectedFiveQuestionsList }
         this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
           this.selectedFiveQuestionsList = [];
           localStorage.removeItem("FiveQuestionSet");
@@ -285,8 +287,8 @@ export class QuizComponent implements OnInit {
     if (this.questionCounter < this.totalQuestions.length - 1) {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
-      if(this.selectedQuestion.hiquestion===null){
-        this.HindiDivClass="div-displaynone";
+      if (this.selectedQuestion.hiquestion === null) {
+        this.HindiDivClass = "div-displaynone";
       }
       this.buttonChecked = null;
     } else {
@@ -323,8 +325,8 @@ export class QuizComponent implements OnInit {
         }
       }
 
-      if(this.selectedQuestion.hiquestion===null ){
-        this.HindiDivClass="div-displaynone";
+      if (this.selectedQuestion.hiquestion === null) {
+        this.HindiDivClass = "div-displaynone";
       }
     }
   }
@@ -352,19 +354,18 @@ export class QuizComponent implements OnInit {
   }
 
   selectedFinalQuestionsList: any = [];
-  submitFullResponse(sessionEventTest:any) {
+  submitFullResponse(sessionEventTest: any) {
     let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
     if (prevFiveQuestion !== undefined && prevFiveQuestion !== null) {
       this.selectedFinalQuestionsList = JSON.parse(prevFiveQuestion || "");
     }
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-    let url = this.auth.baseUrl+`v1/auth/saveUserTest`;
-    this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent:sessionEventTest, userResponses: this.selectedFinalQuestionsList }
+    let url = this.auth.baseUrl + `v1/auth/saveUserTest`;
+    this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: sessionEventTest, userResponses: this.selectedFinalQuestionsList }
     this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
       this.selectedFinalQuestionsList = [];
       this.auth.removesession();
-      this.minutes = 0;
-      this.seconds = 0;
+      this.timer=0;
       this.router.navigateByUrl('/quizfinish');
     });
   }
@@ -380,7 +381,7 @@ export class QuizComponent implements OnInit {
     this.dialog.open(ref);
   }
 
-  logout(){
+  logout() {
     this.auth.logout();
   }
 }
