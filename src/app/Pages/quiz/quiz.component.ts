@@ -322,6 +322,10 @@ export class QuizComponent implements OnInit {
           if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.optionDselected = true; }
         }
       }
+
+      if(this.selectedQuestion.hiquestion===null ){
+        this.HindiDivClass="div-displaynone";
+      }
     }
   }
 
