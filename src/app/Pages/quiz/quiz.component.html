@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg static-top" style="color: #d6d7ee; background-color: #d6d7ee;">
-   <div class="container" style="color: #d6d7ee;background-color: #d6d7ee;">
+   <div class="container-fluid" style="color: #d6d7ee;background-color: #d6d7ee;">
       <a class="navbar-brand" href="javascript:void(0)">
          <img src="./assets/Images/skd-logo.png" alt="..." height="36">
       </a>
@@ -23,15 +23,76 @@
 </nav>
 
 <div class="bg-gradient">
-   <div class="container login">
-
-      <div class="col-md-8 quiz-btn" style="text-align: left;margin-bottom: 20px;;">
+   <div class="container-fluid login">
+<div class="row">
+   <div class="col-md-4">
+      <h4>Total Questions</h4>
+      <div class="que-btn-group">
+         <a class="que-btn">1</a>
+         <a class="que-btn">2</a>
+         <a class="que-btn">3</a>
+         <a class="que-btn">4</a>
+         <a class="que-btn">5</a>
+         <a class="que-btn">6</a>
+         <a class="que-btn">1</a>
+         <a class="que-btn">2</a>
+         <a class="que-btn">3</a>
+         <a class="que-btn">4</a>
+         <a class="que-btn">5</a>
+         <a class="que-btn">6</a>
+         <a class="que-btn">1</a>
+         <a class="que-btn">2</a>
+         <a class="que-btn">3</a>
+         <a class="que-btn">4</a>
+         <a class="que-btn">5</a>
+         <a class="que-btn">6</a>
+         <a class="que-btn">1</a>
+         <a class="que-btn">2</a>
+         <a class="que-btn">3</a>
+         <a class="que-btn">4</a>
+         <a class="que-btn">5</a>
+         <a class="que-btn">6</a>
+         <a class="que-btn">1</a>
+         <a class="que-btn">2</a>
+         <a class="que-btn">3</a>
+         <a class="que-btn">4</a>
+         <a class="que-btn">5</a>
+         <a class="que-btn">6</a>
+         <a class="que-btn">1</a>
+         <a class="que-btn">2</a>
+         <a class="que-btn">3</a>
+         <a class="que-btn">4</a>
+         <a class="que-btn">5</a>
+         <a class="que-btn">6</a>
+         <a class="que-btn">1</a>
+         <a class="que-btn">2</a>
+         <a class="que-btn">3</a>
+         <a class="que-btn">4</a>
+         <a class="que-btn">5</a>
+         <a class="que-btn">6</a>
+   
+         <a class="que-btn">1</a>
+         <a class="que-btn">2</a>
+         <a class="que-btn">3</a>
+         <a class="que-btn">4</a>
+         <a class="que-btn">5</a>
+         <a class="que-btn">6</a>
+         <a class="que-btn">1</a>
+         <a class="que-btn">2</a>
+         <a class="que-btn">3</a>
+         <a class="que-btn">4</a>
+         <a class="que-btn">5</a>
+         <a class="que-btn">6</a>
+      </div>
+      </div>
+   <div class="col-sm-8">
+      <div class="col-md-12 quiz-btn" style="text-align: left;margin-bottom: 20px;;">
          <span style="color:#000;font-size: 15px;"><strong>Note :</strong> Please do not change tab/screen/window,
             othrewise you will be considered disqualified and test will be submitted.</span><br>
          <span style="color:#000;font-size: 15px;"><strong>टिप्पणी :</strong> कृपया टैब/स्क्रीन/विंडो न बदलें, अन्यथा
             आपको अयोग्य माना जाएगा और परीक्षण सबमिट किया जाएगा।</span>
       </div>
-      <div class="quiz-btn col-md-8" style="text-align: right;font-size: 18px;">
+      <div class="quiz-btn col-md-12" style="text-align: right;font-size: 18px;">
          <!-- <span style="color:black">Remaining Time : {{getFormatedTimer()}}</span> -->
          <span style="color:black">Remaining Time : {{this.showMinSecHtml}}</span>
       </div>
@@ -51,7 +112,7 @@
          </mat-card>
       </div> -->
       <div [ngClass]="{disabledNoOfCasesDiv : selectedQuestion?.selected == true}">
-         <div class="question-box col-md-8 ">
+         <div class="question-box col-md-12 ">
             <form action="#" class="my-form">
                <div ngClass="{{EnglishDivClass}}">
                   <h3>Q{{selectedQuestion?.sequenceno}}. <span class="media-ques" [innerHTML]="selectedQuestion?.question"></span></h3>
@@ -149,7 +210,7 @@
       </div>
 
 
-      <div class="quiz-btn col-md-8">
+      <div class="quiz-btn col-md-12">
          <button *ngIf="questionCounter!=0" class="btn btn-primary btn-block submit-btn"
             style="background: orange;border: none;" (click)="prevQues()">Previous</button>
          <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn"
@@ -157,6 +218,8 @@
          <button (click)="openSubmitModal(firstDialog)" class="btn btn-primary btn-block submit-btn"
             style="float: right;background-color: #332d6d;">Finish</button>
       </div>
+   </div>
+   </div>
    </div>
 </div>
 <ng-template #firstDialog style="border: navy; opacity: 0.5%;">
