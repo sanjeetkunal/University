@@ -153,3 +153,12 @@ display: none !important;;
     -o-transform: scale(0.80);
     transform: scale(0.80);
 }
+
+.submitted-question{
+    background-color: green;
+}
+
+.active-question{
+    background-color:yellow;
+    color: black;
+}

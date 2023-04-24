@@ -28,61 +28,7 @@
    <div class="col-md-4">
       <h4>Total Questions</h4>
       <div class="que-btn-group">
-         <a class="que-btn">1</a>
-         <a class="que-btn">2</a>
-         <a class="que-btn">3</a>
-         <a class="que-btn">4</a>
-         <a class="que-btn">5</a>
-         <a class="que-btn">6</a>
-         <a class="que-btn">1</a>
-         <a class="que-btn">2</a>
-         <a class="que-btn">3</a>
-         <a class="que-btn">4</a>
-         <a class="que-btn">5</a>
-         <a class="que-btn">6</a>
-         <a class="que-btn">1</a>
-         <a class="que-btn">2</a>
-         <a class="que-btn">3</a>
-         <a class="que-btn">4</a>
-         <a class="que-btn">5</a>
-         <a class="que-btn">6</a>
-         <a class="que-btn">1</a>
-         <a class="que-btn">2</a>
-         <a class="que-btn">3</a>
-         <a class="que-btn">4</a>
-         <a class="que-btn">5</a>
-         <a class="que-btn">6</a>
-         <a class="que-btn">1</a>
-         <a class="que-btn">2</a>
-         <a class="que-btn">3</a>
-         <a class="que-btn">4</a>
-         <a class="que-btn">5</a>
-         <a class="que-btn">6</a>
-         <a class="que-btn">1</a>
-         <a class="que-btn">2</a>
-         <a class="que-btn">3</a>
-         <a class="que-btn">4</a>
-         <a class="que-btn">5</a>
-         <a class="que-btn">6</a>
-         <a class="que-btn">1</a>
-         <a class="que-btn">2</a>
-         <a class="que-btn">3</a>
-         <a class="que-btn">4</a>
-         <a class="que-btn">5</a>
-         <a class="que-btn">6</a>
-   
-         <a class="que-btn">1</a>
-         <a class="que-btn">2</a>
-         <a class="que-btn">3</a>
-         <a class="que-btn">4</a>
-         <a class="que-btn">5</a>
-         <a class="que-btn">6</a>
-         <a class="que-btn">1</a>
-         <a class="que-btn">2</a>
-         <a class="que-btn">3</a>
-         <a class="que-btn">4</a>
-         <a class="que-btn">5</a>
-         <a class="que-btn">6</a>
+         <button (click)="gotoParticularQuestionByNumbering(singleQuestion.sequenceno)" *ngFor="let singleQuestion of totalQuestionsNumber" [ngClass]="'que-btn'+' '+getQuestionClass(singleQuestion?.selected)">{{singleQuestion.sequenceno}}</button>
       </div>
       </div>
    <div class="col-sm-8">

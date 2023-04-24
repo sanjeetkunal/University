@@ -98,6 +98,7 @@ export class QuizComponent implements OnInit {
 
   answer: string = "";
   totalQuestions = [];
+  totalQuestionsNumber:any;
   selectedQuestion: any;
   questionCounter = 0;
   res_array: any = [];
@@ -153,6 +154,7 @@ export class QuizComponent implements OnInit {
     let url = this.auth.baseUrl + `v1/auth/getUserQuestionPaper`;
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       this.userQuestionDetails = res;
+      this.totalQuestionsNumber = this.userQuestionDetails.userquestionSet;
       console.log(res);
       this.username = this.userQuestionDetails.candidateName;
       //localStorage.setItem('username',this.username);
@@ -183,6 +185,20 @@ export class QuizComponent implements OnInit {
       this.auth.logout();
       this.toastr.error(err.message);
     })
+  }
+
+  getQuestionClass(questionStatus:any){
+    //console.log(questionStatus)
+    if(questionStatus){
+      return "submitted-question";
+    }else{
+      return "";
+    }
+    
+  }
+
+  gotoParticularQuestionByNumbering(questionNumber:number){
+    this.selectedQuestion = this.totalQuestions[questionNumber-1];
   }
 
   showMinSecHtml: any;

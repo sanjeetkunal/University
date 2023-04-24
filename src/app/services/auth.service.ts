@@ -94,7 +94,7 @@ export class AuthService {
   }
 
   removesession() {    
-    debugger;
+    
     localStorage.removeItem('userid');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
