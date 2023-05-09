@@ -197,7 +197,8 @@ export class QuizComponent implements OnInit {
     
   }
 
-  gotoParticularQuestionByNumbering(questionNumber:number){
+  gotoParticularQuestionByNumbering(questionNumber:number){    
+    this.questionCounter=questionNumber-1;
     this.selectedQuestion = this.totalQuestions[questionNumber-1];
   }
 
