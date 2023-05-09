@@ -129,17 +129,18 @@ display: none !important;;
     width: 32px;
     line-height: 10px;
     margin: 0px 4px 6px 8px;
-    color: #fbdedb;
+    // color: #fbdedb;
+    color: #000;
     display: inline-block;
-    background: #332d6d;
+    // background: #332d6d;
     transition: 0.3s;
-    font-family: sans-serif;
+    // font-family: sans-serif;
     font-weight: 800;
     font-size: 0.85em;
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
-    box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+    // box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
     position: relative;
     cursor: pointer;
 }
@@ -156,6 +157,7 @@ display: none !important;;
 
 .submitted-question{
     background-color: green;
+    color: #fff;
 }
 
 .active-question{

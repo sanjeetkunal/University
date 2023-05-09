@@ -26,7 +26,7 @@
    <div class="container-fluid login">
 <div class="row">
    <div class="col-md-4">
-      <h4>Total Questions</h4>
+      <!-- <h4>Total Questions</h4> -->
       <div class="que-btn-group">
          <button (click)="gotoParticularQuestionByNumbering(singleQuestion.sequenceno)" *ngFor="let singleQuestion of totalQuestionsNumber" [ngClass]="'que-btn'+' '+getQuestionClass(singleQuestion?.selected)">{{singleQuestion.sequenceno}}</button>
       </div>
