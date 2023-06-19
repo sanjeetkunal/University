@@ -98,7 +98,7 @@ export class QuizComponent implements OnInit {
 
   answer: string = "";
   totalQuestions = [];
-  totalQuestionsNumber:any;
+  totalQuestionsNumber: any;
   selectedQuestion: any;
   questionCounter = 0;
   res_array: any = [];
@@ -187,19 +187,19 @@ export class QuizComponent implements OnInit {
     })
   }
 
-  getQuestionClass(questionStatus:any){
+  getQuestionClass(questionStatus: any) {
     //console.log(questionStatus)
-    if(questionStatus){
+    if (questionStatus) {
       return "submitted-question";
-    }else{
+    } else {
       return "";
     }
-    
+
   }
 
-  gotoParticularQuestionByNumbering(questionNumber:number){    
-    this.questionCounter=questionNumber-1;
-    this.selectedQuestion = this.totalQuestions[questionNumber-1];
+  gotoParticularQuestionByNumbering(questionNumber: number) {
+    this.questionCounter = questionNumber - 1;
+    this.selectedQuestion = this.totalQuestions[questionNumber - 1];
   }
 
   showMinSecHtml: any;
@@ -260,7 +260,7 @@ export class QuizComponent implements OnInit {
     if (this.minutes !== null && this.seconds !== null && this.userid !== null) {
       let url = this.auth.baseUrl + `v1/auth/saveRemainingTime`;
       const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-      this.SaveTimmer = { userid: this.userid, minutesleft: this.minutes, secondsleft: this.seconds };      
+      this.SaveTimmer = { userid: this.userid, minutesleft: this.minutes, secondsleft: this.seconds };
       this.http.post(url, this.SaveTimmer, { headers: reqHeader }).subscribe(res => {
         console.log(res);
       });
@@ -268,6 +268,7 @@ export class QuizComponent implements OnInit {
   }
 
   selectedFiveQuestionsList: any = [];
+  selectedFiveQuestionsListUnderFive: any = [];
   SaveFiveQuestionRequest = { userID: "", subject: "", minutes: "", seconds: "", submissionevent: "", userResponses: [] };
   GoToNextQuestion() {
     this.HindiDivClass = "form-group";
@@ -293,6 +294,7 @@ export class QuizComponent implements OnInit {
         this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: "fivequestion", userResponses: this.selectedFiveQuestionsList }
         this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
           this.selectedFiveQuestionsList = [];
+          this.selectedFiveQuestionsListUnderFive = [];
           localStorage.removeItem("FiveQuestionSet");
         });
       }
@@ -368,21 +370,28 @@ export class QuizComponent implements OnInit {
     if ((e.target).className.includes("english_radio")) { this.selectedQuestion.responsemode = "ENGLISH"; this.HindiDivClass = this.HindiDivClass + " div-disabled"; }
     else { this.selectedQuestion.responsemode = "HINDI"; this.EnglishDivClass = this.EnglishDivClass + " div-disabled"; }
     this.full_response.add(this.selectedQuestion);
+
+    var objSelectedQues = { questionid: this.selectedQuestion.questionid, selected: true, selectedoptions: e.target.name, responsemode: this.selectedQuestion.responsemode };
+    if (this.selectedFiveQuestionsListUnderFive.length > 0) {
+      this.selectedFiveQuestionsListUnderFive.splice(this.selectedFiveQuestionsListUnderFive.indexOf(this.selectedQuestion.questionid), 1);
+    }
+    this.selectedFiveQuestionsListUnderFive.push(objSelectedQues);
   }
 
   selectedFinalQuestionsList: any = [];
-  submitFullResponse(sessionEventTest: any) {
+  submitFullResponse(sessionEventTest: any) {    
     let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
     if (prevFiveQuestion !== undefined && prevFiveQuestion !== null) {
       this.selectedFinalQuestionsList = JSON.parse(prevFiveQuestion || "");
     }
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
     let url = this.auth.baseUrl + `v1/auth/saveUserTest`;
+    if (this.selectedFinalQuestionsList.length === 0) { this.selectedFinalQuestionsList = this.selectedFiveQuestionsListUnderFive; }
     this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: sessionEventTest, userResponses: this.selectedFinalQuestionsList }
     this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
       this.selectedFinalQuestionsList = [];
       this.auth.removesession();
-      this.timer=0;
+      this.timer = 0;
       this.router.navigateByUrl('/quizfinish');
     });
   }
