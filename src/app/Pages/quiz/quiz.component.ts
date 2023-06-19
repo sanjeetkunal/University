@@ -200,6 +200,12 @@ export class QuizComponent implements OnInit {
   gotoParticularQuestionByNumbering(questionNumber: number) {
     this.questionCounter = questionNumber - 1;
     this.selectedQuestion = this.totalQuestions[questionNumber - 1];
+
+    this.HindiDivClass = "form-group";
+    this.EnglishDivClass = "form-group";
+    if (this.selectedQuestion.hiquestion === null) {
+      this.HindiDivClass = "div-displaynone";
+    }
   }
 
   showMinSecHtml: any;
@@ -273,7 +279,7 @@ export class QuizComponent implements OnInit {
   GoToNextQuestion() {
     this.HindiDivClass = "form-group";
     this.EnglishDivClass = "form-group";
-    console.log(this.userQuestionDetails.userquestionSet[this.questionCounter].selected);
+    //console.log(this.userQuestionDetails.userquestionSet[this.questionCounter].selected);
     if (!this.userQuestionDetails.userquestionSet[this.questionCounter].selected && this.student_res.selected_prop) {
       this.subjectname = this.userQuestionDetails.subject;
       this.userid = this.userQuestionDetails.userID;
