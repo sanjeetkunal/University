@@ -36,17 +36,16 @@ export class QuizComponent implements OnInit {
     window.addEventListener("blur", () => {
       this.final_res_server.onblur = "blur submit";
       //this.SaveTimingAfter1Mint();
-      //this.epicFunction(); 
+      //this.epicFunction();
     });
-    //window.addEventListener("focus", () => { });
-
-    //     window.addEventListener("keydown",
-    //     function (event) { 
-    //       if (event.keyCode == 116 || (event.keyCode == 65+17 && event.ctrlKey)) { 
-    //          alert('You cannot reload this page'); 
-    //          event.preventDefault();
-    //     } 
-    // });
+    window.addEventListener("focus", () => { });
+    window.addEventListener("keydown",
+      function (event) {
+        if (event.keyCode == 116 || (event.keyCode == 65 + 17 && event.ctrlKey)) {
+          alert('You cannot reload this page');
+          event.preventDefault();
+        }
+      });
 
     this.router.events.pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd)).subscribe(event => {
       if (event.id === 1 && event.url === event.urlAfterRedirects) {
@@ -155,7 +154,7 @@ export class QuizComponent implements OnInit {
     this.http.post(url, reqbody, { headers: reqHeader }).subscribe(res => {
       this.userQuestionDetails = res;
       this.totalQuestionsNumber = this.userQuestionDetails.userquestionSet;
-      console.log(res);
+      //console.log(res);
       this.username = this.userQuestionDetails.candidateName;
       //localStorage.setItem('username',this.username);
       this.subjectname = this.userQuestionDetails.subject;
@@ -188,19 +187,18 @@ export class QuizComponent implements OnInit {
   }
 
   getQuestionClass(questionStatus: any) {
-    //console.log(questionStatus)
-    if (questionStatus) {
+    //if(questionStatus!==null){      
+    if (questionStatus == true) {
       return "submitted-question";
-    } else {
-      return "";
     }
-
+    //}
+    return "";
   }
 
   gotoParticularQuestionByNumbering(questionNumber: number) {
+    this.buttonChecked = null;
     this.questionCounter = questionNumber - 1;
     this.selectedQuestion = this.totalQuestions[questionNumber - 1];
-
     this.HindiDivClass = "form-group";
     this.EnglishDivClass = "form-group";
     if (this.selectedQuestion.hiquestion === null) {
@@ -233,20 +231,6 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  // startTimer() {
-  //   let t: any = window.setInterval(() => {
-  //     this.ManageTimmerCounter(this.minutes, this.seconds, "manage");
-  //     if (this.timer <= 0) { this.submitFullResponse(); clearInterval(t); }
-  //     else { this.timer--; }
-  //   }, 1000);
-  // }
-
-  // getFormatedTimer() {
-  //   this.minutes = Math.floor(this.timer / 60);
-  //   this.seconds = this.timer - parseInt(this.minutes) * 60;
-  //   return `${this.minutes} Min : ${this.seconds} Sec`;
-  // }
-
   ManageTimmerCounter(this_minutes: any, this_seconds: any, this_type: any) {
     if (this_type === "manage") {
       localStorage.setItem('minuts', this_minutes);
@@ -268,7 +252,7 @@ export class QuizComponent implements OnInit {
       const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
       this.SaveTimmer = { userid: this.userid, minutesleft: this.minutes, secondsleft: this.seconds };
       this.http.post(url, this.SaveTimmer, { headers: reqHeader }).subscribe(res => {
-        console.log(res);
+        //console.log(res);
       });
     }
   }
@@ -298,6 +282,7 @@ export class QuizComponent implements OnInit {
         const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
         let url = this.auth.baseUrl + `v1/auth/saveOneAnswer`;
         this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: "fivequestion", userResponses: this.selectedFiveQuestionsList }
+        //console.log(this.SaveFiveQuestionRequest);
         this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
           this.selectedFiveQuestionsList = [];
           this.selectedFiveQuestionsListUnderFive = [];
@@ -305,8 +290,23 @@ export class QuizComponent implements OnInit {
         });
       }
     }
+    else {
+      if (this.selectedFiveQuestionsListUnderFive.length > 0) {
+        if (this.selectedFiveQuestionsListUnderFive.length == 5) {
+          localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsListUnderFive));
+          const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+          let url = this.auth.baseUrl + `v1/auth/saveOneAnswer`;
+          this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: (this.selectedFiveQuestionsListUnderFive.length + "question"), userResponses: this.selectedFiveQuestionsListUnderFive }
+          //console.log(this.SaveFiveQuestionRequest);
+          this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
+            this.selectedFiveQuestionsList = [];
+            this.selectedFiveQuestionsListUnderFive = [];
+            localStorage.removeItem("FiveQuestionSet");
+          });
+        }
+      }
+    }
 
-    this.buttonChecked = null;
     this.EnglishLanguage = false;
     this.HindiLanguage = false;
     if (this.questionCounter < this.totalQuestions.length - 1) {
@@ -356,48 +356,96 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  // singleQuesRes(e: any) {
-  //   this.selectedQuestion.selected = true;
-  //   this.selectedQuestion.selectedoptions = e.value;
+  // singleQuesResNew(e: any) {
+  //   this.student_res.selected_prop = true;
+  //   this.student_res.selected_opt = e.target.name;
+
+  //   this.selectedQuestion.selectedoptions = e.target.name;
   //   if ((e.target).className.includes("english_radio")) {
   //     this.selectedQuestion.responsemode = "ENGLISH";
   //     this.HindiDivClass = this.HindiDivClass + " div-disabled";
+
+  //     if (e.target.name === "A") { this.selectedQuestion.optionAselected = true; }
+  //     else if (e.target.name === "B") { this.selectedQuestion.optionBselected = true; }
+  //     else if (e.target.name === "C") { this.selectedQuestion.optionCselected = true; }
+  //     else if (e.target.name === "D") { this.selectedQuestion.optionDselected = true; }
   //   }
   //   else {
   //     this.selectedQuestion.responsemode = "HINDI";
   //     this.EnglishDivClass = this.EnglishDivClass + " div-disabled";
-  //   }
-  //   this.full_response.add(this.selectedQuestion);
-  // }
 
+  //     if (e.target.name === "A") { this.selectedQuestion.hioptionAselected = true; }
+  //     else if (e.target.name === "B") { this.selectedQuestion.hioptionBselected = true; }
+  //     else if (e.target.name === "C") { this.selectedQuestion.hioptionCselected = true; }
+  //     else if (e.target.name === "D") { this.selectedQuestion.hioptionDselected = true; }
+  //   }
+  //   this.selectedQuestion.selected = "krishna";
+  //   this.full_response.add(this.selectedQuestion);
+  //   var objSelectedQues = { questionid: this.selectedQuestion.questionid, selected: true, selectedoptions: e.target.name, responsemode: this.selectedQuestion.responsemode };
+  //   if (this.selectedFiveQuestionsListUnderFive.length > 0) {
+  //     for (let i = 0; i < this.selectedFiveQuestionsListUnderFive.length; i++) {
+  //       if (this.selectedFiveQuestionsListUnderFive[i].questionid === this.selectedQuestion.questionid) {
+  //         this.selectedFiveQuestionsListUnderFive.splice(i, 1);
+  //       }
+  //     }
+  //   }
+  //   this.selectedFiveQuestionsListUnderFive.push(objSelectedQues);
+  // }
   singleQuesResNew(e: any) {
+    //console.log(e);
     this.student_res.selected_prop = true;
     this.student_res.selected_opt = e.target.name;
     if ((e.target).className.includes("english_radio")) { this.selectedQuestion.responsemode = "ENGLISH"; this.HindiDivClass = this.HindiDivClass + " div-disabled"; }
     else { this.selectedQuestion.responsemode = "HINDI"; this.EnglishDivClass = this.EnglishDivClass + " div-disabled"; }
     this.full_response.add(this.selectedQuestion);
 
+    this.selectedQuestion.answeredThisQuestion = true;//for testing
     var objSelectedQues = { questionid: this.selectedQuestion.questionid, selected: true, selectedoptions: e.target.name, responsemode: this.selectedQuestion.responsemode };
     if (this.selectedFiveQuestionsListUnderFive.length > 0) {
-      this.selectedFiveQuestionsListUnderFive.splice(this.selectedFiveQuestionsListUnderFive.indexOf(this.selectedQuestion.questionid), 1);
+      for (let i = 0; i < this.selectedFiveQuestionsListUnderFive.length; i++) {
+        if (this.selectedFiveQuestionsListUnderFive[i].questionid === this.selectedQuestion.questionid) {
+          this.selectedFiveQuestionsListUnderFive.splice(i, 1);
+        }
+      }
     }
     this.selectedFiveQuestionsListUnderFive.push(objSelectedQues);
+
+    if (this.selectedFiveQuestionsListUnderFive.length > 5) {
+      localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsListUnderFive));
+      const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+      let url = this.auth.baseUrl + `v1/auth/saveOneAnswer`;
+      this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: (this.selectedFiveQuestionsListUnderFive.length + "question"), userResponses: this.selectedFiveQuestionsListUnderFive }
+      //console.log(this.SaveFiveQuestionRequest);
+      this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
+        this.selectedFiveQuestionsList = [];
+        this.selectedFiveQuestionsListUnderFive = [];
+        localStorage.removeItem("FiveQuestionSet");
+      });
+    }
   }
 
   selectedFinalQuestionsList: any = [];
-  submitFullResponse(sessionEventTest: any) {    
+  submitFullResponse(sessionEventTest: any) {
     let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
     if (prevFiveQuestion !== undefined && prevFiveQuestion !== null) {
       this.selectedFinalQuestionsList = JSON.parse(prevFiveQuestion || "");
     }
+
+    this.selectedFinalQuestionsList = this.selectedFiveQuestionsListUnderFive;
+
+    // if (this.selectedFinalQuestionsList.length === 0) { 
+    //   this.selectedFinalQuestionsList = this.selectedFiveQuestionsListUnderFive; 
+    // }
+    this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: sessionEventTest, userResponses: this.selectedFinalQuestionsList }
+
+    //console.log(this.SaveFiveQuestionRequest);
     const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
     let url = this.auth.baseUrl + `v1/auth/saveUserTest`;
-    if (this.selectedFinalQuestionsList.length === 0) { this.selectedFinalQuestionsList = this.selectedFiveQuestionsListUnderFive; }
-    this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: sessionEventTest, userResponses: this.selectedFinalQuestionsList }
     this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
       this.selectedFinalQuestionsList = [];
       this.auth.removesession();
-      this.timer = 0;
+      //this.timer = 0;
+      this.auth.removesession();
       this.router.navigateByUrl('/quizfinish');
     });
   }

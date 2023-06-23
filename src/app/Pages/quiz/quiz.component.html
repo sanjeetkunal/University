@@ -28,7 +28,7 @@
    <div class="col-md-4">
       <!-- <h4>Total Questions</h4> -->
       <div class="que-btn-group">
-         <button (click)="gotoParticularQuestionByNumbering(singleQuestion.sequenceno)" *ngFor="let singleQuestion of totalQuestionsNumber" [ngClass]="'que-btn'+' '+getQuestionClass(singleQuestion?.selected)">{{singleQuestion.sequenceno}}</button>
+         <button (click)="gotoParticularQuestionByNumbering(singleQuestion.sequenceno)" *ngFor="let singleQuestion of totalQuestionsNumber" [ngClass]="'que-btn'+' '+getQuestionClass(singleQuestion?.answeredThisQuestion)">{{singleQuestion.sequenceno}}</button>
       </div>
       </div>
    <div class="col-sm-8">
