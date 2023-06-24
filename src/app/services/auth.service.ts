@@ -94,7 +94,7 @@ export class AuthService {
     this.toastr.success("Logged out successfully!");
   }
 
-  removesession() {    
+  removesession() {       
     localStorage.removeItem('quizactive');
     localStorage.removeItem('userid');
     localStorage.removeItem('token');

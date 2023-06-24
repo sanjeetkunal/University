@@ -34,7 +34,6 @@ export class UserAgrementComponent implements OnInit {
 
   selectedFinalQuestionsList: any = [];
   checkUserQuizActivatedOrNot() {
-    debugger;
     let quizActive = localStorage.getItem("quizactive") == null ? "false" : localStorage.getItem("quizactive");
     if (quizActive === "true") {
       let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");

@@ -37,7 +37,7 @@ export class QuizComponent implements OnInit {
     window.addEventListener("blur", () => {
       this.final_res_server.onblur = "blur submit";
       //this.SaveTimingAfter1Mint();
-      //this.epicFunction();
+      this.epicFunction();
     });
     window.addEventListener("focus", () => { });
     window.addEventListener("keydown",
@@ -74,7 +74,10 @@ export class QuizComponent implements OnInit {
     //const isMobile = this.deviceService.isMobile();
     //const isTablet = this.deviceService.isTablet();
     const isDesktopDevice = this.deviceService.isDesktop();
-    if (isDesktopDevice) { this.submitFullResponse("cheatingattempted"); }
+    if (isDesktopDevice) { 
+      localStorage.setItem('cheatingattempted', 'true');
+      this.submitFullResponse("cheatingattempted");
+     }
   }
 
   userChecker() {

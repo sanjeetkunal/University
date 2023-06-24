@@ -24,25 +24,28 @@
 
 <div class="bg-gradient">
    <div class="container-fluid login">
-<div class="row">
-   <div class="col-md-4">
-      <!-- <h4>Total Questions</h4> -->
-      <div class="que-btn-group">
-         <button (click)="gotoParticularQuestionByNumbering(singleQuestion.sequenceno)" *ngFor="let singleQuestion of totalQuestionsNumber" [ngClass]="'que-btn'+' '+getQuestionClass(singleQuestion?.answeredThisQuestion)">{{singleQuestion.sequenceno}}</button>
-      </div>
-      </div>
-   <div class="col-sm-8">
-      <div class="col-md-12 quiz-btn" style="text-align: left;margin-bottom: 20px;;">
-         <span style="color:#000;font-size: 15px;"><strong>Note :</strong> Please do not change tab/screen/window,
-            othrewise you will be considered disqualified and test will be submitted.</span><br>
-         <span style="color:#000;font-size: 15px;"><strong>टिप्पणी :</strong> कृपया टैब/स्क्रीन/विंडो न बदलें, अन्यथा
-            आपको अयोग्य माना जाएगा और परीक्षण सबमिट किया जाएगा।</span>
-      </div>
-      <div class="quiz-btn col-md-12" style="text-align: right;font-size: 18px;">
-         <!-- <span style="color:black">Remaining Time : {{getFormatedTimer()}}</span> -->
-         <span ngClass="{{this.CheckTimingColor}}">Remaining Time : {{this.showMinSecHtml}}</span>
-      </div>
-      <!-- <div class="col-sm-2" style="position: absolute;right: 45px;">
+      <div class="row">
+         <div class="col-md-4">
+            <!-- <h4>Total Questions</h4> -->
+            <div class="que-btn-group">
+               <button (click)="gotoParticularQuestionByNumbering(singleQuestion.sequenceno)"
+                  *ngFor="let singleQuestion of totalQuestionsNumber"
+                  [ngClass]="'que-btn'+' '+getQuestionClass(singleQuestion?.answeredThisQuestion)">{{singleQuestion.sequenceno}}</button>
+            </div>            
+         </div>
+         <div class="col-sm-8">
+            <div class="col-md-12 quiz-btn" style="text-align: left;margin-bottom: 20px;;">
+               <span style="color:#000;font-size: 15px;"><strong>Note :</strong> Please do not change tab/screen/window,
+                  othrewise you will be considered disqualified and test will be submitted.</span><br>
+               <span style="color:#000;font-size: 15px;"><strong>टिप्पणी :</strong> कृपया टैब/स्क्रीन/विंडो न बदलें,
+                  अन्यथा
+                  आपको अयोग्य माना जाएगा और परीक्षण सबमिट किया जाएगा।</span>
+            </div>
+            <div class="quiz-btn col-md-12" style="text-align: right;font-size: 18px;">
+               <!-- <span style="color:black">Remaining Time : {{getFormatedTimer()}}</span> -->
+               <span ngClass="{{this.CheckTimingColor}}">Remaining Time : {{this.showMinSecHtml}}</span>
+            </div>
+            <!-- <div class="col-sm-2" style="position: absolute;right: 45px;">
          <mat-card>
             <mat-card-header>
                <mat-card-title>
@@ -57,126 +60,138 @@
            </mat-card-content>
          </mat-card>
       </div> -->
-      <div [ngClass]="{disabledNoOfCasesDiv : selectedQuestion?.selected == true}">
-         <div class="question-box col-md-12 ">
-            <form action="#" class="my-form">
-               <div ngClass="{{EnglishDivClass}}">
-                  <h3>Q{{selectedQuestion?.sequenceno}}. <span class="media-ques" [innerHTML]="selectedQuestion?.question"></span></h3>
+            <div [ngClass]="{disabledNoOfCasesDiv : selectedQuestion?.selected == true}">
+               <div class="question-box col-md-12 ">
+                  <form action="#" class="my-form">
+                     <div ngClass="{{EnglishDivClass}}">
+                        <h3>Q{{selectedQuestion?.sequenceno}}. <span class="media-ques"
+                              [innerHTML]="selectedQuestion?.question"></span></h3>
 
 
 
-                  <div class="form-check">
-                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
-                           (click)="singleQuesResNew($event)" name="A" value="A"
-                           [checked]="selectedQuestion?.optionAselected">
-                        <span class="ques-media" [innerHTML]="selectedQuestion?.optionA"></span></label>
-                     <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.optionAselected">✔️</span>
-                     <!-- <span>Checked</span> -->
-                  </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
+                                 (click)="singleQuesResNew($event)" name="A" value="A"
+                                 [checked]="selectedQuestion?.optionAselected">
+                              <span class="ques-media" [innerHTML]="selectedQuestion?.optionA"></span></label>
+                           <span
+                              *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.optionAselected">✔️</span>
+                           <!-- <span>Checked</span> -->
+                        </div>
 
-                  <div class="form-check">
-                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
-                           (click)="singleQuesResNew($event)" name="B" value="B"
-                           [checked]="selectedQuestion?.optionBselected">
-                        <span class="ques-media" [innerHTML]="selectedQuestion?.optionB"></span></label>
-                     <span *ngIf="selectedQuestion?.selectedoptions == 'B' && selectedQuestion?.optionBselected">✔️</span>
-                  </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
+                                 (click)="singleQuesResNew($event)" name="B" value="B"
+                                 [checked]="selectedQuestion?.optionBselected">
+                              <span class="ques-media" [innerHTML]="selectedQuestion?.optionB"></span></label>
+                           <span
+                              *ngIf="selectedQuestion?.selectedoptions == 'B' && selectedQuestion?.optionBselected">✔️</span>
+                        </div>
 
-                  <div class="form-check">
-                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
-                           (click)="singleQuesResNew($event)" name="C" value="C"
-                           [checked]="selectedQuestion?.optionCselected">
-                        <span class="ques-media" [innerHTML]="selectedQuestion?.optionC"></span></label>
-                     <span *ngIf="selectedQuestion?.selectedoptions == 'C' && selectedQuestion?.optionCselected">✔️</span>
-                  </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
+                                 (click)="singleQuesResNew($event)" name="C" value="C"
+                                 [checked]="selectedQuestion?.optionCselected">
+                              <span class="ques-media" [innerHTML]="selectedQuestion?.optionC"></span></label>
+                           <span
+                              *ngIf="selectedQuestion?.selectedoptions == 'C' && selectedQuestion?.optionCselected">✔️</span>
+                        </div>
 
-                  <div class="form-check">
-                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
-                           (click)="singleQuesResNew($event)" name="D" value="D"
-                           [checked]="selectedQuestion?.optionDselected">
-                        <span class="ques-media" [innerHTML]="selectedQuestion?.optionD"></span></label>
-                     <span *ngIf="selectedQuestion?.selectedoptions == 'D' && selectedQuestion?.optionDselected">✔️</span>
-                  </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input english_radio" [(ngModel)]=buttonChecked
+                                 (click)="singleQuesResNew($event)" name="D" value="D"
+                                 [checked]="selectedQuestion?.optionDselected">
+                              <span class="ques-media" [innerHTML]="selectedQuestion?.optionD"></span></label>
+                           <span
+                              *ngIf="selectedQuestion?.selectedoptions == 'D' && selectedQuestion?.optionDselected">✔️</span>
+                        </div>
 
+
+                     </div>
+
+
+                     <div ngClass="{{HindiDivClass}}">
+                        <h3>Q{{selectedQuestion?.sequenceno}}. <span class="media-ques"
+                              [innerHTML]="selectedQuestion?.hiquestion"></span></h3>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
+                                 (click)="singleQuesResNew($event)" name="A" value="{{selectedQuestion?.hioptionA}}"
+                                 [checked]="selectedQuestion?.hioptionAselected">
+                              <span class="ques-media" [innerHTML]="selectedQuestion?.hioptionA"></span></label>
+
+
+                           <span
+                              *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.hioptionAselected">✔️</span>
+                        </div>
+
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
+                                 (click)="singleQuesResNew($event)" name="B" value="{{selectedQuestion?.hioptionB}}"
+                                 [checked]="selectedQuestion?.hioptionBselected">
+                              <span class="ques-media" [innerHTML]="selectedQuestion?.hioptionB"></span></label>
+                           <span
+                              *ngIf="selectedQuestion?.selectedoptions === 'B' && selectedQuestion?.hioptionBselected">✔️</span>
+                        </div>
+
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
+                                 (click)="singleQuesResNew($event)" name="C" value="{{selectedQuestion?.hioptionC}}"
+                                 [checked]="selectedQuestion?.hioptionCselected">
+                              <span class="ques-media" [innerHTML]="selectedQuestion?.hioptionC"></span></label>
+                           <span
+                              *ngIf="selectedQuestion?.selectedoptions === 'C' && selectedQuestion?.hioptionCselected">✔️</span>
+                        </div>
+
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
+                                 (click)="singleQuesResNew($event)" name="D" value="{{selectedQuestion?.hioptionD}}"
+                                 [checked]="selectedQuestion?.hioptionDselected">
+                              <span class="ques-media" [innerHTML]="selectedQuestion?.hioptionD"></span></label>
+                           <span
+                              *ngIf="selectedQuestion?.selectedoptions === 'D' && selectedQuestion?.hioptionDselected">✔️</span>
+                        </div>
+
+                     </div>
+
+
+                  </form>
 
                </div>
 
-
-               <div ngClass="{{HindiDivClass}}">
-                  <h3>Q{{selectedQuestion?.sequenceno}}. <span class="media-ques" [innerHTML]="selectedQuestion?.hiquestion"></span></h3>
-                  <div class="form-check">
-                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
-                           (click)="singleQuesResNew($event)" name="A" value="{{selectedQuestion?.hioptionA}}"
-                           [checked]="selectedQuestion?.hioptionAselected">
-                        <span class="ques-media" [innerHTML]="selectedQuestion?.hioptionA"></span></label>
+            </div>
 
 
-                     <span *ngIf="selectedQuestion?.selectedoptions === 'A' && selectedQuestion?.hioptionAselected">✔️</span>
-                  </div>
-
-                  <div class="form-check">
-                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
-                           (click)="singleQuesResNew($event)" name="B" value="{{selectedQuestion?.hioptionB}}"
-                           [checked]="selectedQuestion?.hioptionBselected">
-                        <span class="ques-media" [innerHTML]="selectedQuestion?.hioptionB"></span></label>
-                     <span *ngIf="selectedQuestion?.selectedoptions === 'B' && selectedQuestion?.hioptionBselected">✔️</span>
-                  </div>
-
-                  <div class="form-check">
-                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
-                           (click)="singleQuesResNew($event)" name="C" value="{{selectedQuestion?.hioptionC}}"
-                           [checked]="selectedQuestion?.hioptionCselected">
-                        <span class="ques-media" [innerHTML]="selectedQuestion?.hioptionC"></span></label>
-                     <span *ngIf="selectedQuestion?.selectedoptions === 'C' && selectedQuestion?.hioptionCselected">✔️</span>
-                  </div>
-
-                  <div class="form-check">
-                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" [(ngModel)]=buttonChecked
-                           (click)="singleQuesResNew($event)" name="D" value="{{selectedQuestion?.hioptionD}}"
-                           [checked]="selectedQuestion?.hioptionDselected">
-                        <span class="ques-media" [innerHTML]="selectedQuestion?.hioptionD"></span></label>
-                     <span *ngIf="selectedQuestion?.selectedoptions === 'D' && selectedQuestion?.hioptionDselected">✔️</span>
-                  </div>
-
-               </div>
-
-
-            </form>
-
+            <div class="quiz-btn col-md-12">
+               <button *ngIf="questionCounter!=0" class="btn btn-primary btn-block submit-btn"
+                  style="background: orange;border: none;" (click)="prevQues()">Previous</button>
+               <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn"
+                  style="background: orange;border: none;" (click)="GoToNextQuestion()">Next</button>
+               <button (click)="openSubmitModal(firstDialog)" class="btn btn-primary btn-block submit-btn"
+                  style="float: right;background-color: #332d6d;">Finish</button>
+            </div>
          </div>
-
       </div>
-
-
-      <div class="quiz-btn col-md-12">
-         <button *ngIf="questionCounter!=0" class="btn btn-primary btn-block submit-btn"
-            style="background: orange;border: none;" (click)="prevQues()">Previous</button>
-         <button *ngIf="questionCounter<totalQuestions.length-1" class="btn btn-primary btn-block submit-btn"
-            style="background: orange;border: none;" (click)="GoToNextQuestion()">Next</button>
-         <button (click)="openSubmitModal(firstDialog)" class="btn btn-primary btn-block submit-btn"
-            style="float: right;background-color: #332d6d;">Finish</button>
-      </div>
-   </div>
-   </div>
    </div>
 </div>
 <ng-template #firstDialog style="border: navy; opacity: 0.5%;">
    <div class="my-modal">
       <h2 matDialogTitle>Attention, {{username}}!</h2>
-      <p matDialogContent>Do you really want to finish your exam?<br>क्या आप वास्तव में अपनी परीक्षा समाप्त करना चाहते हैं?</p>
+      <p matDialogContent>Do you really want to finish your exam?<br>क्या आप वास्तव में अपनी परीक्षा समाप्त करना चाहते
+         हैं?</p>
       <mat-dialog-actions align="end">
 
 
 
-         <button mat-button matDialogClose (click)="submitFullResponse('finalsubmission')" class="btn btn-success">Yes</button>
+         <button mat-button matDialogClose (click)="submitFullResponse('finalsubmission')"
+            class="btn btn-success">Yes</button>
          <button mat-button matDialogClose class="btn btn-danger">No</button>
       </mat-dialog-actions>
    </div>

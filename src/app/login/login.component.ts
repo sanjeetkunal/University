@@ -35,7 +35,10 @@ export class LoginComponent {
     // });
   }
 
-  ngOnInit(): void { this.auth.removesession(); }
+  ngOnInit(): void { 
+    localStorage.removeItem("cheatingattempted");
+    this.auth.removesession(); 
+  }
 
   loading: boolean = false;
   SubmitButtonText: string = "Login";
