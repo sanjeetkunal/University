@@ -32,6 +32,30 @@ export class UserAgrementComponent implements OnInit {
     });
   }
 
+  selectedFinalQuestionsList: any = [];
+  checkUserQuizActivatedOrNot() {
+    debugger;
+    let quizActive = localStorage.getItem("quizactive") == null ? "false" : localStorage.getItem("quizactive");
+    if (quizActive === "true") {
+      let prevFiveQuestion = localStorage.getItem("FiveQuestionSet");
+      let minutes = localStorage.getItem('minuts');
+      let seconds = localStorage.getItem('seconds');
+      let userid = localStorage.getItem('userid');
+      if (prevFiveQuestion !== undefined && prevFiveQuestion !== null) {
+        this.selectedFinalQuestionsList = JSON.parse(prevFiveQuestion || "");
+        let SaveFiveQuestionRequest = { userID: userid, subject: this.subjectname, minutes: minutes, seconds: seconds, submissionevent: "backfromquiz", userResponses: this.selectedFinalQuestionsList }
+        const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+        let url = this.auth.baseUrl + `v1/auth/saveOneAnswer`;
+        this.http.post(url, SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
+          this.auth.logout();
+        });
+      }
+      else{
+        this.auth.logout();
+      }
+    }
+  }
+
   //userloggedin: boolean = false;
   username: any;
   subjectname: any;
@@ -40,13 +64,14 @@ export class UserAgrementComponent implements OnInit {
   IsUserAgreeTermsAndCondition: boolean = false;
 
   ngOnInit() {
-    this.IsUserAgreeTermsAndCondition=false;
+    this.IsUserAgreeTermsAndCondition = false;
     this.token = localStorage.getItem('token');
     this.username = localStorage.getItem('username');
     this.subjectname = localStorage.getItem('subjectname');
 
     if (this.token !== null) {
       this.auth.userAgreementState.next(true);
+      this.checkUserQuizActivatedOrNot();
     }
   }
 
@@ -93,7 +118,7 @@ export class UserAgrementComponent implements OnInit {
   AgreeNo: string = "Close";
   AgreeYesShow: string = "block";
 
-  CheckTermsConditionAcceptOrNot(ref: TemplateRef<any>) {   
+  CheckTermsConditionAcceptOrNot(ref: TemplateRef<any>) {
     if (this.token !== null && this.IsUserAgreeTermsAndCondition) {
       this.AgreeYes = "Yes";
       this.AgreeNo = "No";
@@ -108,18 +133,18 @@ export class UserAgrementComponent implements OnInit {
       this.dialog.open(ref);
     }
   }
-  
-  IAgreeChecked(event: any) {   
+
+  IAgreeChecked(event: any) {
     this.IsUserAgreeTermsAndCondition = false;
     if (event.target.checked) {
       this.IsUserAgreeTermsAndCondition = true;
-      localStorage.setItem('user-accepted','true')
+      localStorage.setItem('user-accepted', 'true')
     }
   }
 
-  AcceptTermsCondition() { 
+  AcceptTermsCondition() {
     if (this.token !== null && this.IsUserAgreeTermsAndCondition) {
-        this.router.navigateByUrl('/quiz');
+      this.router.navigateByUrl('/quiz');
     }
   }
 }

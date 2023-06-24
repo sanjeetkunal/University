@@ -23,6 +23,7 @@ export class QuizComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router, private connectionService: ConnectionService,
     private deviceService: DeviceDetectorService) {
+    localStorage.setItem('quizactive', 'true');
     this.connectionService.monitor().subscribe(isConnected => {
       this.setUserSessionDetails();
       if (!isConnected.hasInternetAccess && !isConnected.hasNetworkConnection) {
@@ -126,6 +127,7 @@ export class QuizComponent implements OnInit {
   timer: any;
   minutes: any;
   seconds: any;
+  CheckTimingColor:String="reamingtimingcolorblack";
 
   ngOnInit(): void {
     //this.setUserSessionDetails();
@@ -213,7 +215,7 @@ export class QuizComponent implements OnInit {
         this.submitFullResponse("timezero");
         clearInterval(t);
       }
-      else {
+      else {        
         this.getFormatedTimer();
         this.timer--;
       }
@@ -229,6 +231,8 @@ export class QuizComponent implements OnInit {
     if (this.minutes > 0 && currentMinutes > this.minutes) {
       this.SaveTimingAfter1Mint();
     }
+
+    if(this.minutes<=5){this.CheckTimingColor="reamingtimingcolorred";}
   }
 
   ManageTimmerCounter(this_minutes: any, this_seconds: any, this_type: any) {
@@ -277,7 +281,7 @@ export class QuizComponent implements OnInit {
 
       var objSelectedQues = { questionid: this.selectedQuestion.questionid, selected: this.selectedQuestion.selected, selectedoptions: this.selectedQuestion.selectedoptions, responsemode: this.selectedQuestion.responsemode };
       this.selectedFiveQuestionsList.push(objSelectedQues);
-      localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsList));
+      //localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsList));
       if (this.selectedFiveQuestionsList.length === 5) {
         const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
         let url = this.auth.baseUrl + `v1/auth/saveOneAnswer`;
@@ -409,9 +413,9 @@ export class QuizComponent implements OnInit {
       }
     }
     this.selectedFiveQuestionsListUnderFive.push(objSelectedQues);
-
+    localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsListUnderFive));
     if (this.selectedFiveQuestionsListUnderFive.length > 5) {
-      localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsListUnderFive));
+      //localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsListUnderFive));
       const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
       let url = this.auth.baseUrl + `v1/auth/saveOneAnswer`;
       this.SaveFiveQuestionRequest = { userID: this.userid, subject: this.subjectname, minutes: this.minutes, seconds: this.seconds, submissionevent: (this.selectedFiveQuestionsListUnderFive.length + "question"), userResponses: this.selectedFiveQuestionsListUnderFive }
@@ -443,8 +447,7 @@ export class QuizComponent implements OnInit {
     let url = this.auth.baseUrl + `v1/auth/saveUserTest`;
     this.http.post(url, this.SaveFiveQuestionRequest, { headers: reqHeader }).subscribe(res => {
       this.selectedFinalQuestionsList = [];
-      this.auth.removesession();
-      //this.timer = 0;
+      this.selectedFiveQuestionsListUnderFive=[];      
       this.auth.removesession();
       this.router.navigateByUrl('/quizfinish');
     });

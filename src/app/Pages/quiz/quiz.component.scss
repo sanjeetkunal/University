@@ -164,3 +164,16 @@ display: none !important;;
     background-color:yellow;
     color: black;
 }
+
+.reamingtimingcolorblack{
+    color: black !important;
+}
+.reamingtimingcolorred{
+    color: red !important;
+    animation: blinker 1s linear infinite;
+}
+@keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }

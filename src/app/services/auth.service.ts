@@ -95,7 +95,7 @@ export class AuthService {
   }
 
   removesession() {    
-    
+    localStorage.removeItem('quizactive');
     localStorage.removeItem('userid');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
