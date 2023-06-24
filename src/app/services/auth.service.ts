@@ -26,9 +26,8 @@ export class AuthService {
   subjectname: any;
   authLoading: boolean = false;
   loginButtonText = "";
-  // baseUrl:string="https://entrance.skduniversity.com/api/";
-  //baseUrl:string="https://entrance-api.skduniversity.com/api/";
-  baseUrl:string="http://103.44.53.3:8080/api/"
+  baseUrl:string="https://entrance-api.skduniversity.com/api/";
+  //baseUrl:string="http://103.44.53.3:8080/api/";
 
   isAuthenticated() {
     return this.authenticatationState.value;
