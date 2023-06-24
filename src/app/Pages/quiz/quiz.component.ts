@@ -35,10 +35,10 @@ export class QuizComponent implements OnInit {
       }
     });
     window.addEventListener("blur", () => {
-      console.log("blur submit");
+      //console.log("blur submit");
       this.final_res_server.onblur = "blur submit";
       //this.SaveTimingAfter1Mint();
-      this.epicFunction();
+      //this.epicFunction();
     });
     window.addEventListener("focus", () => { });
     window.addEventListener("keydown",
@@ -284,7 +284,21 @@ export class QuizComponent implements OnInit {
       this.student_res.selected_opt = "";
 
       var objSelectedQues = { questionid: this.selectedQuestion.questionid, selected: this.selectedQuestion.selected, selectedoptions: this.selectedQuestion.selectedoptions, responsemode: this.selectedQuestion.responsemode };
+      
+      if (this.selectedFiveQuestionsList.length > 0) {
+        for (let i = 0; i < this.selectedFiveQuestionsList.length; i++) {
+          if (this.selectedFiveQuestionsList[i].questionid === this.selectedQuestion.questionid) {
+            this.selectedFiveQuestionsList.splice(i, 1);
+          }
+        }
+      }
+
       this.selectedFiveQuestionsList.push(objSelectedQues);
+
+      if(this.selectedFiveQuestionsListUnderFive.length>this.selectedFiveQuestionsList.length)
+      {
+        this.selectedFiveQuestionsList = this.selectedFiveQuestionsListUnderFive;
+      }
       //localStorage.setItem("FiveQuestionSet", JSON.stringify(this.selectedFiveQuestionsList));
       if (this.selectedFiveQuestionsList.length === 5) {
         const reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
@@ -320,6 +334,30 @@ export class QuizComponent implements OnInit {
     if (this.questionCounter < this.totalQuestions.length - 1) {
       this.questionCounter++;
       this.selectedQuestion = this.totalQuestions[this.questionCounter];
+
+      if (this.selectedFiveQuestionsListUnderFive.length > 0) {
+        for (let i = 0; i < this.selectedFiveQuestionsListUnderFive.length; i++) {
+          if (this.selectedFiveQuestionsListUnderFive[i].questionid === this.selectedQuestion.questionid) {
+            this.selectedQuestion.selected=true;
+            this.selectedQuestion.answeredThisQuestion=true;
+            this.selectedQuestion.selectedoptions=this.selectedFiveQuestionsListUnderFive[i].selectedoptions;
+            this.selectedQuestion.responsemode=this.selectedFiveQuestionsListUnderFive[i].responsemode;
+            if (this.selectedQuestion.responsemode == "HINDI") {
+              if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.hioptionAselected = true; }
+              if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.hioptionBselected = true; }
+              if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.hioptionCselected = true; }
+              if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.hioptionDselected = true; }
+            }
+            else {
+              if (this.selectedQuestion.selectedoptions == "A") { this.selectedQuestion.optionAselected = true; }
+              if (this.selectedQuestion.selectedoptions == "B") { this.selectedQuestion.optionBselected = true; }
+              if (this.selectedQuestion.selectedoptions == "C") { this.selectedQuestion.optionCselected = true; }
+              if (this.selectedQuestion.selectedoptions == "D") { this.selectedQuestion.optionDselected = true; }
+            }
+          }
+        }
+      }
+
       if (this.selectedQuestion.hiquestion === null) {
         this.HindiDivClass = "div-displaynone";
       }
