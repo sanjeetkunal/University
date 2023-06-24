@@ -47,7 +47,7 @@ export class QuizfinishComponent {
     }
   }
 
-  backToLogin() { this.router.navigate(['/']); }
+  // backToLogin() { this.router.navigate(['/']); }
 }
 
 

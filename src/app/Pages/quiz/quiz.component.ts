@@ -35,6 +35,7 @@ export class QuizComponent implements OnInit {
       }
     });
     window.addEventListener("blur", () => {
+      console.log("blur submit");
       this.final_res_server.onblur = "blur submit";
       //this.SaveTimingAfter1Mint();
       this.epicFunction();

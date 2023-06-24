@@ -26,8 +26,8 @@ export class AuthService {
   subjectname: any;
   authLoading: boolean = false;
   loginButtonText = "";
-  baseUrl:string="https://entrance-api.skduniversity.com/api/";
-  //baseUrl:string="http://103.44.53.3:8080/api/";
+  //baseUrl:string="https://entrance-api.skduniversity.com/api/";
+  baseUrl: string = "http://103.44.53.3:8080/api/";
 
   isAuthenticated() {
     return this.authenticatationState.value;
@@ -55,7 +55,7 @@ export class AuthService {
           'x-access-token': token
         })
       }
-      this.http.get(this.baseUrl+'users/protect', httpOptions).subscribe(res => {
+      this.http.get(this.baseUrl + 'users/protect', httpOptions).subscribe(res => {
         this.userData = res;
         this.authenticatationState.next(true);
       }, err => {
@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   async loginService(logindata: any) {
-    let url = this.baseUrl+`v1/auth/authenticate`
+    let url = this.baseUrl + `v1/auth/authenticate`
     this.http.post(url, logindata).subscribe(res => {
       let serverResoponse: any = res;
       if (serverResoponse.token === null) { this.toastr.error(serverResoponse.message); }
@@ -83,7 +83,7 @@ export class AuthService {
       }
       else { this.toastr.error(serverResoponse.message); }
     }, err => {
-        this.toastr.error(err.error.errorList);
+      this.toastr.error(err.error.errorList);
     })
   }
 
@@ -93,7 +93,7 @@ export class AuthService {
     this.toastr.success("Logged out successfully!");
   }
 
-  removesession() {       
+  removesession() {
     localStorage.removeItem('quizactive');
     localStorage.removeItem('userid');
     localStorage.removeItem('token');
@@ -101,8 +101,8 @@ export class AuthService {
     localStorage.removeItem('user-accepted');
     localStorage.removeItem('subjectname');
     localStorage.removeItem('minuts');
-      localStorage.removeItem('seconds');
-      localStorage.removeItem("FiveQuestionSet");
+    localStorage.removeItem('seconds');
+    localStorage.removeItem("FiveQuestionSet");
     this.isLoggedIn = false;
     this.username = null;
     this.subjectname = null;
